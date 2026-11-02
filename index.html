@@ -7,7 +7,12 @@
 <meta name="description" content="Civil 3D training, templates, automation and consulting across the Autodesk stack.">
 <meta property="og:title" content="Fifty Shades of Grading">
 <meta property="og:description" content="Civil 3D is our bread and butter, and we work across the whole Autodesk stack.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cg fill='none' stroke-width='2'%3E%3Cellipse cx='16' cy='16' rx='14' ry='11' stroke='%23c9ccc8'/%3E%3Cellipse cx='16.5' cy='15.5' rx='10' ry='7.5' stroke='%23858a86'/%3E%3Cellipse cx='17' cy='15' rx='5.5' ry='4' stroke='%23262a2d'/%3E%3C/g%3E%3Ccircle cx='17' cy='15' r='1.6' fill='%23ff2e88'/%3E%3C/svg%3E">
+<meta property="og:image" content="https://fiftyshadesofgrading.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -23,7 +28,7 @@
     --body: "Public Sans", system-ui, sans-serif;
   }
   * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 64px; }
   body {
     margin: 0;
     background: var(--paper);
@@ -44,20 +49,20 @@
     border-bottom: 1px solid var(--rule);
     cursor: crosshair;
   }
-  .hero svg {
+  #contours {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
   }
-  .hero svg path {
+  #contours path {
     fill: none;
     stroke-linejoin: round;
     stroke-linecap: round;
     pointer-events: none;
     transition: stroke .15s;
   }
-  .hero svg path.on { stroke: var(--tape) !important; }
+  #contours path.on { stroke: var(--tape) !important; }
   .hero-text {
     position: relative;
     z-index: 1;
@@ -66,12 +71,80 @@
     padding: clamp(40px, 9vh, 96px) 24px 0;
     pointer-events: none;
   }
+  /* Brand lockup: same as the email logo, shaded letter by letter */
+  .brand {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25em 0.35em;
+    margin: 0 0 0 -18px;
+    padding: 12px 18px;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    font-size: clamp(2.5rem, 9vw, 7rem);
+    pointer-events: auto;
+  }
+  .brand .mark { height: 1.85em; width: auto; flex: none; }
   h1 {
-    font: 800 clamp(3rem, 10.5vw, 8.25rem)/0.88 var(--display);
+    font: 800 1em/0.95 var(--display);
     letter-spacing: -0.035em;
     margin: 0;
-    max-width: 8.2ch;
   }
+  h1 > span[aria-hidden] { display: block; white-space: nowrap; }
+  .of { font-size: 0.55em; font-weight: 600; letter-spacing: 0; color: #858a87; margin-right: 0.08em; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* The summits blush when you get close */
+  .summit { transform-box: fill-box; transform-origin: center; transition: transform .35s cubic-bezier(.3,1.6,.5,1); }
+  .brand:hover .summit, .topbar .home:hover .summit, .topbar .home:focus-visible .summit { transform: scale(1.7); }
+  @media (prefers-reduced-motion: reduce) { .summit { transition: none; } }
+
+  /* Sticky header, shows once the hero scrolls away */
+  .topbar {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 10;
+    background: color-mix(in srgb, var(--paper) 92%, transparent);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+    transform: translateY(-101%);
+    transition: transform .25s ease;
+  }
+  .topbar.show { transform: none; }
+  .topbar-in {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 8px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .topbar .home {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font: 800 1.125rem/1 var(--display);
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+  .topbar .home .mark { height: 34px; width: auto; }
+  .topbar .home .of { font-size: 0.75em; }
+  .topbar .hello {
+    font: 600 0.9375rem/1 var(--body);
+    text-decoration: none;
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    padding: 9px 16px;
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .topbar .hello:hover { background: var(--tape); border-color: var(--tape); color: var(--tape-ink); }
+  @media (max-width: 420px) { .topbar .home .words { display: none; } }
+
+  /* Pink summits: links blush on hover */
+  a:hover { color: var(--tape); }
+  footer a, .note a { text-decoration-color: var(--tape); text-underline-offset: 3px; }
   .lede {
     margin: 28px 0 0 -18px;           /* pull the box left so the text still lines up with the headline */
     max-width: calc(30rem + 36px);
@@ -162,10 +235,20 @@
 </head>
 <body>
 
-<header class="hero">
+<nav class="topbar" id="topbar" aria-label="Site">
+  <div class="topbar-in">
+    <a class="home" href="#top" aria-label="Fifty Shades of Grading, back to top"><svg class="mark" viewBox="0 0 260 200" aria-hidden="true" focusable="false"><g fill="none" stroke-width="14" stroke-linejoin="round"><path d="M130 52 C150 30 192 28 218 48 C246 70 248 128 226 158 C202 186 156 186 130 166 C104 186 58 186 34 158 C12 128 14 70 42 48 C68 28 110 30 130 52Z" stroke="#9fa4a1"/><path d="M88 76 C106 76 118 90 118 106 C118 124 104 134 88 134 C72 134 58 124 58 106 C58 90 70 76 88 76Z" stroke="#1f2326"/><path d="M172 76 C190 76 202 90 202 106 C202 124 188 134 172 134 C156 134 142 124 142 106 C142 90 154 76 172 76Z" stroke="#1f2326"/></g><circle class="summit" cx="88" cy="106" r="12" fill="#ff2e88"/><circle class="summit" cx="172" cy="106" r="12" fill="#ff2e88"/></svg><span class="words" aria-hidden="true"><span style="color:#858a87">F</span><span style="color:#7f8481">i</span><span style="color:#797e7c">f</span><span style="color:#737876">t</span><span style="color:#6d7270">y</span> <span style="color:#676c6a">S</span><span style="color:#616665">h</span><span style="color:#5b605f">a</span><span style="color:#555a59">d</span><span style="color:#4f5354">e</span><span style="color:#494d4e">s</span> <span class="of">of</span> <span style="color:#434748">G</span><span style="color:#3d4143">r</span><span style="color:#373b3d">a</span><span style="color:#313537">d</span><span style="color:#2b2f31">i</span><span style="color:#25292c">n</span><span style="color:#1f2326">g</span></span></a>
+    <a class="hello" href="#hello">Say hello</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
   <svg id="contours" viewBox="0 0 1200 760" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A grading plan drawn as fifty contour lines, each a different shade of gray"></svg>
   <div class="hero-text">
-    <h1>Fifty shades of grading</h1>
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 260 200" aria-hidden="true" focusable="false"><g fill="none" stroke-width="6" stroke-linejoin="round"><path d="M130 44 C152 22 198 18 226 40 C254 62 256 132 232 164 C206 196 160 196 130 176 C100 196 54 196 28 164 C4 132 6 62 34 40 C62 18 108 22 130 44Z" stroke="#c4c8c5"/><path d="M130 60 C150 40 190 36 214 54 C238 72 240 124 220 150 C200 176 156 178 130 158 C104 178 60 176 40 150 C20 124 22 72 46 54 C70 36 110 40 130 60Z" stroke="#a4a8a5"/><path d="M88 66 C110 66 124 84 124 106 C124 128 108 142 88 142 C68 142 52 128 52 106 C52 84 66 66 88 66Z" stroke="#858a87"/><path d="M172 66 C194 66 208 84 208 106 C208 128 192 142 172 142 C152 142 136 128 136 106 C136 84 150 66 172 66Z" stroke="#858a87"/><path d="M88 82 C102 82 110 94 110 106 C110 120 100 128 88 128 C76 128 66 120 66 106 C66 94 74 82 88 82Z" stroke="#565b5d"/><path d="M172 82 C186 82 194 94 194 106 C194 120 184 128 172 128 C160 128 150 120 150 106 C150 94 158 82 172 82Z" stroke="#565b5d"/><path d="M88 96 C95 96 98 101 98 107 C98 113 94 116 88 116 C82 116 78 113 78 107 C78 101 81 96 88 96Z" stroke="#1f2326"/><path d="M172 96 C179 96 182 101 182 107 C182 113 178 116 172 116 C166 116 162 113 162 107 C162 101 165 96 172 96Z" stroke="#1f2326"/></g><circle class="summit" cx="88" cy="106" r="4" fill="#ff2e88"/><circle class="summit" cx="172" cy="106" r="4" fill="#ff2e88"/></svg>
+      <h1><span class="sr">Fifty Shades of Grading</span><span aria-hidden="true"><span style="color:#858a87">F</span><span style="color:#7f8481">i</span><span style="color:#797e7c">f</span><span style="color:#737876">t</span><span style="color:#6d7270">y</span> <span style="color:#676c6a">S</span><span style="color:#616665">h</span><span style="color:#5b605f">a</span><span style="color:#555a59">d</span><span style="color:#4f5354">e</span><span style="color:#494d4e">s</span></span><span aria-hidden="true"><span class="of">of</span> <span style="color:#434748">G</span><span style="color:#3d4143">r</span><span style="color:#373b3d">a</span><span style="color:#313537">d</span><span style="color:#2b2f31">i</span><span style="color:#25292c">n</span><span style="color:#1f2326">g</span></span></h1>
+    </div>
     <p class="lede">Civil 3D is our bread and butter, and we work across the whole Autodesk stack: GIS, hydraulic simulation, visualization, coordination, and whatever else the job drags in.</p>
   </div>
   <div class="tip" id="tip" aria-hidden="true"></div>
@@ -217,7 +300,7 @@
     <p class="note">Video deep dives on YouTube. Some are useful, some are just for fun, and nearly all of them involve grading.</p>
   </section>
 
-  <section>
+  <section id="hello">
     <h2>Say hello</h2>
     <div>
       <p class="note">Training, a template overhaul, or one stubborn drawing. Email us and tell us what you're working on!</p>
@@ -475,6 +558,16 @@
     show(k, ev);
     timer = setTimeout(hide, 2500);
   });
+})();
+</script>
+<script>
+(function () {
+  var bar = document.getElementById('topbar');
+  var hero = document.getElementById('top');
+  if (!('IntersectionObserver' in window)) { bar.classList.add('show'); return; }
+  new IntersectionObserver(function (e) {
+    bar.classList.toggle('show', !e[0].isIntersecting);
+  }, { rootMargin: '-64px 0px 0px 0px', threshold: 0.15 }).observe(hero);
 })();
 </script>
 </body>
