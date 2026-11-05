@@ -83,7 +83,7 @@
     font-size: clamp(2.5rem, 9vw, 7rem);
     pointer-events: auto;
   }
-  .brand .mark { height: 1.85em; width: auto; flex: none; }
+  .brand .mark { height: 1.85em; width: auto; flex: none; cursor: pointer; }
   h1 {
     font: 800 1em/0.95 var(--display);
     letter-spacing: -0.035em;
@@ -237,7 +237,7 @@
 
 <nav class="topbar" id="topbar" aria-label="Site">
   <div class="topbar-in">
-    <a class="home" href="#top" aria-label="Fifty Shades of Grading, back to top"><svg class="mark" viewBox="86 87 341 328" aria-hidden="true" focusable="false"><g fill="none" stroke-width="26" stroke-linejoin="round"><path d="M413 298 C411 321 400 337 389 352 C377 366 359 376 345 384 C330 391 314 394 300 397 C286 400 273 400 260 401 C246 401 234 400 220 398 C206 396 191 394 176 387 C161 381 142 373 130 360 C117 346 105 328 100 309 C95 290 97 268 101 248 C105 227 113 207 125 188 C136 169 151 150 170 135 C188 121 212 104 235 101 C259 97 288 103 309 113 C331 122 350 142 365 159 C380 176 392 192 400 215 C408 238 415 275 413 298Z" stroke="#9fa4a1"/><path d="M338 298 C337 310 332 319 326 326 C320 334 310 339 302 342 C294 346 286 347 279 349 C271 350 265 350 258 350 C251 350 245 350 237 349 C230 348 222 347 214 344 C206 341 196 337 189 331 C182 324 176 314 174 304 C171 294 173 282 175 272 C178 261 182 251 188 241 C194 232 202 222 212 215 C222 208 234 202 246 200 C257 198 272 201 283 205 C294 210 304 219 312 227 C319 235 326 243 330 255 C335 267 339 286 338 298Z" stroke="#1f2326"/></g><circle class="summit" cx="256" cy="298" r="22" fill="#ff2e88"/></svg><span class="words" aria-hidden="true"><span style="color:#858a87">F</span><span style="color:#7f8481">i</span><span style="color:#797e7c">f</span><span style="color:#737876">t</span><span style="color:#6d7270">y</span> <span style="color:#676c6a">S</span><span style="color:#616665">h</span><span style="color:#5b605f">a</span><span style="color:#555a59">d</span><span style="color:#4f5354">e</span><span style="color:#494d4e">s</span> <span class="of">of</span> <span style="color:#434748">G</span><span style="color:#3d4143">r</span><span style="color:#373b3d">a</span><span style="color:#313537">d</span><span style="color:#2b2f31">i</span><span style="color:#25292c">n</span><span style="color:#1f2326">g</span></span></a>
+    <a class="home" href="#top" aria-label="Fifty Shades of Grading, back to top"><svg class="mark" viewBox="86 87 341 328" aria-hidden="true" focusable="false"><g fill="none" stroke-width="26" stroke-linejoin="round"><path data-ring="0" d="M413 298 C411 321 400 337 389 352 C377 366 359 376 345 384 C330 391 314 394 300 397 C286 400 273 400 260 401 C246 401 234 400 220 398 C206 396 191 394 176 387 C161 381 142 373 130 360 C117 346 105 328 100 309 C95 290 97 268 101 248 C105 227 113 207 125 188 C136 169 151 150 170 135 C188 121 212 104 235 101 C259 97 288 103 309 113 C331 122 350 142 365 159 C380 176 392 192 400 215 C408 238 415 275 413 298Z" stroke="#9fa4a1"/><path data-ring="2" d="M338 298 C337 310 332 319 326 326 C320 334 310 339 302 342 C294 346 286 347 279 349 C271 350 265 350 258 350 C251 350 245 350 237 349 C230 348 222 347 214 344 C206 341 196 337 189 331 C182 324 176 314 174 304 C171 294 173 282 175 272 C178 261 182 251 188 241 C194 232 202 222 212 215 C222 208 234 202 246 200 C257 198 272 201 283 205 C294 210 304 219 312 227 C319 235 326 243 330 255 C335 267 339 286 338 298Z" stroke="#1f2326"/></g><circle class="summit" cx="256" cy="298" r="22" fill="#ff2e88"/></svg><span class="words" aria-hidden="true"><span style="color:#858a87">F</span><span style="color:#7f8481">i</span><span style="color:#797e7c">f</span><span style="color:#737876">t</span><span style="color:#6d7270">y</span> <span style="color:#676c6a">S</span><span style="color:#616665">h</span><span style="color:#5b605f">a</span><span style="color:#555a59">d</span><span style="color:#4f5354">e</span><span style="color:#494d4e">s</span> <span class="of">of</span> <span style="color:#434748">G</span><span style="color:#3d4143">r</span><span style="color:#373b3d">a</span><span style="color:#313537">d</span><span style="color:#2b2f31">i</span><span style="color:#25292c">n</span><span style="color:#1f2326">g</span></span></a>
     <a class="hello" href="#hello">Say hello</a>
   </div>
 </nav>
@@ -246,7 +246,7 @@
   <svg id="contours" viewBox="0 0 1200 760" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A grading plan drawn as fifty contour lines, each a different shade of gray"></svg>
   <div class="hero-text">
     <div class="brand">
-      <svg class="mark" viewBox="86 87 341 328" aria-hidden="true" focusable="false"><g fill="none" stroke-width="12" stroke-linejoin="round"><path d="M413 298 C411 321 400 337 389 352 C377 366 359 376 345 384 C330 391 314 394 300 397 C286 400 273 400 260 401 C246 401 234 400 220 398 C206 396 191 394 176 387 C161 381 142 373 130 360 C117 346 105 328 100 309 C95 290 97 268 101 248 C105 227 113 207 125 188 C136 169 151 150 170 135 C188 121 212 104 235 101 C259 97 288 103 309 113 C331 122 350 142 365 159 C380 176 392 192 400 215 C408 238 415 275 413 298Z" stroke="#c4c8c5"/><path d="M377 298 C376 316 367 328 358 339 C350 350 335 358 324 363 C312 369 300 371 289 373 C279 375 269 375 259 375 C249 376 239 375 228 374 C218 372 206 371 195 366 C183 361 169 355 159 345 C149 336 139 321 135 306 C132 292 133 275 136 259 C140 244 147 228 156 214 C165 200 176 185 190 175 C205 164 223 153 240 150 C258 148 280 152 296 159 C312 166 327 180 339 192 C351 205 360 217 366 234 C373 252 378 280 377 298Z" stroke="#a4a8a5"/><path d="M338 298 C337 310 332 319 326 326 C320 334 310 339 302 342 C294 346 286 347 279 349 C271 350 265 350 258 350 C251 350 245 350 237 349 C230 348 222 347 214 344 C206 341 196 337 189 331 C182 324 176 314 174 304 C171 294 173 282 175 272 C178 261 182 251 188 241 C194 232 202 222 212 215 C222 208 234 202 246 200 C257 198 272 201 283 205 C294 210 304 219 312 227 C319 235 326 243 330 255 C335 267 339 286 338 298Z" stroke="#6d7270"/><path d="M299 298 C299 304 298 309 295 314 C293 318 287 322 283 324 C279 326 274 327 269 328 C265 329 261 329 257 329 C253 329 249 329 245 328 C241 328 236 327 231 325 C227 323 221 321 218 317 C215 313 213 306 212 301 C212 296 213 290 215 285 C217 280 220 275 223 270 C226 266 231 262 235 259 C240 256 246 254 251 253 C257 253 263 254 268 256 C273 257 278 261 282 264 C286 268 290 271 292 277 C295 283 298 292 299 298Z" stroke="#1f2326"/></g><circle class="summit" cx="256" cy="298" r="13" fill="#ff2e88"/></svg>
+      <svg class="mark" viewBox="86 87 341 328" aria-hidden="true" focusable="false"><g fill="none" stroke-width="12" stroke-linejoin="round"><path data-ring="0" d="M413 298 C411 321 400 337 389 352 C377 366 359 376 345 384 C330 391 314 394 300 397 C286 400 273 400 260 401 C246 401 234 400 220 398 C206 396 191 394 176 387 C161 381 142 373 130 360 C117 346 105 328 100 309 C95 290 97 268 101 248 C105 227 113 207 125 188 C136 169 151 150 170 135 C188 121 212 104 235 101 C259 97 288 103 309 113 C331 122 350 142 365 159 C380 176 392 192 400 215 C408 238 415 275 413 298Z" stroke="#c4c8c5"/><path data-ring="1" d="M377 298 C376 316 367 328 358 339 C350 350 335 358 324 363 C312 369 300 371 289 373 C279 375 269 375 259 375 C249 376 239 375 228 374 C218 372 206 371 195 366 C183 361 169 355 159 345 C149 336 139 321 135 306 C132 292 133 275 136 259 C140 244 147 228 156 214 C165 200 176 185 190 175 C205 164 223 153 240 150 C258 148 280 152 296 159 C312 166 327 180 339 192 C351 205 360 217 366 234 C373 252 378 280 377 298Z" stroke="#a4a8a5"/><path data-ring="2" d="M338 298 C337 310 332 319 326 326 C320 334 310 339 302 342 C294 346 286 347 279 349 C271 350 265 350 258 350 C251 350 245 350 237 349 C230 348 222 347 214 344 C206 341 196 337 189 331 C182 324 176 314 174 304 C171 294 173 282 175 272 C178 261 182 251 188 241 C194 232 202 222 212 215 C222 208 234 202 246 200 C257 198 272 201 283 205 C294 210 304 219 312 227 C319 235 326 243 330 255 C335 267 339 286 338 298Z" stroke="#6d7270"/><path data-ring="3" d="M299 298 C299 304 298 309 295 314 C293 318 287 322 283 324 C279 326 274 327 269 328 C265 329 261 329 257 329 C253 329 249 329 245 328 C241 328 236 327 231 325 C227 323 221 321 218 317 C215 313 213 306 212 301 C212 296 213 290 215 285 C217 280 220 275 223 270 C226 266 231 262 235 259 C240 256 246 254 251 253 C257 253 263 254 268 256 C273 257 278 261 282 264 C286 268 290 271 292 277 C295 283 298 292 299 298Z" stroke="#1f2326"/></g><circle class="summit" cx="256" cy="298" r="13" fill="#ff2e88"/></svg>
       <h1><span class="sr">Fifty Shades of Grading</span><span aria-hidden="true"><span style="color:#858a87">F</span><span style="color:#7f8481">i</span><span style="color:#797e7c">f</span><span style="color:#737876">t</span><span style="color:#6d7270">y</span> <span style="color:#676c6a">S</span><span style="color:#616665">h</span><span style="color:#5b605f">a</span><span style="color:#555a59">d</span><span style="color:#4f5354">e</span><span style="color:#494d4e">s</span></span><span aria-hidden="true"><span class="of">of</span> <span style="color:#434748">G</span><span style="color:#3d4143">r</span><span style="color:#373b3d">a</span><span style="color:#313537">d</span><span style="color:#2b2f31">i</span><span style="color:#25292c">n</span><span style="color:#1f2326">g</span></span></h1>
     </div>
     <p class="lede">Civil 3D is our bread and butter, and we work across the whole Autodesk stack: GIS, hydraulic simulation, visualization, coordination, and whatever else the job drags in.</p>
@@ -499,6 +499,50 @@
       });
     });
   }
+
+  // ---- The summit: a fresh set of rings each load (click the hero mark to re-roll it) ----
+  var LOGO = [[[413,298],[389,352],[345,384],[300,397],[260,401],[220,398],[176,387],[130,360],[100,309],[101,248],[125,188],[170,135],[235,101],[309,113],[365,159],[400,215]],[[377,298],[358,339],[324,363],[289,373],[259,375],[228,374],[195,366],[159,345],[135,306],[136,259],[156,214],[190,175],[240,150],[296,159],[339,192],[366,234]],[[338,298],[326,326],[302,342],[279,349],[258,350],[237,349],[214,344],[189,331],[174,304],[175,272],[188,241],[212,215],[246,200],[283,205],[312,227],[330,255]],[[299,298],[295,314],[283,324],[269,328],[257,329],[245,328],[231,325],[218,317],[212,301],[215,285],[223,270],[235,259],[251,253],[268,256],[282,264],[292,277]]];
+  var LCX = 256, LCY = 298;
+  function logoRand(a) {
+    return function () {
+      a = (a + 0x6D2B79F5) | 0;
+      var t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function drawLogo(s) {
+    var R = logoRand((s ^ 0x9E3779B9) >>> 0);
+    function span(a, b) { return a + R() * (b - a); }
+    var A1 = span(3, 7), A2 = span(1.5, 4.5), p1 = span(0, 6.283), p2 = span(0, 6.283);
+    var ux = span(-9, 9), uy = span(-7, 7);                    // inner rings drift off-center, like a hill with a skewed top
+    var own = [];
+    for (var k = 0; k < 4; k++) own.push([span(0, 6.283), span(0, 6.283), span(1, 2.5)]);
+    var ds = LOGO.map(function (ring, k) {
+      var f = [1, 0.85, 0.65, 0.45][k], dx = ux * k / 3, dy = uy * k / 3;
+      var P = ring.map(function (q) {
+        var vx = q[0] - LCX, vy = q[1] - LCY, r = Math.hypot(vx, vy), th = Math.atan2(vy, vx);
+        var nr = r + f * (A1 * Math.sin(2 * th + p1) + A2 * Math.sin(3 * th + p2)) + own[k][2] * Math.sin(2 * th + own[k][0]);
+        return [LCX + dx + Math.cos(th) * nr, LCY + dy + Math.sin(th) * nr];
+      });
+      var n = P.length, d = 'M' + P[0][0].toFixed(1) + ' ' + P[0][1].toFixed(1);
+      for (var i = 0; i < n; i++) {                            // closed Catmull-Rom -> cubic Bezier
+        var a = P[(i + n - 1) % n], b = P[i], c = P[(i + 1) % n], e = P[(i + 2) % n];
+        d += ' C' + (b[0] + (c[0] - a[0]) / 6).toFixed(1) + ' ' + (b[1] + (c[1] - a[1]) / 6).toFixed(1) +
+             ' ' + (c[0] - (e[0] - b[0]) / 6).toFixed(1) + ' ' + (c[1] - (e[1] - b[1]) / 6).toFixed(1) +
+             ' ' + c[0].toFixed(1) + ' ' + c[1].toFixed(1);
+      }
+      return d + 'Z';
+    });
+    document.querySelectorAll('svg.mark path[data-ring]').forEach(function (el) { el.setAttribute('d', ds[+el.dataset.ring]); });
+    document.querySelectorAll('svg.mark .summit').forEach(function (el) { el.setAttribute('cx', LCX + ux); el.setAttribute('cy', LCY + uy); });
+  }
+  drawLogo(seed);
+  var heroMark = document.querySelector('.brand .mark');
+  heroMark.addEventListener('click', function (ev) {
+    ev.stopPropagation();
+    drawLogo(Math.floor(Math.random() * 1e9));
+  });
 
   // ---- The pop-up: only when the pointer (or a tap) lands on a contour ----
   function sample(x, y) {                           // bilinear elevation + slope
