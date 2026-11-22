@@ -1,3 +1,6 @@
+---
+# Front matter so Jekyll fills in the latest blog posts below.
+---
 <!doctype html>
 <html lang="en">
 <head>
@@ -68,7 +71,7 @@
     z-index: 1;
     max-width: 1180px;
     margin: 0 auto;
-    padding: clamp(40px, 9vh, 96px) 24px 0;
+    padding: clamp(76px, 11vh, 112px) 24px 0;
     pointer-events: none;
   }
   /* Brand lockup: same as the email logo, shaded letter by letter */
@@ -98,19 +101,21 @@
   .brand:hover .summit, .topbar .home:hover .summit, .topbar .home:focus-visible .summit { transform: scale(1.7); }
   @media (prefers-reduced-motion: reduce) { .summit { transition: none; } }
 
-  /* Sticky header, shows once the hero scrolls away */
+  /* Top banner: always there. Over the hero it's just the links; once the hero
+     scrolls away it fills in with paper and the logo slides in. */
   .topbar {
     position: fixed;
     inset: 0 0 auto 0;
     z-index: 10;
+    border-bottom: 1px solid transparent;
+    transition: background .25s ease, border-color .25s ease;
+  }
+  .topbar.show {
     background: color-mix(in srgb, var(--paper) 92%, transparent);
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--rule);
-    transform: translateY(-101%);
-    transition: transform .25s ease;
+    border-bottom-color: var(--rule);
   }
-  .topbar.show { transform: none; }
   .topbar-in {
     max-width: 1180px;
     margin: 0 auto;
@@ -128,7 +133,11 @@
     font: 800 1.125rem/1 var(--display);
     letter-spacing: -0.02em;
     white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .25s ease, visibility .25s;
   }
+  .topbar.show .home { opacity: 1; visibility: visible; }
   .topbar .home .mark { height: 34px; width: auto; }
   .topbar .home .of { font-size: 0.75em; }
   .topbar .hello {
@@ -140,8 +149,17 @@
     transition: background .15s, color .15s, border-color .15s;
   }
   .topbar .hello:hover { background: var(--tape); border-color: var(--tape); color: var(--tape-ink); }
-  .topbar .links { display: flex; align-items: center; gap: 18px; }
-  .topbar .blog { font: 600 0.9375rem/1 var(--body); text-decoration: none; }
+  .topbar .links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 5px 5px 5px 18px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);   /* readable over the contours */
+  }
+  .topbar .links > a:not(.hello) { font: 600 0.9375rem/1 var(--body); text-decoration: none; }
+  .topbar .links > a[aria-current] { text-decoration: underline; text-decoration-color: var(--tape); text-decoration-thickness: 2px; text-underline-offset: 5px; }
+  @media (max-width: 520px) { .topbar .links .what { display: none; } }
   @media (max-width: 420px) { .topbar .home .words { display: none; } }
 
   /* Pink summits: links blush on hover */
@@ -208,6 +226,10 @@
   }
   .stack li.main { background: var(--ink); color: var(--paper); }
   p.note { margin: 0 0 18px; max-width: 40rem; }
+  .posts { list-style: none; margin: 0 0 20px; padding: 0; display: grid; gap: 22px; max-width: 44rem; }
+  .posts time { display: block; font-size: 0.8125rem; color: var(--ink-soft); }
+  .posts a { font: 500 1.375rem/1.2 var(--display); letter-spacing: -0.01em; text-decoration-color: var(--tape); text-underline-offset: 4px; }
+  .posts p { margin: 4px 0 0; color: var(--ink-soft); }
   .email {
     display: inline-block;
     font: 800 clamp(1.25rem, 3.4vw, 2.25rem)/1.15 var(--display);
@@ -240,7 +262,7 @@
 <nav class="topbar" id="topbar" aria-label="Site">
   <div class="topbar-in">
     <a class="home" href="#top" aria-label="Fifty Shades of Grading, back to top"><svg class="mark" viewBox="86 87 341 328" aria-hidden="true" focusable="false"><g fill="none" stroke-width="26" stroke-linejoin="round"><path data-ring="0" d="M413 298 C411 321 400 337 389 352 C377 366 359 376 345 384 C330 391 314 394 300 397 C286 400 273 400 260 401 C246 401 234 400 220 398 C206 396 191 394 176 387 C161 381 142 373 130 360 C117 346 105 328 100 309 C95 290 97 268 101 248 C105 227 113 207 125 188 C136 169 151 150 170 135 C188 121 212 104 235 101 C259 97 288 103 309 113 C331 122 350 142 365 159 C380 176 392 192 400 215 C408 238 415 275 413 298Z" stroke="#9fa4a1"/><path data-ring="2" d="M338 298 C337 310 332 319 326 326 C320 334 310 339 302 342 C294 346 286 347 279 349 C271 350 265 350 258 350 C251 350 245 350 237 349 C230 348 222 347 214 344 C206 341 196 337 189 331 C182 324 176 314 174 304 C171 294 173 282 175 272 C178 261 182 251 188 241 C194 232 202 222 212 215 C222 208 234 202 246 200 C257 198 272 201 283 205 C294 210 304 219 312 227 C319 235 326 243 330 255 C335 267 339 286 338 298Z" stroke="#1f2326"/></g><circle class="summit" cx="256" cy="298" r="22" fill="#ff2e88"/></svg><span class="words" aria-hidden="true"><span style="color:#858a87">F</span><span style="color:#7f8481">i</span><span style="color:#797e7c">f</span><span style="color:#737876">t</span><span style="color:#6d7270">y</span> <span style="color:#676c6a">S</span><span style="color:#616665">h</span><span style="color:#5b605f">a</span><span style="color:#555a59">d</span><span style="color:#4f5354">e</span><span style="color:#494d4e">s</span> <span class="of">of</span> <span style="color:#434748">G</span><span style="color:#3d4143">r</span><span style="color:#373b3d">a</span><span style="color:#313537">d</span><span style="color:#2b2f31">i</span><span style="color:#25292c">n</span><span style="color:#1f2326">g</span></span></a>
-    <span class="links"><a class="blog" href="/blog/">Blog</a><a class="hello" href="#hello">Say hello</a></span>
+    <span class="links"><a class="what" href="#what">What we do</a><a href="/blog/">Blog</a><a class="hello" href="#hello">Say hello</a></span>
   </div>
 </nav>
 
@@ -257,7 +279,7 @@
 </header>
 
 <main>
-  <section>
+  <section id="what">
     <h2>What we do</h2>
     <dl>
       <div>
@@ -297,9 +319,20 @@
     </ul>
   </section>
 
-  <section>
-    <h2>The blog</h2>
-    <p class="note">How-tos, data sets put online, and the occasional detour into breakfast. <a href="/blog/">Read the blog</a>, or follow along with <a href="/blog/feed.xml">RSS</a>. Video deep dives on YouTube are coming soon.</p>
+  <section id="blog">
+    <h2>From the blog</h2>
+    <div>
+      <ul class="posts">
+        {%- for post in site.posts limit: 3 %}
+        <li>
+          <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%b %-d, %Y' }}</time>
+          <a href="{{ post.url }}">{{ post.title }}</a>
+          {%- if post.description %}<p>{{ post.description }}</p>{% endif %}
+        </li>
+        {%- endfor %}
+      </ul>
+      <p class="note"><a href="/blog/">All posts</a> · <a href="/blog/feed.xml">RSS</a> · Video deep dives on YouTube are coming soon.</p>
+    </div>
   </section>
 
   <section id="hello">
