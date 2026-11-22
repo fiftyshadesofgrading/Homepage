@@ -58,10 +58,10 @@ scripts:
 <div class="wrap">
   <h2>What you’re looking at</h2>
   <p>Blue is cold, red is warm, and the pale gray in the middle is 50°F (10°C), roughly the “grab a jacket” line. The deep south and the Carolinas hold most of the dots, which is exactly where the chain lives; check the state table if you want the exact counts.</p>
-  <p>The temperatures come from <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>, which serves weather model data free and without an API key. Nearby stores share one grid cell, so about 1,400 lookups cover all ~2,000 locations. That matches the model’s resolution anyway: this is a forecast model’s idea of the air temperature there, not a thermometer on the roof.</p>
+  <p>The temperatures come from <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>, which serves weather model data free and without an API key. Stores within about 25 km of each other share one reading, so roughly 780 lookups cover all 2,089 locations, refreshed every three hours. Treat it as a weather model’s idea of the air temperature nearby, not a thermometer on the roof.</p>
 
   <h2>Put your own data set online: the four steps</h2>
-  <p>Nothing here needs a framework, a build server, or a database. It is a folder of static files.</p>
+  <p>Nothing here needs a map library, a tile server, or a database. It is a folder of static files plus one scheduled job.</p>
 
   <h3>1. Start with a table that has coordinates</h3>
   <p>The locations come from a public CSV of Waffle House store data (<a href="https://github.com/alex-patton/wafflehouse_index" target="_blank" rel="noopener">alex-patton/wafflehouse_index</a>, a snapshot from June 2026). The only columns this map needs are a store number, city, state, latitude, and longitude. Your survey points, utility structures, or project sites work the same way.</p>
@@ -71,20 +71,23 @@ scripts:
 
   <h3>2. Project it once, ahead of time</h3>
   <p>A small Node script reads the CSV, converts each latitude/longitude into x/y on an Albers map of the US (the same projection family you know from state plane work), and writes the state outlines as plain SVG paths. The result is one JavaScript file with all the geometry baked in, so the page needs no map library and no tile server.</p>
-  <pre><code>npm i us-atlas topojson-client d3-geo
-node tools/make-map-data.mjs data/waffle-houses.csv map-data.js</code></pre>
+  <pre><code>npm i us-atlas topojson-client d3-geo   # outlines + the Albers projection</code></pre>
 
   <h3>3. Draw it with SVG and style it with CSS</h3>
   <p>Every location becomes a <code>&lt;circle&gt;</code>. The look (land color, dot outline, the toggle, the cards) lives in a stylesheet, so restyling it is a CSS edit, not a code change. A scripted nearest-dot lookup powers the hover tooltip so small dots stay easy to hit on a phone.</p>
 
-  <h3>4. Attach the live part</h3>
-  <p>The page asks Open-Meteo for the current temperature at each grid cell, in batches of 100 coordinates, then paints each dot. Results are cached in your browser for 15 minutes so reloading doesn’t hammer the service.</p>
-  <pre><code>const url = `https://api.open-meteo.com/v1/forecast
-  ?latitude=${lats}&amp;longitude=${lons}
-  &amp;current=temperature_2m&amp;temperature_unit=fahrenheit`;
-const rows = await (await fetch(url)).json();   // one result per coordinate</code></pre>
+  <h3>4. Attach the live part, on a schedule</h3>
+  <p>The tempting move is to have each visitor’s browser ask the weather service directly. Don’t: the free tier allows 600 lookups a minute, and this map needs about 780, so a single page view would blow the limit. Instead, a GitHub Action wakes up every three hours, asks Open-Meteo for every grid cell in throttled batches of 100, saves the answers as one small <code>temps.json</code>, and republishes the site. The page just reads that file.</p>
+  <pre><code># .github/workflows/pages.yml (excerpt)
+on:
+  schedule:
+    - cron: "17 */3 * * *"      # every 3 hours
+steps:
+  - run: node tools/fetch-waffle-temps.mjs   # writes temps.json
+  - uses: actions/jekyll-build-pages@v1      # rebuilds the site</code></pre>
+  <p>Same idea works for anything you’d rather not hit live: pull it on a schedule, publish a file, keep the page dumb.</p>
 
-  <p>That’s the whole pattern: table, projection, SVG, one API call. Swap the Waffle Houses for your own points and swap temperature for whatever you can look up by coordinate.</p>
+  <p>That’s the whole pattern: table, projection, SVG, one scheduled job. Swap the Waffle Houses for your own points and swap temperature for whatever you can look up by coordinate.</p>
 
   <p class="note">Sources: store locations from the public dataset above (June 2026 snapshot; stores open and close, so a few dots may be out of date). Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo.com</a> (CC BY 4.0). State outlines from <a href="https://github.com/topojson/us-atlas" target="_blank" rel="noopener">us-atlas</a>. Not affiliated with Waffle House.</p>
 </div>

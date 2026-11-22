@@ -1,6 +1,7 @@
 /* Live weather at every Waffle House.  No dependencies.
-   Locations: map-data.js (projected x/y + lat/lon).  Weather: Open-Meteo, fetched in the browser. */
+   Locations: map-data.js (projected x/y + lat/lon).  Weather: temps.json, refreshed from Open-Meteo by a scheduled GitHub Action. */
 (() => {
+  const SCRIPT_SRC = document.currentScript ? document.currentScript.src : location.href;
   const M = window.WH_MAP;
   const F = Object.fromEntries(M.fields.map((n, i) => [n, i]));
   const NS = 'http://www.w3.org/2000/svg';
@@ -37,57 +38,28 @@
   const temp = new Array(S.length).fill(null);       // degrees F
   const dots = S.map((s) => mk('circle', { cx: s[F.x], cy: s[F.y], r: 3.1, class: 'dot', fill: 'var(--nodata)' }, gDots));
 
-  // ---- weather ----
-  const cellKey = (lat, lon) => lat.toFixed(1) + ',' + lon.toFixed(1);
-  const cells = new Map();                            // key -> [store indexes]
-  S.forEach((s, i) => { const k = cellKey(s[F.lat], s[F.lon]); (cells.get(k) || cells.set(k, []).get(k)).push(i); });
-  const CACHE = 'wh-temps-v1', TTL = 15 * 60 * 1000;
-
-  const readCache = () => { try { const c = JSON.parse(localStorage.getItem(CACHE)); if (c && Date.now() - c.t < TTL) return c; } catch (e) {} return null; };
-  const writeCache = (obj) => { try { localStorage.setItem(CACHE, JSON.stringify(obj)); } catch (e) {} };
-
-  async function getBatch(keys) {
-    const lat = keys.map((k) => k.split(',')[0]).join(','), lon = keys.map((k) => k.split(',')[1]).join(',');
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m&temperature_unit=fahrenheit`;
-    for (let attempt = 0; attempt < 3; attempt++) {
-      const r = await fetch(url);
-      if (r.ok) { const j = await r.json(); return Array.isArray(j) ? j : [j]; }
-      if (r.status !== 429 && r.status < 500) throw new Error('HTTP ' + r.status);
-      await new Promise((ok) => setTimeout(ok, 1500 * (attempt + 1)));
-    }
-    throw new Error('Open-Meteo is busy, try again in a minute');
-  }
+  // ---- weather: temps.json is written every 3 hours by a GitHub Action (tools/fetch-waffle-temps.mjs) ----
+  const TEMPS_URL = new URL('temps.json', SCRIPT_SRC).href;
 
   async function load() {
     const status = $('status');
-    const cached = readCache();
-    let byCell = {}, stamp = null;
-    if (cached) { byCell = cached.cells; stamp = cached.t; }
-    else {
-      const keys = [...cells.keys()], batches = [];
-      for (let i = 0; i < keys.length; i += 100) batches.push(keys.slice(i, i + 100));
-      let done = 0;
-      status.textContent = `Fetching current temperatures (0 of ${batches.length} requests)…`;
-      try {
-        const queue = batches.slice();
-        await Promise.all([0, 1, 2].map(async () => {
-          while (queue.length) {
-            const b = queue.shift(), res = await getBatch(b);
-            b.forEach((k, i) => { const v = res[i] && res[i].current && res[i].current.temperature_2m; if (typeof v === 'number') byCell[k] = v; });
-            status.textContent = `Fetching current temperatures (${++done} of ${batches.length} requests)…`;
-          }
-        }));
-        stamp = Date.now(); writeCache({ t: stamp, cells: byCell });
-      } catch (e) {
-        status.className = 'status warn';
-        status.textContent = 'Couldn’t load live temperatures (' + e.message + '). Locations are shown without weather. If you’re viewing a preview, outside API calls may be blocked — the hosted site makes them straight from your browser.';
-        return;
-      }
+    try {
+      const r = await fetch(TEMPS_URL, { cache: 'no-cache' });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const data = await r.json();
+      const g = data.grid || 0.25;
+      const snap = (v) => (Math.round(v / g) * g).toFixed(2);
+      S.forEach((s, i) => { const v = data.cells[snap(s[F.lat]) + ',' + snap(s[F.lon])]; temp[i] = typeof v === 'number' ? v : null; });
+      const when = new Date(data.updated);
+      const hours = (Date.now() - when) / 36e5;
+      status.className = hours > 12 ? 'status warn' : 'status';
+      status.textContent = 'Weather as of ' + when.toLocaleString([], { weekday: 'short', hour: 'numeric', minute: '2-digit' }) +
+        (hours > 12 ? ' (that’s a while ago; the refresh job may be paused).' : ' · refreshed every 3 hours.');
+      render();
+    } catch (e) {
+      status.className = 'status warn';
+      status.textContent = 'Couldn’t load the temperatures (' + e.message + '), so the locations are shown without weather.';
     }
-    cells.forEach((idx, k) => idx.forEach((i) => { if (k in byCell) temp[i] = byCell[k]; }));
-    status.className = 'status';
-    status.textContent = 'Weather updated ' + new Date(stamp).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) + ' · refreshes at most every 15 minutes.';
-    render();
   }
 
   // ---- render temps, stats, table ----

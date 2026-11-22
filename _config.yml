@@ -19,3 +19,4 @@ feed:
 # The homepage (index.html) has no front matter, so Jekyll copies it as-is.
 exclude:
   - README.md
+  - tools
