@@ -1,0 +1,22 @@
+---
+layout: default
+title: Blog
+description: Notes from the grading plan. Civil 3D how-tos, data sets put online, and whatever else the job drags in.
+---
+<section class="wrap list-head">
+  <h1>Blog</h1>
+  <p class="dek">Notes from the grading plan. Civil 3D how-tos, data sets put online, and whatever else the job drags in.</p>
+</section>
+
+<ol class="post-list wrap" reversed>
+{% for post in site.posts %}
+  <li>
+    <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%b %-d, %Y' }}</time>
+    <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+    <p>{{ post.description | default: post.excerpt | strip_html | normalize_whitespace | truncate: 200 }}</p>
+    {% if post.tags.size > 0 %}<p class="tags">{% for tag in post.tags %}<a class="tag" href="{{ '/blog/tags/' | relative_url }}#{{ tag | slugify }}">{{ tag }}</a>{% endfor %}</p>{% endif %}
+  </li>
+{% else %}
+  <li><p>First post coming soon.</p></li>
+{% endfor %}
+</ol>

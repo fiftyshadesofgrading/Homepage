@@ -1,0 +1,21 @@
+title: Fifty Shades of Grading
+description: Civil 3D, data and the rest of the Autodesk stack. Some of it useful, some of it just for fun.
+url: https://fiftyshadesofgrading.com
+author: Fifty Shades of Grading
+lang: en
+
+# Posts live under /blog/2026/11/17/post-name/
+permalink: /blog/:year/:month/:day/:title/
+
+markdown: kramdown
+highlighter: rouge
+
+plugins:
+  - jekyll-feed
+
+feed:
+  path: blog/feed.xml
+
+# The homepage (index.html) has no front matter, so Jekyll copies it as-is.
+exclude:
+  - README.md

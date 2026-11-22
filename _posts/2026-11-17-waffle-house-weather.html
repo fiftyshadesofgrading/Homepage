@@ -1,0 +1,90 @@
+---
+layout: post
+title: "Every Waffle House in America, and the weather outside each one"
+description: "Roughly 2,000 locations, one live temperature each, and a template for getting your own data set onto the web."
+kicker: "Data, but make it breakfast"
+tags: [data, maps, web]
+scripts:
+  - /assets/posts/waffle-house-weather/map-data.js
+  - /assets/posts/waffle-house-weather/map.js
+---
+<div class="wrap">
+  <p>Most of us have a data set sitting in a folder somewhere: survey points, a list of sites, an export from a model. It does its job in the project and then just sits there. The gap between “a file on my machine” and “a page anyone can open” is smaller than it looks, and the fastest way to see that is to do it with something silly.</p>
+  <p>So here is every Waffle House in the country, colored by the current temperature at its location. Hover or tap a dot.</p>
+</div>
+
+<div class="wide">
+<figure class="viz" aria-labelledby="vt">
+  <div class="viz-top">
+    <div>
+      <h3 class="viz-title" id="vt">Current temperature at every Waffle House</h3>
+      <p class="viz-sub">Each dot is one location · colored by air temperature right now</p>
+    </div>
+    <div class="unit-toggle" role="group" aria-label="Temperature unit">
+      <button type="button" data-u="F" aria-pressed="true">°F</button>
+      <button type="button" data-u="C" aria-pressed="false">°C</button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="k">Locations</div><div class="v" id="s-count">—</div><div class="s" id="s-count-sub"></div></div>
+    <div class="stat"><div class="k">Average</div><div class="v" id="s-avg">—</div><div class="s" id="s-avg-sub"></div></div>
+    <div class="stat"><div class="k">Warmest</div><div class="v" id="s-hot">—</div><div class="s" id="s-hot-sub"></div></div>
+    <div class="stat"><div class="k">Coolest</div><div class="v" id="s-cold">—</div><div class="s" id="s-cold-sub"></div></div>
+  </div>
+
+  <div class="map-box">
+    <svg id="map" role="img" aria-label="Map of the contiguous United States with a dot for each Waffle House, colored by current temperature. A table of state summaries follows the map."></svg>
+    <div class="tip" id="tip" hidden></div>
+  </div>
+
+  <div class="legend">
+    <div class="bar"><div class="ramp" id="ramp"></div><div class="ticks" id="ticks"></div></div>
+    <span class="nd"><i></i> no reading</span>
+  </div>
+  <p class="picked" id="picked"></p>
+  <p class="status" id="status" role="status">Loading…</p>
+
+  <details class="tableview">
+    <summary>View the numbers by state</summary>
+    <table class="tbl">
+      <thead><tr><th>State</th><th>Locations</th><th>Average</th><th>Coolest</th><th>Warmest</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </details>
+</figure>
+</div>
+
+<div class="wrap">
+  <h2>What you’re looking at</h2>
+  <p>Blue is cold, red is warm, and the pale gray in the middle is 50°F (10°C), roughly the “grab a jacket” line. The deep south and the Carolinas hold most of the dots, which is exactly where the chain lives; check the state table if you want the exact counts.</p>
+  <p>The temperatures come from <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>, which serves weather model data free and without an API key. Nearby stores share one grid cell, so about 1,400 lookups cover all ~2,000 locations. That matches the model’s resolution anyway: this is a forecast model’s idea of the air temperature there, not a thermometer on the roof.</p>
+
+  <h2>Put your own data set online: the four steps</h2>
+  <p>Nothing here needs a framework, a build server, or a database. It is a folder of static files.</p>
+
+  <h3>1. Start with a table that has coordinates</h3>
+  <p>The locations come from a public CSV of Waffle House store data (<a href="https://github.com/alex-patton/wafflehouse_index" target="_blank" rel="noopener">alex-patton/wafflehouse_index</a>, a snapshot from June 2026). The only columns this map needs are a store number, city, state, latitude, and longitude. Your survey points, utility structures, or project sites work the same way.</p>
+  <pre><code>store_number,city,state,latitude,longitude
+1791,SAINT JOSEPH,MO,39.72406,-94.79321
+1388,BONNER SPRINGS,KS,39.09747,-94.88252</code></pre>
+
+  <h3>2. Project it once, ahead of time</h3>
+  <p>A small Node script reads the CSV, converts each latitude/longitude into x/y on an Albers map of the US (the same projection family you know from state plane work), and writes the state outlines as plain SVG paths. The result is one JavaScript file with all the geometry baked in, so the page needs no map library and no tile server.</p>
+  <pre><code>npm i us-atlas topojson-client d3-geo
+node tools/make-map-data.mjs data/waffle-houses.csv map-data.js</code></pre>
+
+  <h3>3. Draw it with SVG and style it with CSS</h3>
+  <p>Every location becomes a <code>&lt;circle&gt;</code>. The look (land color, dot outline, the toggle, the cards) lives in a stylesheet, so restyling it is a CSS edit, not a code change. A scripted nearest-dot lookup powers the hover tooltip so small dots stay easy to hit on a phone.</p>
+
+  <h3>4. Attach the live part</h3>
+  <p>The page asks Open-Meteo for the current temperature at each grid cell, in batches of 100 coordinates, then paints each dot. Results are cached in your browser for 15 minutes so reloading doesn’t hammer the service.</p>
+  <pre><code>const url = `https://api.open-meteo.com/v1/forecast
+  ?latitude=${lats}&amp;longitude=${lons}
+  &amp;current=temperature_2m&amp;temperature_unit=fahrenheit`;
+const rows = await (await fetch(url)).json();   // one result per coordinate</code></pre>
+
+  <p>That’s the whole pattern: table, projection, SVG, one API call. Swap the Waffle Houses for your own points and swap temperature for whatever you can look up by coordinate.</p>
+
+  <p class="note">Sources: store locations from the public dataset above (June 2026 snapshot; stores open and close, so a few dots may be out of date). Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo.com</a> (CC BY 4.0). State outlines from <a href="https://github.com/topojson/us-atlas" target="_blank" rel="noopener">us-atlas</a>. Not affiliated with Waffle House.</p>
+</div>

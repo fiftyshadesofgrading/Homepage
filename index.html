@@ -140,6 +140,8 @@
     transition: background .15s, color .15s, border-color .15s;
   }
   .topbar .hello:hover { background: var(--tape); border-color: var(--tape); color: var(--tape-ink); }
+  .topbar .links { display: flex; align-items: center; gap: 18px; }
+  .topbar .blog { font: 600 0.9375rem/1 var(--body); text-decoration: none; }
   @media (max-width: 420px) { .topbar .home .words { display: none; } }
 
   /* Pink summits: links blush on hover */
@@ -238,7 +240,7 @@
 <nav class="topbar" id="topbar" aria-label="Site">
   <div class="topbar-in">
     <a class="home" href="#top" aria-label="Fifty Shades of Grading, back to top"><svg class="mark" viewBox="86 87 341 328" aria-hidden="true" focusable="false"><g fill="none" stroke-width="26" stroke-linejoin="round"><path data-ring="0" d="M413 298 C411 321 400 337 389 352 C377 366 359 376 345 384 C330 391 314 394 300 397 C286 400 273 400 260 401 C246 401 234 400 220 398 C206 396 191 394 176 387 C161 381 142 373 130 360 C117 346 105 328 100 309 C95 290 97 268 101 248 C105 227 113 207 125 188 C136 169 151 150 170 135 C188 121 212 104 235 101 C259 97 288 103 309 113 C331 122 350 142 365 159 C380 176 392 192 400 215 C408 238 415 275 413 298Z" stroke="#9fa4a1"/><path data-ring="2" d="M338 298 C337 310 332 319 326 326 C320 334 310 339 302 342 C294 346 286 347 279 349 C271 350 265 350 258 350 C251 350 245 350 237 349 C230 348 222 347 214 344 C206 341 196 337 189 331 C182 324 176 314 174 304 C171 294 173 282 175 272 C178 261 182 251 188 241 C194 232 202 222 212 215 C222 208 234 202 246 200 C257 198 272 201 283 205 C294 210 304 219 312 227 C319 235 326 243 330 255 C335 267 339 286 338 298Z" stroke="#1f2326"/></g><circle class="summit" cx="256" cy="298" r="22" fill="#ff2e88"/></svg><span class="words" aria-hidden="true"><span style="color:#858a87">F</span><span style="color:#7f8481">i</span><span style="color:#797e7c">f</span><span style="color:#737876">t</span><span style="color:#6d7270">y</span> <span style="color:#676c6a">S</span><span style="color:#616665">h</span><span style="color:#5b605f">a</span><span style="color:#555a59">d</span><span style="color:#4f5354">e</span><span style="color:#494d4e">s</span> <span class="of">of</span> <span style="color:#434748">G</span><span style="color:#3d4143">r</span><span style="color:#373b3d">a</span><span style="color:#313537">d</span><span style="color:#2b2f31">i</span><span style="color:#25292c">n</span><span style="color:#1f2326">g</span></span></a>
-    <a class="hello" href="#hello">Say hello</a>
+    <span class="links"><a class="blog" href="/blog/">Blog</a><a class="hello" href="#hello">Say hello</a></span>
   </div>
 </nav>
 
@@ -296,8 +298,8 @@
   </section>
 
   <section>
-    <h2>Coming soon</h2>
-    <p class="note">Video deep dives on YouTube. Some are useful, some are just for fun, and nearly all of them involve grading.</p>
+    <h2>The blog</h2>
+    <p class="note">How-tos, data sets put online, and the occasional detour into breakfast. <a href="/blog/">Read the blog</a>, or follow along with <a href="/blog/feed.xml">RSS</a>. Video deep dives on YouTube are coming soon.</p>
   </section>
 
   <section id="hello">
