@@ -10,6 +10,11 @@ permalink: /blog/:year/:month/:day/:title/
 markdown: kramdown
 highlighter: rouge
 
+# Every post uses the post layout unless it says otherwise (so the CMS doesn't need a layout field)
+defaults:
+  - scope: { path: "", type: posts }
+    values: { layout: post }
+
 plugins:
   - jekyll-feed
 
