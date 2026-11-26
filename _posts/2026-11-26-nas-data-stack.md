@@ -8,7 +8,7 @@ tags: [homelab, docker, postgres, postgis, n8n, backups]
 ---
 
 <!--
-STUB. TK = to come. Set `date` to when the work actually happened; if back-dated, add a one-line "written up later" note at the top.
+STUB. TK = to come. Set `date` to the day you publish.
 First person ("I"), keep it anonymous (no hostnames, IPs, team names, employers).
 -->
 
