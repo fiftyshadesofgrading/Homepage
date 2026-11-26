@@ -14,9 +14,9 @@ Examples to point at: the Waffle House map (live API, no database) and the turke
 
 ## The short version
 
-TK: the whole recipe in four or five bullets, once tomorrow's setup settles.
+TK: the whole recipe in four or five bullets - SOP in dev 11/27
 
-## 1. Find a data set worth mapping
+## 1. Find a dataset worth exploring
 
 TK: what makes a good one (coordinates, a story, a clear license); where to look (USGS ScienceBase, data.gov, GitHub); check the date and the license before anything else.
 
