@@ -1,7 +1,7 @@
 ---
 published: false
 date: 2026-11-27
-title: "From data set to web page: how we publish a data post"
+title: "From dataset to web page: how we publish a data post"
 description: "The repeatable recipe behind the Waffle House and wild turkey maps: find the data, shape it with SQL, draw it with plain HTML, and publish it with Jekyll."
 kicker: "Behind the scenes"
 tags: [data, maps, jekyll, sql, workflow]

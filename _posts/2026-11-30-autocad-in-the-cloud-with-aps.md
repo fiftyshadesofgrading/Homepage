@@ -15,11 +15,11 @@ DRAFT. TK = to come / to check before publishing.
 - Keep it anonymous: no names, IPs, bucket names, client IDs, or employer references.
 -->
 
-I do my best work in a hotel lobby cafe or airport. I feel like I'm moving somewhere. Gaining a perspective by the environment: the energy of transition. In reality I am seated by a giant window on Commercial Street, in Portland walking distance to the homebase and Sea Dogs. Hopping around from homeoffice, to jobsite, to client meeting, to coffeeshop; this type of tiny project really piqued my curiosity. I got bored and thought what can I offload into the cloud? Can I chuck in a drawing (*.dwg) and get data out the other end?
-/n
-Overcaffeinated perhaps, here's the thing that still feels like a magic trick: you drop a `.dwg` into a web form, and a minute later every layer in that drawing (name, color, linetype, lineweight, on, frozen, locked, plot) is sitting in a database table you own. Nobody opened AutoCAD. No seat was used. The drawing was opened by a copy of AutoCAD running on Autodesk's servers.
+I do my best work in a hotel lobby café or an airport. There's something about being on the move: the energy of transition gives me perspective. In reality, I'm sitting by a giant window on Commercial Street in Portland, walking distance from home base and the Sea Dogs. Hopping between home office, jobsite, client meeting and coffee shop, I got curious (bored, honestly) about what I could offload to the cloud. Could I chuck in a drawing (`.dwg`) and get data out the other end?
 
-That's **Design Automation**, part of Autodesk Platform Services (APS, the platform formerly known as Forge). This post walks through getting it running from a home lab, the five things that tripped us up, and what changes when you try the same thing inside a company.
+Overcaffeinated, perhaps, but here's the thing that still feels like a magic trick: you drop a `.dwg` into a web form, and a minute later every layer in that drawing (name, color, linetype, lineweight, on, frozen, locked, plot) is sitting in a database table you own. Nobody opened AutoCAD. No seat was used. The drawing was opened by a copy of AutoCAD running on Autodesk's servers.
+
+That's **Design Automation**, part of Autodesk Platform Services (APS, the platform formerly known as Forge). This post walks through getting it running from a homelab, the five things that tripped us up, and what changes when you try the same thing inside a company.
 
 ## What you need
 
@@ -101,7 +101,7 @@ We tested it on a publicly available government CAD standards template, and the 
 
 ## Doing this inside a company
 
-The home lab version is a proof of concept. Inside a firm, the tech is the same but the questions change:
+The homelab version is a proof of concept. Inside a firm, the tech is the same but the questions change:
 
 - **Whose app is it?** Register the APS app in a company-owned developer hub, not a personal one, so it survives people changing jobs.
 - **Where do the files go?** Design Automation processes drawings on Autodesk's cloud. Most firms already store project files in Autodesk's cloud, but a client contract or IT policy may still have something to say about it. Ask first.
