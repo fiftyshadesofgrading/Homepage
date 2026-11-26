@@ -15,7 +15,7 @@ DRAFT. TK = to come / to check before publishing.
 - Keep it anonymous: no names, IPs, bucket names, client IDs, or employer references.
 -->
 
-I do my best work in a hotel lobby cafe or airport. I feel like I'm moving somewhere and gaining a perspective by the environment around and the energy of transition. In reality I am seated by a giant window on Commercial Street in Portland walking distance from my office. Hopping around from home office, to jobsite, to coffee shop, this type of tiny project really piqued my curiosity. 
+I do my best work in a hotel lobby cafe or airport. I feel like I'm moving somewhere. Gaining a perspective by the environment: the energy of transition. In reality I am seated by a giant window on Commercial Street, in Portland walking distance to the homebase and Sea Dogs. Hopping around from homeoffice, to jobsite, to client meeting, to coffeeshop; this type of tiny project really piqued my curiosity. I got bored and thought what can I offload into the cloud? Can I chuck in a drawing (*.dwg) and get data out the other end?
 /n
 Overcaffeinated perhaps, here's the thing that still feels like a magic trick: you drop a `.dwg` into a web form, and a minute later every layer in that drawing (name, color, linetype, lineweight, on, frozen, locked, plot) is sitting in a database table you own. Nobody opened AutoCAD. No seat was used. The drawing was opened by a copy of AutoCAD running on Autodesk's servers.
 
