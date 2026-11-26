@@ -1,6 +1,6 @@
 ---
 published: false
-date: 2026-11-26
+date: 2026-11-29
 title: "Rolling 7, 14 and 30-day stats with SQL window functions"
 description: "ERA, WHIP, FIP and wOBA over rolling windows, computed in the database: sums and counts first, ratios last."
 kicker: "SQL patterns"

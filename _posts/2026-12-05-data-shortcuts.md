@@ -1,6 +1,6 @@
 ---
 published: false
-date: 2026-11-26
+date: 2026-12-05
 title: "Data shortcuts that don't break"
 description: "Working folders, project folders and the repair tool: how to share surfaces and alignments across drawings without the 'object not found' dance."
 kicker: "Civil 3D project setup"

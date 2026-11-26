@@ -1,6 +1,6 @@
 ---
 published: false
-date: 2026-11-26
+date: 2026-11-30
 title: "AutoCAD without AutoCAD: accoreconsole"
 description: "Every AutoCAD install ships a headless command-line version that runs scripts against drawings without opening the program. Batch-fixing a folder of DWGs becomes one line."
 kicker: "AutoCAD nuts and bolts"

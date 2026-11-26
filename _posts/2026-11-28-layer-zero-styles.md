@@ -1,6 +1,6 @@
 ---
 published: false
-date: 2026-11-23
+date: 2026-11-28
 title: "Layer 0 styles: let the object's layer do the work"
 description: "Put style components on layer 0 and a Civil 3D object takes on the look of whatever layer it lives on. One style, many looks, and a lot fewer layers."
 kicker: "Templates and standards"

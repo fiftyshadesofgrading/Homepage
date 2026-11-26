@@ -1,6 +1,6 @@
 ---
 published: false
-date: 2026-11-26
+date: 2026-12-05
 title: "Proxy objects and the consultant file that won't behave"
 description: "Why a drawing from someone else's software shows boxes you can't edit, what an object enabler is, and how to hand files to people without Civil 3D."
 kicker: "AutoCAD nuts and bolts"

@@ -1,6 +1,6 @@
 ---
 published: false
-date: 2026-11-26
+date: 2026-12-02
 title: "Surface definitions run in order, and order matters"
 description: "A Civil 3D surface is a recipe, not a result. The operation list rebuilds top to bottom every time, which explains a lot of 'my edit disappeared' moments."
 kicker: "Civil 3D surfaces"

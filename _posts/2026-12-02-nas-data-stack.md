@@ -1,6 +1,6 @@
 ---
 published: false
-date: 2026-11-26
+date: 2026-12-02
 title: "A home NAS that runs a real data stack"
 description: "Postgres with PostGIS, a workflow scheduler, a small API worker and push alerts, all in containers on a consumer NAS, plus the backups that make it safe."
 kicker: "Homelab"

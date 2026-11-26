@@ -1,6 +1,6 @@
 ---
 published: false
-date: 2026-11-26
+date: 2026-12-03
 title: "Edit a drawing's layers in a spreadsheet, then push them back"
 description: "Dump a layer table to CSV, review it in Excel, and apply adds, renames and deletes in one transaction. The trick is an explicit action column."
 kicker: "Templates and standards"

@@ -1,6 +1,6 @@
 ---
 published: false
-date: 2026-11-26
+date: 2026-12-01
 title: "Description keys: let the field code do the drafting"
 description: "Survey codes can pick the layer, style, label and even the size of every point. The $0 and $* parameters are where it gets clever."
 kicker: "Civil 3D survey"
