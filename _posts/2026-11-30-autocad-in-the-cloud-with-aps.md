@@ -72,7 +72,7 @@ Design Automation has its own vocabulary, and it clicks once you map it to thing
 
 TK: the LISP. In short, it walks the layer table with `tblnext`, reads each layer's properties, and writes them out as JSON for the WorkItem to return.
 
-## 5. The five things that bit us
+## 5. The five keyboard pounding moments
 
 1. **The token request failed** until the credential was switched to *Header* authentication.
 2. **A 404 on upload** turned out to be an unencoded `/` in the object key. URL-encode object names.
