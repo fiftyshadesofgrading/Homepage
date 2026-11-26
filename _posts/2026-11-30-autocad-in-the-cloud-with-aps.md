@@ -1,8 +1,8 @@
 ---
 published: false
 date: 2026-11-30
-title: "Read a drawing without opening AutoCAD: Autodesk Platform Services on a home lab"
-description: "Upload a DWG, let AutoCAD run it in Autodesk's cloud, and land every layer in your own Postgres database. Free tier, self-hosted n8n, no desktop seat."
+title: "Read a drawing without opening AutoCAD: Autodesk Platform Services on a homelab"
+description: "Upload a DWG, let the little hamsters run AutoCAD in the cloud, and land every layer in your own Postgres database. Free tier, self-hosted n8n, no desktop seat required."
 kicker: "Automation"
 tags: [aps, design-automation, autocad, civil-3d, n8n, postgres, lisp]
 ---
@@ -15,7 +15,8 @@ DRAFT. TK = to come / to check before publishing.
 - Keep it anonymous: no names, IPs, bucket names, client IDs, or employer references.
 -->
 
-Here's a thing that still feels like a magic trick: you drop a `.dwg` into a web form, and a minute later every layer in that drawing (name, color, linetype, lineweight, on, frozen, locked, plot) is sitting in a database table you own. Nobody opened AutoCAD. No seat was used. The drawing was opened by a copy of AutoCAD running on Autodesk's servers.
+I do my best work in a hotel lobby cafe. I feel like I'm going somewhere, even though I'm just sitting by the moody Atlantic in Portland. This is certainly not an opus, but it piqued my curiosity and really made me rethink the concept of 'data in the cloud'. 
+Overcaffeinated perhaps, here's the thing that still feels like a magic trick: you drop a `.dwg` into a web form, and a minute later every layer in that drawing (name, color, linetype, lineweight, on, frozen, locked, plot) is sitting in a database table you own. Nobody opened AutoCAD. No seat was used. The drawing was opened by a copy of AutoCAD running on Autodesk's servers.
 
 That's **Design Automation**, part of Autodesk Platform Services (APS, the platform formerly known as Forge). This post walks through getting it running from a home lab, the five things that tripped us up, and what changes when you try the same thing inside a company.
 
