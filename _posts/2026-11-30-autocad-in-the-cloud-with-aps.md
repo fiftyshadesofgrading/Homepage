@@ -17,9 +17,9 @@ DRAFT. TK = to come / to check before publishing.
 
 I do my best work in a hotel lobby café or an airport. There's something about being on the move: the energy of transition gives me perspective. In reality, I'm sitting by a giant window on Commercial Street in Portland, walking distance from my home-office. Hopping between the home-office, jobsite, client meeting and coffeeshop, I got curious (bored, honestly) about what I could offload to the cloud. Could I chuck in a drawing (`.dwg`) and get data out the other end?
 
-Overcaffeinated, perhaps, but here's the thing that still feels like a magic trick: you drop a `.dwg` into a web form, and a minute later every layer in that drawing (name, color, linetype, lineweight, on, frozen, locked, plot) is sitting in a database table you own. Nobody opened AutoCAD. No seat was used. The drawing was opened by a copy of AutoCAD running on Autodesk's servers.
+Overcaffeinated (perhaps)... the thing that still feels like magic: you drop a `.dwg` into a web form, and a minute later every layer property in that drawing (name, color, linetype, lineweight, on, frozen, locked, plot) is sitting in a database table you own. Nobody opened AutoCAD. No seat was used. The drawing was opened by a copy of AutoCAD running on Autodesk's servers.
 
-That's **Design Automation**, part of Autodesk Platform Services (APS, the platform formerly known as Forge). This post walks through getting it running from a homelab, the five things that tripped us up, and what changes when you try the same thing inside a company.
+That's **Design Automation**, part of Autodesk Platform Services (APS, the platform formerly known as Forge). This post walks through getting it running from a homelab, the five things that tripped me up, and what changes when you try the same thing inside a company.
 
 ## What you need
 
