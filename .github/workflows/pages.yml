@@ -30,6 +30,10 @@ jobs:
         with:
           node-version: 20
 
+      # Sanity check: a published post must not still contain "TK" (to come). Drafts are skipped.
+      - name: Check published posts for unfinished work
+        run: node tools/check-published.mjs
+
       # Scheduled/manual runs ask Open-Meteo; pushes reuse the temperatures already published.
       - name: Fetch Waffle House temperatures
         continue-on-error: true
