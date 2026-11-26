@@ -24,7 +24,7 @@ That's **Design Automation**, part of Autodesk Platform Services (APS, the platf
 ## What you need
 
 - **An Autodesk account and an APS developer hub.** APS has a free tier, and you don't need a Forma or ACC subscription to sign up. Developer access is separate from your product licenses.
-- **Something to orchestrate the calls.** We used [n8n](https://n8n.io/), a self-hosted workflow tool, running in Docker. Any scripting language works; n8n just makes each step visible and re-runnable.
+- **Something to orchestrate the calls.** I used [n8n](https://n8n.io/), a self-hosted workflow tool, running in Docker. Any scripting language works; n8n just makes each step visible and re-runnable.
 - **A database for the results.** Postgres here, but a CSV would do for a first test.
 - **A little AutoLISP.** Design Automation runs AutoCAD's core engine (no UI), so your script is how you tell it what to do.
 
@@ -76,7 +76,7 @@ TK: the LISP. In short, it walks the layer table with `tblnext`, reads each laye
 
 1. **The token request failed** until the credential was switched to *Header* authentication.
 2. **A 404 on upload** turned out to be an unencoded `/` in the object key. URL-encode object names.
-3. **A LISP function that works on the desktop didn't exist in the cloud.** The engine has no UI, so anything that leans on it is missing. We read the drawing's dictionaries directly instead (for layouts, the `ACAD_LAYOUT` dictionary).
+3. **A LISP function that works on the desktop didn't exist in the cloud.** The engine has no UI, so anything that leans on it is missing. So I read the drawing's dictionaries directly instead (for layouts, the `ACAD_LAYOUT` dictionary).
 4. **The "JSON" came back as a file.** The storage service returns results as a download, so the HTTP node passed along the previous step's output instead. Setting the node's response format to JSON fixed it.
 5. **Postgres permission denied.** The schema belonged to the account n8n writes with, and the read-only account used for browsing can't grant itself access. Run grants as the owner.
 
