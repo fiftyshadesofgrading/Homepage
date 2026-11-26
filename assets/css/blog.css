@@ -148,3 +148,28 @@ details.tableview summary { cursor: pointer; font-size: .86rem; color: var(--ink
 .tbl th:first-child, .tbl td:first-child { text-align: left; }
 .tbl th { color: var(--ink-faint); font-weight: 600; font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; }
 .note { font-size: .85rem; color: var(--ink-faint); }
+
+/* ================= Wild Turkey map + trend ================= */
+.dot.zero { fill: var(--nodata); stroke: none; opacity: .75; }
+.decade-bar { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin: 4px 0 10px; }
+.decade-bar .unit-toggle { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+.decade-bar .unit-toggle button { padding: 6px 11px; white-space: nowrap; flex: none; }
+@media (max-width: 560px) { .viz .stats { grid-template-columns: repeat(3, 1fr); } .viz .stat .v { font-size: 1.2rem; } .viz .stat .k { font-size: .62rem; } .viz .stat .s { display: none; } }
+.play { font: 600 .8rem var(--body); padding: 7px 14px; border-radius: 999px; border: 1.5px solid var(--tape); background: var(--tape); color: var(--tape-ink); cursor: pointer; }
+.play:hover { background: var(--tape-dark); border-color: var(--tape-dark); }
+.legend-bins { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.trend-box { position: relative; margin-top: 18px; }
+.trend-box svg { width: 100%; height: auto; display: block; }
+.trend-box .tip { position: absolute; pointer-events: none; transform: translate(-50%, calc(-100% - 12px)); background: var(--ink); color: var(--paper); border-radius: 10px; padding: 8px 11px; font-size: .82rem; line-height: 1.35; white-space: nowrap; }
+.trend-box .tip b { font: 800 1.1rem var(--display); display: block; }
+.trend-box .tip[hidden] { display: none; }
+.trend { fill: none; stroke: var(--tape-dark); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.trend-end { fill: var(--tape-dark); stroke: var(--card); stroke-width: 2; }
+.band { fill: var(--tape); opacity: .12; }
+.grid { stroke: var(--rule); stroke-width: 1; }
+.axis { stroke: var(--ink-faint); stroke-width: 1; }
+.cross { stroke: var(--ink-faint); stroke-width: 1; stroke-dasharray: 3 3; }
+.tick { font: 400 11px var(--body); fill: var(--ink-faint); font-variant-numeric: tabular-nums; }
+.tick.strong { fill: var(--ink); font-weight: 600; }
+.cta { display: inline-block; font-weight: 600; border: 1.5px solid var(--ink); border-radius: 999px; padding: 9px 16px; text-decoration: none; margin: 4px 0; }
+.cta:hover { background: var(--tape); border-color: var(--tape); color: var(--tape-ink); }

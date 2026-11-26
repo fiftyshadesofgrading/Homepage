@@ -1,0 +1,112 @@
+---
+published: true
+title: "The Great American Turkey Comeback, Mapped"
+description: "Sixty years of the federal Breeding Bird Survey, loaded into PostGIS: wild turkeys went from about 2% of survey routes to about 30%."
+kicker: "Data, but make it Thanksgiving"
+tags: [data, maps, postgis, sql, datasette]
+scripts:
+  - /assets/posts/wild-turkey-comeback/turkey-map-data.js
+  - /assets/posts/wild-turkey-comeback/turkey.js
+---
+<div class="wrap">
+  <p>Every June since 1966, volunteers have driven the same roadside routes across North America, stopping every half mile for three minutes to count every bird they see or hear. That's the <a href="https://www.usgs.gov/data/2026-release-north-american-breeding-bird-survey-dataset-1966-2025" target="_blank" rel="noopener">North American Breeding Bird Survey</a>, run by the USGS and the Canadian Wildlife Service, and it's one of the longest-running wildlife data sets anywhere.</p>
+  <p>It's also a pretty good record of one of the biggest wildlife recoveries in the country. In the late 1960s, a wild turkey turned up on about 2% of US survey routes in a given year. Now it's about 30%.</p>
+  <p>Here's every route in the lower 48, decade by decade. Hit play.</p>
+</div>
+
+<div class="wide">
+<figure class="viz" aria-labelledby="tt">
+  <div class="viz-top">
+    <div>
+      <h3 class="viz-title" id="tt">Where survey crews counted wild turkeys, by decade</h3>
+      <p class="viz-sub">Each dot is one Breeding Bird Survey route · colored by turkeys counted per survey</p>
+    </div>
+    <button type="button" class="play" id="play" aria-pressed="false">▶ Play</button>
+  </div>
+
+  <div class="decade-bar">
+    <div class="unit-toggle" id="decades" role="group" aria-label="Decade"></div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="k">Routes surveyed</div><div class="v" id="t-runs">—</div><div class="s" id="t-runs-sub"></div></div>
+    <div class="stat"><div class="k">Saw a turkey that decade</div><div class="v" id="t-pct">—</div><div class="s" id="t-pct-sub"></div></div>
+    <div class="stat"><div class="k">Turkeys per survey</div><div class="v" id="t-avg">—</div><div class="s">average across routes</div></div>
+  </div>
+
+  <div class="map-box">
+    <svg id="tmap" role="img" aria-label="Map of Breeding Bird Survey routes in the lower 48 states."></svg>
+    <div class="tip" id="ttip" hidden></div>
+  </div>
+
+  <div class="legend legend-bins" id="legend-bins"></div>
+  <p class="picked" id="tpicked">Tap or click a route to see all its decades.</p>
+
+  <div class="trend-box">
+    <h3 class="viz-title">Share of US routes with a turkey, every year</h3>
+    <p class="viz-sub">Routes where the survey counted at least one wild turkey · shaded band follows the map's decade</p>
+    <svg id="tline" role="img" aria-label="Line chart: the share of US survey routes recording a wild turkey rose from about 2% in the late 1960s to about 30% by the mid-2000s and has stayed between about 24% and 31% since."></svg>
+    <div class="tip" id="ltip" hidden></div>
+  </div>
+
+  <details class="tableview">
+    <summary>Then and now, by state</summary>
+    <table class="tbl">
+      <thead><tr><th>State</th><th>1970s</th><th>2015–25</th><th>Routes</th></tr></thead>
+      <tbody id="tstates"></tbody>
+    </table>
+    <p class="note">Share of yearly surveys in each state that counted at least one turkey. Routes = routes surveyed in 2015–25.</p>
+  </details>
+</figure>
+</div>
+
+<div class="wrap">
+  <h2>What you're looking at</h2>
+  <p>Gray dots are routes that were surveyed but didn't count a turkey; pink ones did, and the darker the pink, the more turkeys per survey. In the 1960s and '70s the pink is scattered across a few southern and Appalachian strongholds. By the 2000s it fills in the Northeast, the Midwest and the Plains.</p>
+  <p>That isn't natural drift. Turkeys had been hunted and logged out of most of their range by the early 1900s, and state wildlife agencies spent decades trapping birds where they survived and releasing them where they didn't. The survey caught that work as it paid off. Some of the biggest swings are in places that had essentially none: Massachusetts went from 1.5% of surveys in the 1970s to 66% in the last decade, Wisconsin from 0.2% to 63%, and Maine from zero to 36%.</p>
+  <p>The line also shows where the story is now. The climb flattened out around 2005, and it's been bouncing between about 24% and 31% since. State biologists have been reporting declines in some areas, and a flat line in a survey this coarse is consistent with that. Don't read too much into a single year: no survey ran in 2020, and the number of routes surveyed changes every year.</p>
+
+  <h2>Explore it yourself (no install)</h2>
+  <p>The tables behind this post are in a 2 MB SQLite file. <a href="https://datasette.io/" target="_blank" rel="noopener">Datasette</a> is a tool for publishing and querying data like this, and <a href="https://lite.datasette.io/" target="_blank" rel="noopener">Datasette Lite</a> runs the whole thing inside your browser. This link loads our file and installs the new <a href="https://simonwillison.net/2026/Nov/23/datasette-charts/" target="_blank" rel="noopener">datasette-charts</a> plugin, so you can query and chart without installing anything:</p>
+  <p><a class="cta" href="https://lite.datasette.io/?install=datasette-charts&amp;url=https://fiftyshadesofgrading.com/assets/posts/wild-turkey-comeback/turkey.db" target="_blank" rel="noopener">Open the turkey data in Datasette Lite →</a></p>
+  <p>Try the <code>us_yearly</code> table and chart <code>pct_routes_with_turkeys</code> by <code>year</code>, or run your own SQL against <code>turkey_runs</code> (every route, every year, with Canada included). It takes a few seconds to start the first time while Python loads in your browser.</p>
+
+  <h2>How it's built: CSV → PostGIS → map</h2>
+  <p>Same idea as the <a href="{{ '/blog/2026/11/17/waffle-house-weather/' | relative_url }}">Waffle House map</a>, with a real database in the middle this time. The raw data is about 7.5 million rows: every species counted on every route in every year. PostGIS does the heavy lifting, and the page gets only the summaries.</p>
+
+  <h3>1. Load it</h3>
+  <p>The USGS release ships a <code>Routes.csv</code> (one row per route, with the start point's latitude and longitude) and a zip of per-state count files. <code>psql</code>'s <code>\copy</code> loads them straight from disk, and each route's start point becomes a real geometry:</p>
+{% highlight sql %}
+\copy bbs.routes FROM 'Routes.csv' WITH (FORMAT csv, HEADER true, ENCODING 'LATIN1')
+ALTER TABLE bbs.routes ADD COLUMN geom geometry(Point, 4326);
+UPDATE bbs.routes SET geom = ST_SetSRID(ST_MakePoint(longitude, latitude), 4326);
+{% endhighlight %}
+
+  <h3>2. Ask a spatial question</h3>
+  <p>The survey uses its own numeric state codes, so rather than track down a lookup table, let geometry answer it: which state polygon is each route's start point inside? (A dozen routes start right on the coast, just outside the simplified outlines, so they get the nearest state instead.)</p>
+{% highlight sql %}
+UPDATE bbs.routes r SET state_name = s.name
+FROM bbs.us_states s
+WHERE ST_Intersects(r.geom, s.geom);
+{% endhighlight %}
+
+  <h3>3. Count the zeros</h3>
+  <p>The one real trap in this data: the count files only list species that <em>were</em> seen. A route surveyed with no turkeys has no turkey row at all, and if you average only the rows you have, every route looks like it had turkeys. So first build the list of every survey run, then left-join the turkey counts onto it and fill the gaps with zero. Wild Turkey is species code 3100:</p>
+{% highlight sql %}
+CREATE TABLE bbs.runs AS
+SELECT DISTINCT route_id, year FROM bbs.counts WHERE rpid = 101;   -- standard runs only
+
+CREATE TABLE bbs.turkey_runs AS
+SELECT ru.route_id, ru.year, COALESCE(c.species_total, 0) AS turkeys
+FROM bbs.runs ru
+LEFT JOIN bbs.counts c
+  ON c.route_id = ru.route_id AND c.year = ru.year AND c.rpid = 101 AND c.aou = 3100;
+{% endhighlight %}
+
+  <h3>4. Summarize, export, draw</h3>
+  <p>From there it's ordinary <code>GROUP BY</code>s: share of routes with a turkey per year, average per route per decade, and each state then and now. Those go out as CSVs, and a small Node script projects the route points onto a US map and writes both the file this page draws and the SQLite file for Datasette. All the scripts are in the site's repo under <code>tools/turkey/</code>.</p>
+
+  <p class="note">A caveat for the bird people: these are simple averages of raw counts, not the USGS's model-based trend estimates, which correct for things like observer changes and which routes got run. The shape matches the published trend, but treat the exact numbers as a rough guide.</p>
+
+  <p class="note">Sources: Breeding Bird Survey counts and route locations from the USGS <a href="https://doi.org/10.5066/P144YU3S" target="_blank" rel="noopener">2026 Release, North American Breeding Bird Survey Dataset (1966–2025)</a> (public domain), with thanks to the thousands of volunteers who drive the routes. State outlines from <a href="https://github.com/topojson/us-atlas" target="_blank" rel="noopener">us-atlas</a>. Happy Thanksgiving.</p>
+</div>
