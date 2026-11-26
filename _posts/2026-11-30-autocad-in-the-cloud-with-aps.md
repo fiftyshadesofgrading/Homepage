@@ -15,7 +15,8 @@ DRAFT. TK = to come / to check before publishing.
 - Keep it anonymous: no names, IPs, bucket names, client IDs, or employer references.
 -->
 
-I do my best work in a hotel lobby cafe. I feel like I'm going somewhere, even though I'm just sitting by the moody Atlantic in Portland. This is certainly not an opus, but it piqued my curiosity and really made me rethink the concept of 'data in the cloud'. 
+I do my best work in a hotel lobby cafe or airport. I feel like I'm moving somewhere and gaining a perspective by the environment around and the energy of transition. In reality I am seated by a giant window on Commercial Street in Portland walking distance from my office. Hopping around from home office, to jobsite, to coffee shop, this type of tiny project really piqued my curiosity. 
+/n
 Overcaffeinated perhaps, here's the thing that still feels like a magic trick: you drop a `.dwg` into a web form, and a minute later every layer in that drawing (name, color, linetype, lineweight, on, frozen, locked, plot) is sitting in a database table you own. Nobody opened AutoCAD. No seat was used. The drawing was opened by a copy of AutoCAD running on Autodesk's servers.
 
 That's **Design Automation**, part of Autodesk Platform Services (APS, the platform formerly known as Forge). This post walks through getting it running from a home lab, the five things that tripped us up, and what changes when you try the same thing inside a company.
