@@ -7,11 +7,13 @@ kicker: "Opinion"
 tags: [data, gnss, machine-control, data-engineering]
 ---
 
-I've been loading old pro video game matches into a database for fun, and I'm also planning a GPS machine-control demo. Doing both at once led to a comparison I can't stop thinking about: **one competitive match records about as many position samples as a week of tracking a worker on a jobsite, or half a day of a dozer running machine control.**
+I wish I could tell you that I was thinking about the efficiency of IOT devices and datastreams on the jobsite. That would be a lie. I was thinking about the ESL One Counter Strike Major in Boston where I met one of the brightest software engineers with a passion for Ruby and code quality (and we became best buds, to this day). When the crowd is 95% underage gamer lads, you end up meeting dads, and young professionals ordering double bourbons at 11:00am at the Agganis Arena in Boston. This is still a nerdy blog right?!
+
+Well combing through the data and thinking about data streams got me thinking about data on the jobsite. Doing both at once led to a comparison I can't stop thinking about: **one competitive match records about as many position samples as a week of tracking a worker on a jobsite, or half a day of a dozer running machine control.**
 
 ## The dataset
 
-The matches are from a Counter-Strike Major played in Boston in 2018. Every match was recorded as a demo file, and a demo isn't a video. It's the server's whole simulation, tick by tick: every player's position, view angle, health, money and weapon, every grenade's arc, every shot and every kill. Each map is a couple hundred megabytes compressed, and two to four times that unpacked.
+The matches are from a Counter-Strike Major played in Boston in 2018. Every match was recorded as a demo file, and a demo isn't a video. It's the server's whole simulation, tick by tick (typically 128/s on competitive gaming services): every player's position, view angle, health, money and weapon, every grenade's arc, every shot and every kill. Each map is a couple hundred megabytes compressed, and two to four times that unpacked.
 
 I wrote a small loader (Go, using the open-source `demoinfocs-golang` parser) that unpacks each demo and writes it into Postgres with PostGIS:
 
