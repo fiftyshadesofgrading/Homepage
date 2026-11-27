@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 date: 2026-11-29
 title: "Finding streaks with SQL: gaps and islands"
 description: "Hitting streaks, scoreless innings, win runs: one classic SQL pattern finds them all, with no loops and no application code."
