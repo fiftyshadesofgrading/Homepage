@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 date: 2026-12-01
 title: "Layer 0 styles: let the object's layer do the work"
 description: "Put style components on layer 0 and a Civil 3D object takes on the look of whatever layer it lives on. One style, many looks, and a lot fewer layers."
@@ -8,7 +8,7 @@ tags: [civil-3d, styles, templates, layers]
 ---
 
 
-Open the Display tab of almost any Civil 3D style and every component has its own layer: alignment tangents on one, curves on another, arrows on a third. That's one way to build a template. Bespoke styles with hardcoded and static layering - ask per the Autodesk best practices. Here's the other: **put the components on layer 0 with BYLAYER settings** and let the object's own layer decide how it looks.
+Open the Display tab of almost any Civil 3D style and every component has its own layer: alignment tangents on one, curves on another, arrows on a third. That's one way to build a template. Bespoke styles with hardcoded and static layering - as per the Autodesk best practices. Here's the other: **put the components on layer 0 with BYLAYER settings** and let the object's own layer decide how it looks.
 
 ## How it works
 
