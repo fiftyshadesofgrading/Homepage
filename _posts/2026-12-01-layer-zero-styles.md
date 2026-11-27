@@ -7,7 +7,7 @@ kicker: "Templates and standards"
 tags: [civil-3d, styles, templates, layers]
 ---
 
-Open the Display tab of almost any Civil 3D style and every component has its own layer: alignment tangents on one, curves on another, arrows on a third. That's one way to build a template. Bespoke styles with hardcoded and static layering - as per the Autodesk best practices. Here's the other: **put the components on layer 0 with BYLAYER settings** and let the object's own layer decide how it looks.
+Open the Display tab of almost any Civil 3D style and every component has its own layer: alignment tangents on one, curves on another, arrows on a third. That's one way to build a template, and it's the model Autodesk's own training describes: a base layer for the object, plus component layers that control the display of things like surface triangles and contours. Here's the other: **put the components on layer 0 with BYLAYER settings** and let the object's own layer decide how it looks.
 
 ## How it works
 
