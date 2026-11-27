@@ -7,8 +7,7 @@ kicker: "Automation"
 tags: [aps, design-automation, autocad, civil-3d, n8n, postgres, lisp]
 ---
 
-
-I do my best work in a hotel lobby café or an airport. There's something about being on the move: the energy of transition gives me perspective. In reality, I'm sitting by a giant cafe window looking out at the Atlantic, a short walk from my office. Hopping between the home-office, jobsite, client meeting and coffee shop, I got curious (bored, honestly) about what I could offload to the cloud. Could I chuck in a drawing (`.dwg`) and get data out the other end?
+I do my best work in a hotel lobby café or an airport. There's something about being on the move: the energy of transition gives me perspective. In reality, I'm sitting by a giant café window looking out at the Atlantic, a short walk from my office. Hopping between the home office, jobsite, client meeting and coffee shop, I got curious (bored, honestly) about what I could offload to the cloud. Could I chuck in a drawing (`.dwg`) and get data out the other end?
 
 Overcaffeinated _perhaps_... the thing that still feels like magic: you drop a `.dwg` into a web form, and a minute later every layer property in that drawing (name, color, linetype, lineweight, on, frozen, locked, plot) is sitting in a database table you own. Nobody opened AutoCAD. No seat was used. The drawing was opened by a copy of AutoCAD running on Autodesk's servers.
 
@@ -125,7 +124,7 @@ The Activity tells the engine to open the input drawing in `accoreconsole` and r
 }
 {% endhighlight %}
 
-## 5. The five keyboard pounding moments
+## 5. The five keyboard-pounding moments
 
 1. **The token request failed** until the credential was switched to *Header* authentication.
 2. **A 404 on upload** turned out to be an unencoded `/` in the object key. URL-encode object names.

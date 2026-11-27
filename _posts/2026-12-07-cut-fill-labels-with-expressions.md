@@ -11,7 +11,7 @@ TK - need to add screenshots and also test the expression not evaluating to text
 
 Every grading plan eventually needs to answer the question "how deep is the cut here?" Civil 3D can answer it everywhere on the site, live, but its out-of-the-box answer looks like `-2.35`, and nobody in the field wants to do sign math. They want **C 2.35** in one color and **F 1.10** in another.
 
-Expressions get you there just a single line of code.
+Expressions get you there without a single line of code.
 
 ## Step 1: let a volume surface do the subtraction
 
@@ -42,11 +42,11 @@ Create three expressions under the Spot Elevation label styles:
 
 ```
 Depth       ABS({Surface Elevation})
-CutHeight   IF({Surface Elevation}<0, 0.1/12, 0.0)
-FillHeight  IF({Surface Elevation}>=0, 0.1/12, 0.0)
+CutHeight   IF({Surface Elevation}<0, 0.1/12, 0.00001)
+FillHeight  IF({Surface Elevation}>=0, 0.1/12, 0.00001)
 ```
 
-`Depth` drops the sign. The two height expressions return a real text height when they apply and an invisible (zero height) one when they don't.
+`Depth` drops the sign. The two height expressions return a real text height when they apply and a microscopic one when they don't. (Use a tiny number rather than zero; a text height of zero isn't a valid height.)
 
 > **Mind the units.** When an expression drives text height, the number is read in drawing units, not plotted inches, hence `0.1/12` for 0.1" text in a feet drawing. In a meters drawing, 2.5 mm text is `2.5/1000`. Check it at your plot scale before you roll it into a template.
 
@@ -71,7 +71,7 @@ Stack them in the same spot (same anchor, same attachment). Only one is ever big
 - **Rebuilds.** The volume surface rebuilds when either surface changes, and the labels follow. Turn rebuild off on the volume surface if the drawing gets sluggish, and remember to turn it back on.
 - **Points can't play.** A point label can show a surface elevation through a reference text component, but expressions can't read reference properties, so this trick is surface-label only.
 - **Hidden text still exists.** The 0.00001 text is still in the label, so it'll snap and select. It's never been a real problem for me, but it's a hack, and I'd rather say so.
-- **Scale the label sizes.** By plugging the parameter, {Surface Elevation} for example, back into the resulting IF statement expression the size of the label can be scaled depending on the value. Large cut/fill depths will present with larger labels. A neat visualization trick. 
+- **Scale the label sizes.** Plug `{Surface Elevation}` back into the height expression and the label grows with the depth, so big cuts and fills shout louder than small ones. For example, `IF({Surface Elevation}<0, (0.08 + 0.02*ABS({Surface Elevation}))/12, 0.00001)`. Put a `MIN()` around it so a deep cut doesn't take over the sheet. A neat visualization trick.
 
 ## Try it
 

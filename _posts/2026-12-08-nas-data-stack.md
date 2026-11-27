@@ -50,7 +50,7 @@ Instead, everything goes through a mesh VPN (Tailscale), with the NAS acting as 
 - **A block-level backup job runs every night**, with old versions thinned out over time rather than kept forever.
 - **Data scrubbing** runs on a schedule to catch bad sectors before they become missing data.
 - **The whole NAS can be rebuilt from backup**, configuration included, not just the files.
-- **RAID 5 on the primary NAS**, RAID is not a backup strategy but with multiple bays available it is important to consider parity and/or cold spare drives. 
+- **RAID 5 on the primary NAS.** RAID isn't a backup strategy, but with several bays available it's worth planning for parity and a spare drive, so one dead disk is an inconvenience instead of an outage.
 
 The part everyone skips is the test restore. A backup you've never restored is a rumor. Pick a database, restore it somewhere harmless, and run a query against it.
 
