@@ -42,7 +42,7 @@ These came from mistakes and near misses:
 
 Nothing on the NAS is open to the internet. No port forwarding, no UPnP, and the router's remote admin is off.
 
-Instead, everything goes through a mesh VPN (Tailscale), with the NAS acting as a **subnet router**: my laptop and phone can reach the whole home network from anywhere, as if I were on the couch. The NAS's key doesn't expire, so the door doesn't quietly lock while I'm travelling. Router logs go to the NAS too, so I can see who or what's knocking.
+Instead, everything goes through a mesh VPN (Tailscale), with the NAS acting as a **subnet router**: my laptop and phone can reach the whole home network from anywhere, as if I were on the couch. The NAS's key doesn't expire, so the door doesn't quietly lock while I'm traveling. Router logs go to the NAS too, so I can see who or what's knocking.
 
 ## Backups you can actually restore
 
@@ -50,7 +50,7 @@ Instead, everything goes through a mesh VPN (Tailscale), with the NAS acting as 
 - **A block-level backup job runs every night**, with old versions thinned out over time rather than kept forever.
 - **Data scrubbing** runs on a schedule to catch bad sectors before they become missing data.
 - **The whole NAS can be rebuilt from backup**, configuration included, not just the files.
-- **Parity RAID 5 on the active NAS**, RAID is not a backup strategy but with multiple bays available it is important to consider parity or hot swap drives. 
+- **RAID 5 on the primary NAS**, RAID is not a backup strategy but with multiple bays available it is important to consider parity and/or cold spare drives. 
 
 The part everyone skips is the test restore. A backup you've never restored is a rumor. Pick a database, restore it somewhere harmless, and run a query against it.
 
