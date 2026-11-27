@@ -5,6 +5,8 @@
 - Every other published post gets a title card from tools/og/title-card.html
   (text over a contour plan from tools/og/contours.js, seeded by the slug so it is stable).
 - Output: assets/og/<slug>.png, built in CI and not committed; _layouts/default.html points there.
+  _data/og.yml gets a short hash per card, added to the image URL (?v=) so LinkedIn and
+  friends re-fetch a card when it changes instead of reusing their cached copy.
 - Drafts (`published: false`) and future-dated posts are skipped.
 - Problems are reported as a warning note, never a failed build. A post whose card can't be
   rendered gets a copy of the site card (/og-image.png), so it always has an image.
@@ -13,6 +15,7 @@ Usage: python3 tools/og/auto.py   (needs: pip install playwright pyyaml; uses th
 Runs in .github/workflows/pages.yml; run it locally only to preview cards.
 """
 import datetime as dt
+import hashlib
 import pathlib
 import re
 import shutil
@@ -90,6 +93,12 @@ if todo:
     for slug, *_ in todo:  # anything not rendered gets the site card
         if not (OUT / f"{slug}.png").is_file():
             shutil.copyfile(ROOT / "og-image.png", OUT / f"{slug}.png")
+
+if todo:  # version each card by its content
+    DATA = ROOT / "_data"
+    DATA.mkdir(exist_ok=True)
+    versions = {slug: hashlib.sha1((OUT / f"{slug}.png").read_bytes()).hexdigest()[:10] for slug, *_ in todo}
+    (DATA / "og.yml").write_text(yaml.safe_dump(versions, sort_keys=True))
 
 print(f"Share images: {len(custom)} from front matter, {len(todo)} built into assets/og/")
 for slug, *_ in todo:

@@ -3,3 +3,4 @@ _site/
 .sass-cache/
 assets/posts/waffle-house-weather/temps.json
 assets/og/
+_data/og.yml
