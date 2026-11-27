@@ -13,7 +13,7 @@ Years later I pulled every match from that Major into a database, mostly for fun
 
 ## The dataset
 
-The matches are from a Counter-Strike Major played in Boston in 2018. Every match was recorded as a demo file, and a demo isn't a video. It's the server's whole simulation, tick by tick: every player's position, view angle, health, money and weapon, every grenade's arc, every shot and every kill. Each map is a couple hundred megabytes compressed, and two to four times that unpacked.
+The matches are from a Counter-Strike Major played in Boston in 2018. Every match was recorded as a demo file, and a demo isn't a video. It's the server's whole simulation, tick by tick: every player's position, view angle, health, money and weapon, every grenade's arc, every shot and every kill. Each map is a couple hundred megabytes compressed, and two to four times that unpacked. That's a lot of data for an hour of competitive fun!
 
 I wrote a small loader (Go, using the open-source `demoinfocs-golang` parser) that unpacks each demo and writes it into Postgres with PostGIS:
 
@@ -46,7 +46,7 @@ TK: the real numbers. Total size, rows in `player_frames` vs `kills`, and the ev
 
 ## The comparison
 
-A "tick" is one step of the server's simulation. In CS:GO, Valve's own matchmaking servers ran at 64 ticks a second, while pro LAN events and the competitive third-party services ran at 128. A Major on LAN is the 128 case. With round numbers, for one player over a ~45-minute map:
+A "tick" is one step of the server's simulation. In CS:GO, Valve's own matchmaking servers ran at 64 ticks a second, while pro LAN events and the competitive third-party services like FACEIT run at 128. A Major on LAN is the 128 case. With round numbers, for one player over a ~45-minute map:
 
 | Source | Rate | Duration | Samples |
 |---|---|---|---|
@@ -59,7 +59,7 @@ So a 64-tick match is about a week of worker tracking or half a day of machine c
 
 ### A note on CS2 and "sub-tick"
 
-This is a 2018 CS:GO data set, and the game has moved on. CS2 replaced the 64-vs-128 argument with what Valve calls **sub-tick**: the server still simulates at a fixed rate (64 a second), but every shot and movement input carries its exact timestamp *between* ticks. So the old "128 is better" debate is mostly history, and a CS2 demo would give you positions at 64 a second plus precisely timed actions.
+This is a 2018 CS:GO data set, and the game has moved on. CS2 replaced the 64-vs-128 argument with what Valve calls **sub-tick**: the server still simulates at a fixed rate (64 a second on official servers - GABEN please fix!), but every shot and movement input carries its exact timestamp *between* ticks. So the old "128 is better" debate is mostly history, and a CS2 demo would give you positions at 64 a second plus precisely timed actions.
 
 That doesn't make the comparison moot. If anything, it makes the point of this post for me: CS2 samples the **tracks** at a fixed, modest rate and records the **events** with precise timestamps. That's exactly the split I'd want on a jobsite.
 
