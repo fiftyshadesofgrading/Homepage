@@ -66,7 +66,7 @@ A player card is then four rows from one table, and a leaderboard is a `WHERE wi
 
 The nightly run is an [n8n](https://n8n.io/) workflow, the self-hosted scheduler that already loads the game logs. Once the logs land, it builds the queries for every window, runs them against Postgres and logs the run, and my phone gets a push alert if anything fails. The same workflow back-filled the whole season the first time, by generating one set of queries per date from opening day forward.
 
-I've since moved more of the logic out of n8n and into the database (views and functions instead of SQL strings built in workflow nodes). The scheduler is great at *when*; the database is better at *what*. n8n's job is to wake up, fetch and say "go".
+I'm now moving more of the logic out of n8n and into the database (views and functions instead of SQL strings built in workflow nodes). The scheduler is great at *when*; the database is better at *what*. n8n's job is to wake up, fetch and say "go".
 
 ## Formulas
 
