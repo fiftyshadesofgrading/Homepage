@@ -7,7 +7,7 @@ kicker: "Civil 3D corridors"
 tags: [civil-3d, corridors, earthwork, quantities]
 ---
 
-A corridor looks like a continuous road, but it isn't. Civil 3D applies the assembly at specific stations and connects the dots with straight lines. Where it takes those samples, the **frequency**, quietly decides how accurate your surface, sections and earthwork quantities are. It can be helpful to think about frequency in the same mindset of surface triangulation. With triangles in a TIN there is no perfect way to fit a curve, so we tessalate (TK add link to Tesselate by ALT-J). The same type of math required to turn a breakline curve into triangles shows up in corridor-world (especially along curves). 
+A corridor looks like a continuous road, but it isn't. Civil 3D applies the assembly at specific stations and connects the dots with straight lines. Where it takes those samples, the **frequency**, quietly decides how accurate your surface, sections and earthwork quantities are. It helps to think about frequency the same way as surface triangulation. A TIN has no perfect way to fit a curve, so it [tessellates](https://www.youtube.com/watch?v=Qg6BwvDcANg): it breaks the curve into straight edges and flat triangles. The same trade-off between turning curves into straight pieces and keeping file size sane shows up in corridor-world, especially along curves.
 
 ## What frequency actually is
 
@@ -35,13 +35,15 @@ The quickest way to see what frequency does to your numbers is to run it on your
 2. Rebuild it with tangent and curve frequencies of 50, 25, 10 and 5 feet.
 3. For each one, compare the earthwork (a volume surface against existing ground, or your material list), and look at the corridor surface on the tightest curve.
 
-Write the volumes in a little table. You'll see the numbers move, then settle down as the spacing gets tighter, and you'll see build time go up the whole way. The spacing where the numbers stop moving is the one your project needs. That's a better answer than any rule of thumb, including mine. The values and parameters for a levee in Mississippi and a runway intersection in NYC will require their own bespoke frequency. One that represents the model with the most accuracy and least overhead. 
+Write the volumes in a little table. You'll see the numbers move, then settle down as the spacing gets tighter, and you'll see build time go up the whole way. The spacing where the numbers stop moving is the one your project needs. That's a better answer than any rule of thumb, including mine. A levee in Mississippi and a runway intersection in New York will each need their own frequency: the one that represents the model with the most accuracy and the least overhead.
 
 ## Regions and targets
 
-Frequency (along with other critical region properties) is set **per region**, and that's where the real accuracy comes from. A curb return isn't just a tight curve; the curb is following a separate target (the edge of the return), not the alignment. Give each return its own region, set its width and elevation targets, and give that region a much tighter frequency than the mainline. Otherwise the return gets sampled at the mainline spacing, and the curb comes out as a polygon. (TK: a curb return will always be in it's on region. Its imporant to recognize that that baseline is not the CL of the road and that curvature should be respected, return content could be cleaned up an clearer)
+Frequency (along with other critical region properties) is set **per region**, and that's where the real accuracy comes from. A curb return isn't just a tight curve; the curb is following a separate target (the edge of the return), not the alignment. Give each return its own region, set its width and elevation targets, and give that region a much tighter frequency than the mainline. Otherwise the return gets sampled at the mainline spacing, and the curb comes out as a polygon.
 
-The same applies to tapers, driveway aprons, and anywhere a target pulls the assembly off its normal shape: give it a region, and sample it like it matters. 
+A curb return always ends up in its own region anyway, and its baseline isn't the road centerline. It's the curb return's own alignment and profile, swinging around a tight radius. That baseline is all curve, so a frequency that's fine for the mainline is far too coarse here. Respect the curvature: sample the return by a small increment or mid-ordinate, and the curb comes out round.
+
+The same applies to tapers, driveway aprons, and anywhere a target pulls the assembly off its normal shape: give it a region, and sample it like it matters.
 
 ## Where I set it
 
