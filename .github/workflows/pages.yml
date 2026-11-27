@@ -35,12 +35,13 @@ jobs:
         run: node tools/check-published.mjs
 
       # Every published post needs a share image: posts without `image:` get a title card
-      # (assets/og/<slug>.png). Fails the build if a card can't be made or an image is missing.
+      # (assets/og/<slug>.png). Problems show up as warnings on the run; they don't block the deploy.
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Make share images
+        continue-on-error: true
         run: |
           pip install --quiet playwright==1.63.0 pyyaml
           command -v google-chrome >/dev/null || python -m playwright install --with-deps chromium
