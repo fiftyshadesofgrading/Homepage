@@ -104,7 +104,7 @@ LEFT JOIN bbs.counts c
 {% endhighlight %}
 
   <h3>4. Summarize, export, draw</h3>
-  <p>From there it's ordinary <code>GROUP BY</code>s: share of routes with a turkey per year, average per route per decade, and each state then and now. Those go out as CSVs, and a small Node script projects the route points onto a US map and writes both the file this page draws and the SQLite file for Datasette. All the scripts are in the site's repo under <code>tools/turkey/</code>.</p>
+  <p>From there it's ordinary <code>GROUP BY</code>s: share of routes with a turkey per year, average per route per decade, and each state then and now. Those go out as CSVs, and a small Node script projects the route points onto a US map and writes both the file this page draws and the SQLite file for Datasette. All the scripts are in the site's repo under <code>tools/posts/wild-turkey-comeback/</code>.</p>
 
   <p class="note">A caveat for the bird people: these are simple averages of raw counts, not the USGS's model-based trend estimates, which correct for things like observer changes and which routes got run. The shape matches the published trend, but treat the exact numbers as a rough guide.</p>
 

@@ -38,7 +38,7 @@
   const temp = new Array(S.length).fill(null);       // degrees F
   const dots = S.map((s) => mk('circle', { cx: s[F.x], cy: s[F.y], r: 3.1, class: 'dot', fill: 'var(--nodata)' }, gDots));
 
-  // ---- weather: temps.json is written every 3 hours by a GitHub Action (tools/fetch-waffle-temps.mjs) ----
+  // ---- weather: temps.json is written every 3 hours by a GitHub Action (tools/posts/waffle-house-weather/fetch-temps.mjs) ----
   const TEMPS_URL = new URL('temps.json', SCRIPT_SRC).href;
 
   async function load() {

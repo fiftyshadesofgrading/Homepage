@@ -2,7 +2,7 @@
 // A post counts as published unless its front matter says `published: false` (Jekyll's rule).
 // Fails on: the word TK anywhere in a published post (including <!-- notes -->),
 // except inside `inline code`, so a post can write about `TK` itself.
-// Usage: node tools/check-published.mjs
+// Usage: node tools/site/check-published.mjs
 import fs from 'node:fs';
 import path from 'node:path';
 

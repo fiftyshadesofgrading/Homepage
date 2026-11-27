@@ -1,10 +1,10 @@
 <!doctype html>
-<!-- Share card (og:image) for the wild turkey post. Named after the post's slug, so tools/og/auto.py renders it in CI. -->
+<!-- Share card (og:image) for this post. tools/site/share-cards/make-cards.py finds it at tools/posts/<slug>/share-card.html and renders it in CI. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="card.css">
+<link rel="stylesheet" href="../../site/share-cards/card.css">
 <style>
   .maps { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 22px; }
   .maps figure { margin: 0; }
@@ -27,8 +27,8 @@
   </div>
   <div class="brand"></div>
 </div>
-<script src="../../assets/posts/wild-turkey-comeback/turkey-map-data.js"></script>
-<script src="card.js"></script>
+<script src="../../../assets/posts/wild-turkey-comeback/turkey-map-data.js"></script>
+<script src="../../site/share-cards/card.js"></script>
 <script>
   // Same binning and colours as assets/posts/wild-turkey-comeback/turkey.js
   const T = window.TURKEY, NS = 'http://www.w3.org/2000/svg';

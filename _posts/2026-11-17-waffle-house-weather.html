@@ -77,13 +77,13 @@ scripts:
   <p>Every location becomes a <code>&lt;circle&gt;</code>. The look (land color, dot outline, the toggle, the cards) lives in a stylesheet, so restyling it is a CSS edit, not a code change. A scripted nearest-dot lookup powers the hover tooltip so small dots stay easy to hit on a phone.</p>
 
   <h3>4. Attach the live part, on a schedule</h3>
-  <p>The tempting move is to have each visitor’s browser ask the weather service directly. Remeber, the free tier allows 600 lookups a minute, and this map needs about 780, so a single page view would blow the limit. As a workaround a GitHub Action wakes up every three hours, asks Open-Meteo for every grid cell in throttled batches of 100, saves the answers as one small <code>temps.json</code>, and republishes the site. The page just reads that file.</p>
+  <p>The tempting move is to have each visitor’s browser ask the weather service directly. Remember, the free tier allows 600 lookups a minute, and this map needs about 780, so a single page view would blow the limit. As a workaround a GitHub Action wakes up every three hours, asks Open-Meteo for every grid cell in throttled batches of 100, saves the answers as one small <code>temps.json</code>, and republishes the site. The page just reads that file.</p>
   <pre><code># .github/workflows/pages.yml (excerpt)
 on:
   schedule:
     - cron: "17 */3 * * *"      # every 3 hours
 steps:
-  - run: node tools/fetch-waffle-temps.mjs   # writes temps.json
+  - run: node tools/posts/waffle-house-weather/fetch-temps.mjs   # writes temps.json
   - uses: actions/jekyll-build-pages@v1      # rebuilds the site</code></pre>
   <p>Same idea works for anything you’d rather not hit live: pull it on a schedule, publish a file, keep the page dumb.</p>
 

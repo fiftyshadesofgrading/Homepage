@@ -1,8 +1,8 @@
 // Fetch the current temperature for every Waffle House grid cell and write temps.json.
 // Runs in GitHub Actions (Node 20+) every 3 hours; the page just reads the JSON.
 //
-//   node tools/fetch-waffle-temps.mjs              # ask Open-Meteo (scheduled runs)
-//   node tools/fetch-waffle-temps.mjs --prefer-live # reuse the file already on the site (code pushes)
+//   node tools/posts/waffle-house-weather/fetch-temps.mjs              # ask Open-Meteo (scheduled runs)
+//   node tools/posts/waffle-house-weather/fetch-temps.mjs --prefer-live # reuse the file already on the site (code pushes)
 //
 // Budget: Open-Meteo's free tier allows 600 calls/min, 5,000/hour, 10,000/day, and each
 // location in a batch counts as a call. 0.25° cells (~780) x 8 runs/day = ~6,200 calls/day.

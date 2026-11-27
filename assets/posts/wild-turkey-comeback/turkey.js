@@ -1,5 +1,5 @@
 /* The Wild Turkey comeback: map of Breeding Bird Survey routes by decade, plus a yearly trend line.
-   Data: turkey-map-data.js (built by tools/turkey/build-turkey.mjs). No dependencies. */
+   Data: turkey-map-data.js (built by tools/posts/wild-turkey-comeback/build-turkey.mjs). No dependencies. */
 (() => {
   const T = window.TURKEY;
   const NS = 'http://www.w3.org/2000/svg';

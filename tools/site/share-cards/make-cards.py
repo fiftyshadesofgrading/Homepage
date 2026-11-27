@@ -1,9 +1,9 @@
 """Make sure every published post has a share image (og:image) before the site builds.
 
 - A post with `image:` in its front matter keeps it (warns if that file is missing).
-- A post with its own card page, tools/og/<slug>.html, gets that rendered.
-- Every other published post gets a title card from tools/og/title-card.html
-  (text over a contour plan from tools/og/contours.js, seeded by the slug so it is stable).
+- A post with its own card, tools/posts/<slug>/share-card.html, gets that rendered.
+- Every other published post gets a title card from tools/site/share-cards/title-card.html
+  (text over a contour plan from tools/site/share-cards/contours.js, seeded by the slug so it is stable).
 - Output: assets/og/<slug>.png, built in CI and not committed; _layouts/default.html points there.
   _data/og.yml gets a short hash per card, added to the image URL (?v=) so LinkedIn and
   friends re-fetch a card when it changes instead of reusing their cached copy.
@@ -11,7 +11,7 @@
 - Problems are reported as a warning note, never a failed build. A post whose card can't be
   rendered gets a copy of the site card (/og-image.png), so it always has an image.
 
-Usage: python3 tools/og/auto.py   (needs: pip install playwright pyyaml; uses the installed Chrome)
+Usage: python3 tools/site/share-cards/make-cards.py   (needs: pip install playwright pyyaml; uses the installed Chrome)
 Runs in .github/workflows/pages.yml; run it locally only to preview cards.
 """
 import datetime as dt
@@ -24,10 +24,10 @@ import zoneinfo
 import yaml
 from playwright.sync_api import sync_playwright
 
-ROOT = pathlib.Path(__file__).resolve().parents[2]
+ROOT = pathlib.Path(__file__).resolve().parents[3]
 POSTS = ROOT / "_posts"
 OUT = ROOT / "assets" / "og"
-TEMPLATE = ROOT / "tools" / "og" / "title-card.html"
+TEMPLATE = ROOT / "tools" / "site" / "share-cards" / "title-card.html"
 TZ = zoneinfo.ZoneInfo(yaml.safe_load((ROOT / "_config.yml").read_text()).get("timezone", "UTC"))
 NOW = dt.datetime.now(TZ)
 
@@ -68,7 +68,7 @@ if todo:
             title_page = None
             for slug, title, kicker in todo:
                 try:
-                    own = TEMPLATE.parent / f"{slug}.html"
+                    own = ROOT / "tools" / "posts" / slug / "share-card.html"
                     if own.is_file():  # hand-made card for this post
                         page.goto(own.as_uri())
                         page.wait_for_load_state("networkidle")
@@ -102,7 +102,7 @@ if todo:  # version each card by its content
 
 print(f"Share images: {len(custom)} from front matter, {len(todo)} built into assets/og/")
 for slug, *_ in todo:
-    kind = "own card" if (TEMPLATE.parent / f"{slug}.html").is_file() else "title card"
+    kind = "own card" if (ROOT / "tools" / "posts" / slug / "share-card.html").is_file() else "title card"
     print(f"  {kind}: {slug}")
 for e in errors:
     print(f"::warning title=Share image::{e}")

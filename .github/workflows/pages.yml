@@ -32,7 +32,7 @@ jobs:
 
       # Sanity check: a published post must not still contain "TK" (to come). Drafts are skipped.
       - name: Check published posts for unfinished work
-        run: node tools/check-published.mjs
+        run: node tools/site/check-published.mjs
 
       # Every published post needs a share image: posts without `image:` get a title card
       # (assets/og/<slug>.png). Problems show up as warnings on the run; they don't block the deploy.
@@ -45,12 +45,12 @@ jobs:
         run: |
           pip install --quiet playwright==1.63.0 pyyaml
           command -v google-chrome >/dev/null || python -m playwright install --with-deps chromium
-          python tools/og/auto.py
+          python tools/site/share-cards/make-cards.py
 
       # Scheduled/manual runs ask Open-Meteo; pushes reuse the temperatures already published.
       - name: Fetch Waffle House temperatures
         continue-on-error: true
-        run: node tools/fetch-waffle-temps.mjs ${{ github.event_name == 'push' && '--prefer-live' || '' }}
+        run: node tools/posts/waffle-house-weather/fetch-temps.mjs ${{ github.event_name == 'push' && '--prefer-live' || '' }}
 
       - uses: actions/configure-pages@v5
 
