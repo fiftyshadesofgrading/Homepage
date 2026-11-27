@@ -1,6 +1,6 @@
 ---
 published: false
-date: 2026-12-12
+date: 2027-01-01
 title: "CTB vs STB: plot styles in plain English"
 description: "Color-dependent or named plot styles? Why both still exist, how to tell which one a drawing uses, and how to convert without wrecking a sheet set."
 kicker: "AutoCAD nuts and bolts"
