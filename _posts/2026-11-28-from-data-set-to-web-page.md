@@ -7,12 +7,12 @@ kicker: "Behind the scenes"
 tags: [data, maps, jekyll, sql, workflow]
 ---
 
-The first two data posts on this blog were a [live temperature map of every Waffle House]({{ '/blog/2026/11/17/waffle-house-weather/' | relative_url }}) and [sixty years of wild turkey counts]({{ '/blog/2026/11/26/wild-turkey-comeback/' | relative_url }}). One is silly, one is a real federal dataset, and both went from "huh, I wonder" to a published page in about a day. This is the recipe, written down so I can do it again without relearning the hard parts.
+The first two data posts on this blog were a [live temperature map of every Waffle House]({{ '/blog/2026/11/17/waffle-house-weather/' | relative_url }}) and [sixty years of wild turkey counts]({{ '/blog/2026/11/26/wild-turkey-comeback/' | relative_url }}). One is silly, one is a real federal dataset, and both went from "huh, I wonder" to a published page in about a day. This is the recipe, written down so you can give it a spin (and I can do it again without relearning the hard parts).
 
 ## The short version
 
 - **Find data with coordinates, a story, and a license you can live with.** Check the date and the license before you fall in love with it.
-- **Keep the raw files out of the repo.** The website gets scripts and small, built outputs. The 66 MB download stays on my own storage.
+- **Keep the raw files out of the repo.** The website gets scripts and small, built data outputs. The 66 MB download stays on my own storage.
 - **Shape it with SQL** until it's only what the page needs. Millions of rows in, a few thousand out.
 - **Draw it with plain SVG, CSS and a little JavaScript.** Project the coordinates once, ahead of time, and skip the map library.
 - **Publish it with Jekyll on GitHub Pages**, and let a robot check my work before anything goes live.
@@ -25,7 +25,7 @@ The Waffle House locations came from a public CSV on GitHub, a snapshot from a s
 
 The turkeys taught me a better lesson. I went looking for wild turkey numbers from the agency I assumed would have them, and it doesn't publish them. Turkeys are managed by the states. The long-running federal record turned out to be the USGS **North American Breeding Bird Survey**, on USGS's ScienceBase data catalog with a DOI and a public-domain license. Five minutes of "who actually collects this?" saved me from building a map on the wrong source.
 
-Places I look first: ScienceBase, data.gov, state GIS portals, and GitHub (searching for the thing plus "csv" or "dataset").
+Places I look first: ScienceBase, data.gov, state GIS portals, and GitHub (searching for the thing plus "csv" or "dataset"). Knowing a bit of Google-fu can go a long way in tracking down various data sources. 
 
 ## 2. Keep the raw data out of the repo
 
@@ -57,7 +57,7 @@ I don't use a map library for these. The setup:
 - **Color does one job.** Temperature uses a diverging blue-to-red scale centered on 50°F. Turkey counts use one hue, light to dark, with gray for "surveyed, none seen".
 - **A table view under every map**, for anyone who'd rather read numbers than squint at dots.
 
-Then I look at it on a phone. The turkey map's row of decade buttons ran off the side of the screen the first time. A horizontal scroll fixed it, and I'd never have caught it on a desktop.
+Then I look at it on a phone. The turkey map's row of decade buttons ran off the side of the screen the first time. A horizontal scroll fixed it, and I'd never have caught it on a desktop  .
 
 ## 5. Publish it
 
@@ -78,5 +78,5 @@ The turkey post ships a 2 MB SQLite file next to the map, plus a link that opens
 
 - **Ask "who actually collects this?" before searching for files.**
 - **Check the encoding and row counts the moment the data lands**, before writing any analysis.
-- **Write the post while building, not after.** This one exists because I started doing that.
+- **Write the post (or SOP's) while building, not after.** This one exists because I started doing that.
 - **Preview through the built site, not the file.** Opening the raw post file in a browser shows the settings block and template tags as plain text, and the map doesn't load. Nothing's broken; it just hasn't been through Jekyll yet.
