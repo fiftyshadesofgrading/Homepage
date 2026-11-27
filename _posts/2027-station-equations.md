@@ -1,6 +1,6 @@
 ---
 published: false
-date: 2026-12-03
+date: 2027-01-01
 title: "Station equations: when 10+00 isn't 1,000 feet in"
 description: "Back stations, ahead stations, and why the station on the plan sometimes doesn't match the distance along the road."
 kicker: "Civil 3D alignments"
