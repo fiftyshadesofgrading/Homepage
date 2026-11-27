@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 date: 2026-12-04
 title: "Read a drawing without opening AutoCAD: Autodesk Platform Services on a homelab"
 description: "Upload a DWG, let the little hamsters run AutoCAD in the cloud, and land every layer in your own Postgres database. Free tier, self-hosted n8n, no desktop seat required."
@@ -8,17 +8,17 @@ tags: [aps, design-automation, autocad, civil-3d, n8n, postgres, lisp]
 ---
 
 
-I do my best work in a hotel lobby café or an airport. There's something about being on the move: the energy of transition gives me perspective. In reality, I'm sitting by a giant coffee shop window a short walk from my home office. Hopping between the home-office, jobsite, client meeting and coffeeshop, I got curious (bored, honestly) about what I could offload to the cloud. Could I chuck in a drawing (`.dwg`) and get data out the other end?
+I do my best work in a hotel lobby café or an airport. There's something about being on the move: the energy of transition gives me perspective. In reality, I'm sitting by a giant cafe window looking out at the Atlantic, a short walk from my office. Hopping between the home-office, jobsite, client meeting and coffee shop, I got curious (bored, honestly) about what I could offload to the cloud. Could I chuck in a drawing (`.dwg`) and get data out the other end?
 
-Overcaffeinated (perhaps)... the thing that still feels like magic: you drop a `.dwg` into a web form, and a minute later every layer property in that drawing (name, color, linetype, lineweight, on, frozen, locked, plot) is sitting in a database table you own. Nobody opened AutoCAD. No seat was used. The drawing was opened by a copy of AutoCAD running on Autodesk's servers.
+Overcaffeinated _perhaps_... the thing that still feels like magic: you drop a `.dwg` into a web form, and a minute later every layer property in that drawing (name, color, linetype, lineweight, on, frozen, locked, plot) is sitting in a database table you own. Nobody opened AutoCAD. No seat was used. The drawing was opened by a copy of AutoCAD running on Autodesk's servers.
 
-That's **Design Automation**, part of Autodesk Platform Services (APS, the platform formerly known as Forge). This post walks through getting it running from a homelab, the five things that tripped me up, and what changes when you try the same thing inside a company.
+That's **Design Automation**, part of Autodesk Platform Services (APS, the platform formerly known as Forge). This post walks through getting it running from a homelab, the five things that tripped me up, and what changes when you try the same thing inside of your organization.
 
 ## What you need
 
 - **An Autodesk account and an APS developer hub.** APS has a free tier, and you don't need a Forma or ACC subscription to sign up. Developer access is separate from your product licenses.
 - **Something to orchestrate the calls.** I used [n8n](https://n8n.io/), a self-hosted workflow tool, running in Docker. Any scripting language works; n8n just makes each step visible and re-runnable.
-- **A database for the results.** Postgres here, but a CSV would do for a first test.
+- **A database for the results.** I used my established Postgres database here, but a CSV would do for a first test.
 - **A little AutoLISP.** Design Automation runs AutoCAD's core engine (no UI), so your script is how you tell it what to do.
 
 ## 1. Make an app and get credentials
@@ -161,8 +161,8 @@ The homelab version is a proof of concept. Inside a firm, the tech is the same b
 - **Secrets.** Client secrets belong in a secrets manager or the workflow tool's credential store, with someone responsible for rotating them.
 - **Least privilege.** Ask only for the scopes each job needs. Reading files from the firm's Forma/ACC hub uses 3-legged auth and needs an admin to approve the app as a custom integration.
 - **Cost.** Check your plan before scaling up. Design Automation usage is metered on paid plans.
-- **Make the case with a demo.** A working pipeline on a real template answers more IT questions than a slide deck.
+- **Make the case with a demo.** A working pipeline on a real template answers more IT questions than a slide deck and can help get buy-in from leadership.
 
-The cloud engine is the same headless AutoCAD you already have on your desk, by the way. If you want to try the scripting side without any of the API plumbing, start with [accoreconsole](/blog/2026/12/04/accoreconsole/) on your own machine.
+The cloud engine is the same headless AutoCAD you already have on your desk, by the way. If you want to try the scripting side without any of the API plumbing, start with [accoreconsole](/blog/2026/12/03/accoreconsole/) on your own machine.
 
 The drawing never had to be opened by a person. That's the part that still feels like magic.
