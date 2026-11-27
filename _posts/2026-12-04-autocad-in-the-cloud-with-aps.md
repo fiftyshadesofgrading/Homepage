@@ -165,4 +165,4 @@ The homelab version is a proof of concept. Inside a firm, the tech is the same b
 
 The cloud engine is the same headless AutoCAD you already have on your desk, by the way. If you want to try the scripting side without any of the API plumbing, start with [accoreconsole](/blog/2026/12/03/accoreconsole/) on your own machine.
 
-The drawing never had to be opened by a person. That's the part that still feels like magic.
+The drawing never had to be opened by a person. That's the part that still feels like _magic_.
