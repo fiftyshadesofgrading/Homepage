@@ -14,7 +14,7 @@ First person ("I"), keep it anonymous (no hostnames, IPs, team names, employers)
 
 ## Why rolling windows
 
-TK: season totals hide slumps and hot streaks; a 14-day window shows them.
+TK: season totals hide slumps and hot streaks; a 14-day window shows them. describe graphana / data viz too. That was fun. 
 
 ## The rule that saves you: sum first, divide last
 
