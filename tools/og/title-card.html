@@ -1,0 +1,44 @@
+<!doctype html>
+<!-- Default share card for any post without its own `image:`. tools/og/auto.py fills in the title and kicker. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="card.css">
+<style>
+  .card { display: flex; flex-direction: column; padding-bottom: 56px; }
+  .brand { position: static; }
+  .body { flex: 1; display: flex; align-items: center; gap: 40px; }
+  .text { flex: 1; min-width: 0; }
+  #title { font-size: 76px; line-height: 1.04; max-width: none; }
+  .bigmark { width: 250px; flex: none; }
+  .bigmark svg { width: 100%; height: auto; display: block; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="brand"></div>
+  <div class="body">
+    <div class="text">
+      <p class="kicker" id="kicker"></p>
+      <h1 id="title">Post title</h1>
+    </div>
+    <div class="bigmark"></div>
+  </div>
+</div>
+<script src="card.js"></script>
+<script>
+  // Called by auto.py: set the text, then shrink the title until it fits in 4 lines.
+  window.fill = (title, kicker) => {
+    const h = document.getElementById('title'), k = document.getElementById('kicker');
+    h.textContent = title;
+    k.textContent = kicker || '';
+    k.hidden = !kicker;
+    let size = 76;
+    const lines = () => Math.round(h.getBoundingClientRect().height / (size * 1.04));
+    while (lines() > 4 && size > 40) { size -= 2; h.style.fontSize = size + 'px'; }
+    return { size, lines: lines() };
+  };
+</script>
+</body>
+</html>

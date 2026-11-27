@@ -34,6 +34,18 @@ jobs:
       - name: Check published posts for unfinished work
         run: node tools/check-published.mjs
 
+      # Every published post needs a share image: posts without `image:` get a title card
+      # (assets/og/<slug>.png). Fails the build if a card can't be made or an image is missing.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Make share images
+        run: |
+          pip install --quiet playwright==1.63.0 pyyaml
+          command -v google-chrome >/dev/null || python -m playwright install --with-deps chromium
+          python tools/og/auto.py
+
       # Scheduled/manual runs ask Open-Meteo; pushes reuse the temperatures already published.
       - name: Fetch Waffle House temperatures
         continue-on-error: true

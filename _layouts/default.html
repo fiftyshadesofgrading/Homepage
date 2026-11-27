@@ -7,7 +7,8 @@
 <meta name="description" content="{{ page.description | default: page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 }}">
 <meta property="og:title" content="{{ page.title | default: site.title }}">
 <meta property="og:description" content="{{ page.description | default: site.description | strip_html | normalize_whitespace | truncate: 160 }}">
-{% assign og_image = page.image | default: '/og-image.png' %}
+{% comment %} Share image: the post's own `image:`, else the title card tools/og/auto.py builds in CI, else the site card. {% endcomment %}
+{% if page.image %}{% assign og_image = page.image %}{% elsif page.collection == 'posts' %}{% assign og_image = '/assets/og/' | append: page.slug | append: '.png' %}{% else %}{% assign og_image = '/og-image.png' %}{% endif %}
 <meta property="og:type" content="{% if page.date %}article{% else %}website{% endif %}">
 <meta property="og:url" content="{{ page.url | absolute_url }}">
 <meta property="og:image" content="{{ og_image | absolute_url }}">

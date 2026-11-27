@@ -2,3 +2,4 @@ _site/
 .jekyll-cache/
 .sass-cache/
 assets/posts/waffle-house-weather/temps.json
+assets/og/
