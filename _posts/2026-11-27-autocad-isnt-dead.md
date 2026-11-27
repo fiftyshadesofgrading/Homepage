@@ -2,7 +2,7 @@
 published: true
 date: 2026-11-27
 title: "AutoCAD isn't dead, and neither is code"
-description: "Two takes went by on my feed: 2D drafting skills still matter, and 2D drafting is over because we'll all just code. I think both are right, and that's the point."
+description: "Two takes went by on my feed: 2D drafting skills still matter, and 2D drafting is cooked because we'll all just code. I think both are right, and that's the point."
 kicker: "Hot take, lukewarm by design"
 tags: [autocad, civil-3d, automation, industry]
 ---
