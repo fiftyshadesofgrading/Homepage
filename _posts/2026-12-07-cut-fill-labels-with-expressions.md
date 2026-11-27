@@ -1,6 +1,6 @@
 ---
 published: false
-date: 2026-12-06
+date: 2026-12-07
 title: "Cut and fill labels that say C and F, with Civil 3D expressions"
 description: "A volume surface already knows the cut and fill depth everywhere. Expressions turn −2.35 into C 2.35 and make the label pick its own color."
 kicker: "Label styles"
