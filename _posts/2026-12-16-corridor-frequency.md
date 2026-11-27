@@ -23,10 +23,11 @@ On a straight, flat tangent, that's fine. On a tight curve, a sag, or a curb ret
 - **Along curves:** a fixed increment, or a mid-ordinate distance, which adds samples where the curve is tighter.
 - **Along spirals** and **along profile curves:** their own spacing.
 - **At geometry points:** extra samples exactly at horizontal geometry points (PC, PT), superelevation critical points, profile geometry points and profile high and low points, and offset target geometry points.
+- **At offset targets:** extra samples along offset target geometry, or immediately before / after the target begins & ends. 
 
-Turn the "at geometry points" options on. They cost very little, and they put samples where the geometry actually changes, not wherever the spacing happens to land.
+Turn the "at geometry points" options on. They cost very little, and they put samples where the geometry actually changes, not wherever the spacing happens to land. This can be used to include the helpful profile high points and low points to ensure that the corridor captures the local minimum and maximum elevations along the profile.
 
-## Run the test yourself
+## Test it and discover the optimum frequency
 
 The quickest way to see what frequency does to your numbers is to run it on your own job:
 
@@ -38,7 +39,7 @@ Write the volumes in a little table. You'll see the numbers move, then settle do
 
 ## Regions and targets
 
-Frequency is set **per region**, and that's where the real accuracy comes from. A curb return isn't just a tight curve; the curb is following a separate target (the edge of the return), not the alignment. Give each return its own region, set its width and elevation targets, and give that region a much tighter frequency than the mainline. Otherwise the return gets sampled at the mainline spacing, and the curb comes out as a polygon.
+Frequency (along with other critical region properties) is set **per region**, and that's where the real accuracy comes from. A curb return isn't just a tight curve; the curb is following a separate target (the edge of the return), not the alignment. Give each return its own region, set its width and elevation targets, and give that region a much tighter frequency than the mainline. Otherwise the return gets sampled at the mainline spacing, and the curb comes out as a polygon.
 
 The same applies to tapers, driveway aprons, and anywhere a target pulls the assembly off its normal shape: give it a region, and sample it like it matters.
 
@@ -47,7 +48,7 @@ The same applies to tapers, driveway aprons, and anywhere a target pulls the ass
 As a starting point, not a rule:
 
 - **Tangents:** 25 ft while designing, tightened to 10 ft for final quantities and sections.
-- **Curves:** mid-ordinate, so tight curves automatically get more samples.
+- **Curves:** by mid-ordinate curvature, so tight curves automatically get more samples.
 - **Curb returns and tapers:** their own regions, sampled every few feet.
 - **Every "at geometry points" option:** on.
 
