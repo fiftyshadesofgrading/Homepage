@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 date: 2026-11-30
 title: "Your DWG is fat: a diet plan"
 description: "Registered applications, scale lists, orphaned linetype data and other junk that makes a 200 KB drawing weigh 40 MB, and how to get rid of it."
