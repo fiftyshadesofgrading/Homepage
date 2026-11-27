@@ -7,13 +7,13 @@ kicker: "Opinion"
 tags: [data, gnss, machine-control, data-engineering]
 ---
 
-I wish I could tell you that I was thinking about the efficiency of IOT devices and datastreams on the jobsite. That would be a lie. I was thinking about the ESL One Counter Strike Major in Boston where I met one of the brightest software engineers with a passion for Ruby and code quality (and we became best buds, to this day). When the crowd is 95% underage gamer lads, you end up meeting dads, and young professionals ordering double bourbons at 11:00am at the Agganis Arena in Boston. This is still a nerdy blog right?!
+I wish I could tell you this post started with deep thoughts about IoT sensors and jobsite data streams. That would be a lie. It started at the Counter-Strike Major in Boston in 2018, the ELEAGUE Major, with the playoffs at Agganis Arena. That's where I met one of the sharpest software engineers I know, a Ruby fan with strong opinions about code quality, and we've been best buds ever since. When most of the crowd is teenage gamers, the adults find each other fast: the dads, the young professionals, and the folks ordering double bourbons at 11 a.m. This is still a nerdy blog, right?!
 
-Well combing through the data and thinking about data streams got me thinking about data on the jobsite. Doing both at once led to a comparison I can't stop thinking about: **one competitive match records about as many position samples as a week of tracking a worker on a jobsite, or half a day of a dozer running machine control.**
+Years later I pulled every match from that Major into a database, mostly for fun, right as I was planning a GPS machine-control demo. Thinking about both at once led to a comparison I can't stop thinking about: **one competitive match records about as many position samples as a week or two of tracking a worker on a jobsite, or a full shift of a dozer running machine control.**
 
 ## The dataset
 
-The matches are from a Counter-Strike Major played in Boston in 2018. Every match was recorded as a demo file, and a demo isn't a video. It's the server's whole simulation, tick by tick (typically 128/s on competitive gaming services): every player's position, view angle, health, money and weapon, every grenade's arc, every shot and every kill. Each map is a couple hundred megabytes compressed, and two to four times that unpacked.
+The matches are from a Counter-Strike Major played in Boston in 2018. Every match was recorded as a demo file, and a demo isn't a video. It's the server's whole simulation, tick by tick: every player's position, view angle, health, money and weapon, every grenade's arc, every shot and every kill. Each map is a couple hundred megabytes compressed, and two to four times that unpacked.
 
 I wrote a small loader (Go, using the open-source `demoinfocs-golang` parser) that unpacks each demo and writes it into Postgres with PostGIS:
 
@@ -46,13 +46,22 @@ TK: the real numbers. Total size, rows in `player_frames` vs `kills`, and the ev
 
 ## The comparison
 
-The server simulates the game 64 times a second (this event ran its broadcast at an even higher rate). With round numbers:
+A "tick" is one step of the server's simulation. In CS:GO, Valve's own matchmaking servers ran at 64 ticks a second, while pro LAN events and the competitive third-party services ran at 128. A Major on LAN is the 128 case. With round numbers, for one player over a ~45-minute map:
 
 | Source | Rate | Duration | Samples |
 |---|---|---|---|
-| One player in a pro match | 64 per second | ~45 minutes | 64 × 2,700 s ≈ **173,000** |
+| One player, 64-tick server | 64 per second | ~45 minutes | 64 × 2,700 s ≈ **173,000** |
+| One player, 128-tick LAN Major | 128 per second | ~45 minutes | 128 × 2,700 s ≈ **346,000** |
 | A worker's GPS tag | 1 per second | 48 hours (a week of shifts) | 1 × 172,800 s ≈ **173,000** |
 | A dozer on machine control | 10 per second | ~4.8 hours | 10 × 17,280 s ≈ **173,000** |
+
+So a 64-tick match is about a week of worker tracking or half a day of machine control, and a 128-tick Major doubles that: two weeks of a worker, or a full shift of a dozer.
+
+### A note on CS2 and "sub-tick"
+
+This is a 2018 CS:GO data set, and the game has moved on. CS2 replaced the 64-vs-128 argument with what Valve calls **sub-tick**: the server still simulates at a fixed rate (64 a second), but every shot, jump and movement input carries its exact timestamp *between* ticks. So the old "128 is better" debate is mostly history, and a CS2 demo would give you positions at 64 a second plus precisely timed actions.
+
+That doesn't make the comparison moot. If anything, it makes the point of this post for me: CS2 samples the **tracks** at a fixed, modest rate and records the **events** with precise timestamps. That's exactly the split I'd want on a jobsite.
 
 Same order of magnitude, wildly different value per sample. Every tick of the match matters to someone reviewing a fight. Most of the worker's week is someone standing roughly where they were a second ago.
 
