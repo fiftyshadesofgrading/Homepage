@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 date: 2026-12-11
 title: "Sites: why your feature lines keep breaking each other"
 description: "In Civil 3D, objects in the same site talk to each other whether you want them to or not. A five-minute explanation that saves hours of mystery splits."
@@ -9,11 +9,10 @@ tags: [civil-3d, grading, feature-lines, sites, parcels]
 
 You draw two feature lines. They cross. Suddenly one of them has a new vertex you never added, with an elevation you never set, and moving one line changes the other. Nothing's broken. They're in the same **site**, and in a site, objects talk to each other whether you want them to or not.
 
-## The symptom
+## The symptoms
 
 - Feature lines that cross get **split points** (or elevation points) at the intersection, and the elevations start depending on each other.
 - Editing one feature line changes the grade of another one you weren't touching.
-- A parcel appears out of nowhere because a feature line closed a shape with some lot lines.
 - Grading groups grow strange edges where they meet other linework.
 
 ## What a site actually is
@@ -25,7 +24,7 @@ A site is a **topology container**. Everything inside it is treated as part of o
 - grading groups and their footprints,
 - and alignments, if you put them in a site.
 
-Where two of them cross inside the same site, Civil 3D makes them share that point, and it can only have one elevation. That's genuinely useful when it's what you meant: a curb line and a sidewalk line meeting at a corner *should* share an elevation. When it's not what you meant, it's chaos.
+Where two feature lines cross inside the same site, Civil 3D makes them share that point, and it can only have one elevation. That's genuinely useful when it's what you meant: a curb line and a sidewalk line meeting at a corner *should* share an elevation. When it's not what you meant, it's absolute chaos and anarchy.
 
 Objects in **different** sites ignore each other completely.
 
