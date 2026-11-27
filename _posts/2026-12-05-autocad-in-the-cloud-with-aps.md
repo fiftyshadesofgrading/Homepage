@@ -1,21 +1,14 @@
 ---
 published: false
-date: 2026-11-30
+date: 2026-12-05
 title: "Read a drawing without opening AutoCAD: Autodesk Platform Services on a homelab"
 description: "Upload a DWG, let the little hamsters run AutoCAD in the cloud, and land every layer in your own Postgres database. Free tier, self-hosted n8n, no desktop seat required."
 kicker: "Automation"
 tags: [aps, design-automation, autocad, civil-3d, n8n, postgres, lisp]
 ---
 
-<!--
-DRAFT. TK = to come / to check before publishing.
-- Paste the final layers.lsp (and activity.json) from the LayerDump project into step 4.
-- Screenshots wanted: (1) the APS app's credentials page with the secret blurred, (2) the n8n Run workflow, (3) the layer table in pgAdmin.
-- Re-check the APS free tier terms and Design Automation pricing on the APS site the week this goes out.
-- Keep it anonymous: no names, IPs, bucket names, client IDs, or employer references.
--->
 
-I do my best work in a hotel lobby café or an airport. There's something about being on the move: the energy of transition gives me perspective. In reality, I'm sitting by a giant window on Commercial Street in Portland, walking distance from my home-office. Hopping between the home-office, jobsite, client meeting and coffeeshop, I got curious (bored, honestly) about what I could offload to the cloud. Could I chuck in a drawing (`.dwg`) and get data out the other end?
+I do my best work in a hotel lobby café or an airport. There's something about being on the move: the energy of transition gives me perspective. In reality, I'm sitting by a giant coffee shop window a short walk from my home office. Hopping between the home-office, jobsite, client meeting and coffeeshop, I got curious (bored, honestly) about what I could offload to the cloud. Could I chuck in a drawing (`.dwg`) and get data out the other end?
 
 Overcaffeinated (perhaps)... the thing that still feels like magic: you drop a `.dwg` into a web form, and a minute later every layer property in that drawing (name, color, linetype, lineweight, on, frozen, locked, plot) is sitting in a database table you own. Nobody opened AutoCAD. No seat was used. The drawing was opened by a copy of AutoCAD running on Autodesk's servers.
 
@@ -53,24 +46,84 @@ Design Automation has its own vocabulary, and it clicks once you map it to thing
 | Term | What it is |
 |---|---|
 | **Engine** | A version of AutoCAD running headless in the cloud. Pick the newest one listed for your account. |
-| **AppBundle** | Your code (here, a LISP file) zipped up and uploaded. |
+| **AppBundle** | Compiled code (a .NET plugin, say) zipped up and registered. A LISP-only job can skip it and pass the `.lsp` in as an input file, which is what I did. |
 | **Activity** | A saved "recipe": which engine, which AppBundle, what command to run, which files go in and come out. |
 | **WorkItem** | One run of an Activity against one drawing. |
 | **OSS bucket** | Autodesk's file storage. Drawings go in, results come out, via signed URLs. |
 
 ## 4. Two workflows: set up once, run many times
 
-**Setup** (run once): list the engines and pick the newest, create a bucket, upload the LISP as an AppBundle, and register the Activity with an alias like `prod`.
+**Setup** (run once): list the engines and pick the newest, create a bucket, upload the LISP to it, and register the Activity with an alias like `prod`.
 
 **Run** (every drawing):
 
 1. An n8n form takes the `.dwg` upload.
 2. Upload it to the bucket through a signed URL.
-3. Submit a WorkItem that points the Activity at that file and at an output location.
+3. Submit a WorkItem that points the Activity at that file, at the LISP, and at an output location.
 4. Poll the WorkItem's status every 10 seconds until it succeeds or fails.
 5. Download the result (`layers.json`) and insert it into Postgres as a `jsonb` row.
 
-TK: the LISP. In short, it walks the layer table with `tblnext`, reads each layer's properties, and writes them out as JSON for the WorkItem to return.
+### The LISP
+
+It walks the layer table with `tblnext`, reads each layer's properties, and writes them out as JSON for the WorkItem to return. Here's the core of it:
+
+{% highlight lisp %}
+;; layers.lsp: write the current drawing's layer table to JSON.
+;; Runs headless (no ActiveX, no prompts), so it's plain AutoLISP only.
+(defun fsg:esc (s / out i c)
+  (setq out "" i 1)
+  (while (<= i (strlen s))
+    (setq c (substr s i 1)
+          out (strcat out (cond ((= c "\"") "\\\"") ((= c "\\") "\\\\") (t c)))
+          i (1+ i)))
+  out)
+
+(defun fsg:dump-layers (path / f rec name color flags ed lw plot sep)
+  (setq f (open path "w") sep "")
+  (write-line "{\"layers\":[" f)
+  (setq rec (tblnext "LAYER" T))
+  (while rec
+    (setq name  (cdr (assoc 2 rec))
+          color (cdr (assoc 62 rec))          ; negative = layer is off
+          flags (cdr (assoc 70 rec))          ; 1 = frozen, 4 = locked
+          ed    (entget (tblobjname "LAYER" name))
+          lw    (cond ((cdr (assoc 370 ed))) (-3))   ; -3 = Default
+          plot  (cdr (assoc 290 ed)))         ; 0 = no plot, missing = plots
+    (write-line
+      (strcat sep "{\"name\":\"" (fsg:esc name) "\""
+              ",\"color\":" (itoa (abs color))
+              ",\"on\":" (if (minusp color) "false" "true")
+              ",\"frozen\":" (if (= 1 (logand flags 1)) "true" "false")
+              ",\"locked\":" (if (= 4 (logand flags 4)) "true" "false")
+              ",\"linetype\":\"" (fsg:esc (cdr (assoc 6 rec))) "\""
+              ",\"lineweight\":" (itoa lw)
+              ",\"plot\":" (if (= plot 0) "false" "true") "}")
+      f)
+    (setq sep "," rec (tblnext "LAYER")))
+  (write-line "]}" f)
+  (close f)
+  (princ))
+{% endhighlight %}
+
+### The Activity
+
+The Activity tells the engine to open the input drawing in `accoreconsole` and run a two-line script: load the LISP, call it. Every file lands in the same working folder, which is why the script finds them with `DWGPREFIX`.
+
+{% highlight json %}
+{
+  "id": "LayerDump",
+  "engine": "Autodesk.AutoCAD+<newest>",
+  "commandLine": ["$(engine.path)\\accoreconsole.exe /i \"$(args[inputFile].path)\" /s \"$(settings[script].path)\""],
+  "parameters": {
+    "inputFile": { "verb": "get", "localName": "input.dwg",   "required": true },
+    "lisp":      { "verb": "get", "localName": "layers.lsp",  "required": true },
+    "result":    { "verb": "put", "localName": "layers.json", "required": true }
+  },
+  "settings": {
+    "script": { "value": "(load (strcat (getvar \"DWGPREFIX\") \"layers.lsp\"))\n(fsg:dump-layers (strcat (getvar \"DWGPREFIX\") \"layers.json\"))\n" }
+  }
+}
+{% endhighlight %}
 
 ## 5. The five keyboard pounding moments
 
@@ -97,7 +150,7 @@ WHERE a.l IS DISTINCT FROM b.l
 ORDER BY status, layer;
 {% endhighlight %}
 
-We tested it on a publicly available government CAD standards template, and the same pattern ran two more jobs: plotting a drawing to PDF with Autodesk's stock plot activity, and a custom LISP that plots every paper-space layout to its own named PDF.
+I tested it on a publicly available government CAD standards template, and the same pattern ran two more jobs: plotting a drawing to PDF with Autodesk's stock plot activity, and a custom LISP that plots every paper-space layout to its own named PDF.
 
 ## Doing this inside a company
 
@@ -110,4 +163,6 @@ The homelab version is a proof of concept. Inside a firm, the tech is the same b
 - **Cost.** Check your plan before scaling up. Design Automation usage is metered on paid plans.
 - **Make the case with a demo.** A working pipeline on a real template answers more IT questions than a slide deck.
 
-TK: closing line and a link to the next post in the series.
+The cloud engine is the same headless AutoCAD you already have on your desk, by the way. If you want to try the scripting side without any of the API plumbing, start with [accoreconsole](/blog/2026/12/04/accoreconsole/) on your own machine.
+
+The drawing never had to be opened by a person. That's the part that still feels like magic.

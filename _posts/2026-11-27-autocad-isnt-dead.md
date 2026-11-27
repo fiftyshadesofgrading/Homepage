@@ -7,11 +7,6 @@ kicker: "Hot take, lukewarm by design"
 tags: [autocad, civil-3d, automation, industry]
 ---
 
-<!--
-DRAFT. TK = to come / to check before publishing.
-- TK: a line or two from my own work where a 2D sheet was the deliverable that mattered (keep it anonymous: no client or employer names)
-- TK: decide whether to keep the closing list or end on the last paragraph
--->
 
 Two posts went by on my feed this week, pretty much back to back.
 
@@ -24,6 +19,8 @@ My first reaction was to pick a side. My second reaction, after I'd stopped bein
 The "we'll all just code" take pictures a design as something you generate: feed in the rules, get out the model, done. Parts of the work really are heading that way, and I'm all for it. I spend a lot of my free time scripting Civil 3D and AutoCAD for exactly that reason.
 
 But clients don't buy a generated model. They buy a design they understood, argued with, and signed off on, one decision at a time. That back and forth happens on drawings: a plan, a section, a detail with a dimension someone circled in red. The sheet is how engineers and clients talk to each other, and it's also what the permit reviewer, the contractor and the inspector work from. A perfect model you can't explain in a sheet set is just an expensive guess.
+
+In my own land development days, the thing that got a project through was never the model. It was the plan set the town's reviewer marked up in red and sent back, and the one I sent back to them. That sheet set was the conversation between me, the client and the approving agency.
 
 ## The niche work is still very much a drawing
 

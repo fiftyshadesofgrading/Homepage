@@ -1,17 +1,12 @@
 ---
 published: false
-date: 2026-11-28
+date: 2026-12-01
 title: "Layer 0 styles: let the object's layer do the work"
 description: "Put style components on layer 0 and a Civil 3D object takes on the look of whatever layer it lives on. One style, many looks, and a lot fewer layers."
 kicker: "Templates and standards"
 tags: [civil-3d, styles, templates, layers]
 ---
 
-<!--
-DRAFT. TK = to come / to check before publishing.
-Screenshots wanted: (1) Drawing Settings → Object Layers, (2) a style's Display tab with components on 0,
-(3) the same alignment style on an existing and a proposed layer, side by side.
--->
 
 Open the Display tab of almost any Civil 3D style and every component has its own layer: alignment lines on one, curves on another, arrows on a third. That's one way to build a template. Here's the other: **put the components on layer 0** and let the object's own layer decide how it looks.
 
@@ -28,7 +23,7 @@ Civil 3D objects behave a lot like blocks. Each object sits on a layer, set by *
 ## Why bother
 
 - **One style, many looks.** The same alignment style draws existing centerlines on a `V-` layer and proposed ones on a `C-` layer, each in its own color and lineweight, with no style swap.
-- **Fewer layers.** A template with named component layers can easily carry hundreds of layers nobody touches. TK: count the layers in a stock country kit vs a layer-0 build.
+- **Fewer layers.** A template with named component layers can easily carry hundreds of layers nobody touches. With layer-0 components, the layer list is mostly the object layers you actually draw on.
 - **Freeze an object, not a component.** Freezing the object's layer hides the whole thing, which is usually what people meant.
 - **XREFs make sense.** Referenced objects keep their components on the referenced object layer (`SITE|C-ROAD-ALIN`), so layer overrides in the host drawing work per object instead of per component.
 - **Plot styles by layer still work.** The object layer carries the pen.
@@ -36,11 +31,11 @@ Civil 3D objects behave a lot like blocks. Each object sits on a layer, set by *
 ## Why not
 
 - **You can't freeze one component by layer.** Want to hide alignment tick marks but keep the line? On layer-0 styles, that's a style change, not a layer freeze. People with a habit of "just freeze the layer" will notice.
-- **Exploding lands everything on 0.** *Export to AutoCAD* turns Civil 3D objects into blocks, so layer-0 components still inherit fine. But the minute somebody explodes those blocks, every component falls to layer 0. TK: show this in a GIF; it's the most common complaint.
-- **Labels are their own animal.** Label styles have a layer setting of their own, and label components inherit from the label, not the parent object. TK: verify the exact behavior with label style layer = 0 vs named, and with label layers set in Object Layers.
+- **Exploding lands everything on 0.** *Export to AutoCAD* turns Civil 3D objects into blocks, so layer-0 components still inherit fine. But the minute somebody explodes those blocks, every component falls to layer 0. It's the most common complaint I hear about this setup.
+- **Labels are their own animal.** Label styles have a layer setting of their own (General tab), and label components on 0 inherit from the label, not the parent object. Decide where labels live on purpose, and test it in your template before you roll it out.
 - **Some agencies want named layers.** If the DOT or the Corps hands you a CAD standard with component-level layer names, follow it.
 
-## What we'd actually do
+## What I'd actually do
 
 A hybrid:
 
@@ -48,8 +43,8 @@ A hybrid:
 2. **Named layers** for components people genuinely need to toggle on their own: surface triangles, borders, contour majors and minors, points, profile view grids.
 3. **Object Layers** set in the template so new objects land on the right layer without anyone thinking about it.
 
-TK: decide whether contours belong on named layers or 0 + a separate surface per display need. This is the part worth arguing about.
+Contours are the one people argue about. I keep majors and minors on named layers, because contour visibility is the thing every grading set toggles most. If you'd rather go all-in on layer 0, the alternative is a separate surface style per display need, which is more styles and more swapping.
 
 ## Check your template in a minute
 
-Scan every style for which components sit on 0 and which don't. TK: link the HackingCivil3D template report (or a simple Dynamo graph) once it's ready to share.
+Scan every style for which components sit on 0 and which don't. I'm building a template report that does exactly that scan, and I'll write it up once it's ready to share.
