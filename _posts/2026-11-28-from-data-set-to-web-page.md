@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 date: 2026-11-28
 title: "From dataset to web page: how I publish a data post"
 description: "The repeatable recipe behind the Waffle House and wild turkey maps: find the data, shape it with SQL, draw it with plain HTML, publish it with Jekyll, and the mistakes I made along the way."
