@@ -1,6 +1,6 @@
 ---
 published: false
-date: 2026-12-13
+date: 2026-12-14
 title: "Point clouds that land where they belong"
 description: "Getting a LiDAR or scan point cloud into Civil 3D in the right place, at the right scale, at the right elevation, and how to prove it."
 kicker: "Reality capture"
