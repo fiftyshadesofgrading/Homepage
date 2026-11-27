@@ -40,11 +40,15 @@ Drawings that have been anywhere near a MicroStation file (a DGN import, or a DW
 
 `PURGE` has an option for it: tick **Orphaned data** in the dialog, or at the command line `-PURGE` → `O`. If you work with DOT or federal files that came out of MicroStation, this is often the one that matters most.
 
+## Excessive references
+
+External References and Data References should be used throughout a project with care. Your method for overlaying or attaching XREFs and ensuring that each model has access to the relevant information is imperative. Avoid attaching too much overhead to file through references, be selective and use Data References where possible. Entities such as Pressure Networks or Gravity Networks can bog down a file, especially when brought in through a reference. 
+
 ## The usual suspects
 
-- **Unused blocks, layers, styles and linetypes:** `-PURGE` → `A` (All) → `*` → `N`. Run it two or three times, because purging one thing can free up something it was holding (a block that used a layer that used a linetype).
+- **Unused blocks, anonymous blocks, layers, styles and linetypes:** `-PURGE` → `A` (All) → `*` → `N`. Run it two or three times, because purging one thing can free up something it was holding (a block that used a layer that used a linetype).
 - **Errors:** `AUDIT` → `Y` fixes what it finds. If a drawing won't open cleanly, `RECOVER` is the heavier version.
-- **The last resort:** `-WBLOCK` the whole drawing (`*`) out to a new file. Only what's actually used gets written. Open the new file and check it carefully before you throw away the old one.
+- **The last resort:** `-WBLOCK` the whole drawing (`*`) out to a new file. Only what's actually used gets written. Open the new file and check it carefully before you throw away the old one. This technique can be used to re-write an entire Civil 3D project drawing database. 
 
 ## One script for all of it
 
