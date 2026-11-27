@@ -1,6 +1,6 @@
 ---
 published: false
-date: 2026-12-05
+date: 2026-12-04
 title: "Read a drawing without opening AutoCAD: Autodesk Platform Services on a homelab"
 description: "Upload a DWG, let the little hamsters run AutoCAD in the cloud, and land every layer in your own Postgres database. Free tier, self-hosted n8n, no desktop seat required."
 kicker: "Automation"
