@@ -1,0 +1,54 @@
+<!doctype html>
+<!-- Share card (og:image) for the wild turkey post. Render with: python3 tools/og/shoot.py tools/og/wild-turkey-comeback.html -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="card.css">
+<style>
+  .maps { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 22px; }
+  .maps figure { margin: 0; }
+  .maps svg { display: block; width: 100%; height: auto; }
+  .maps figcaption { font: 800 26px/1 var(--display); letter-spacing: -0.01em; margin: 0 0 6px 8px; }
+  .maps figcaption span { font: 600 18px var(--body); color: var(--ink-soft); margin-left: 8px; }
+  .land { fill: #e3e5e1; }
+  .borders { fill: none; stroke: var(--paper); stroke-width: 1; stroke-linejoin: round; }
+  .dot { stroke: rgba(31,35,38,.55); stroke-width: .5; }
+  .dot.zero { fill: #b9bdb9; stroke: none; opacity: .75; }
+</style>
+</head>
+<body>
+<div class="card">
+  <p class="kicker">Data, but make it Thanksgiving</p>
+  <h1>The wild turkey comeback: from <em>2%</em> of bird survey routes to <em>30%</em></h1>
+  <div class="maps">
+    <figure><figcaption id="c0"></figcaption><svg id="m0"></svg></figure>
+    <figure><figcaption id="c1"></figcaption><svg id="m1"></svg></figure>
+  </div>
+  <div class="brand"></div>
+</div>
+<script src="../../assets/posts/wild-turkey-comeback/turkey-map-data.js"></script>
+<script src="card.js"></script>
+<script>
+  // Same binning and colours as assets/posts/wild-turkey-comeback/turkey.js
+  const T = window.TURKEY, NS = 'http://www.w3.org/2000/svg';
+  const BINS = [[1, '#f6b6d1'], [3, '#ec6fa6'], [6, '#c8216f'], [Infinity, '#7d0f45']];
+  const label = (d) => (d === 2020 ? '2020–25' : d + 's');
+  const mk = (tag, a, p) => { const e = document.createElementNS(NS, tag); for (const k in a) e.setAttribute(k, a[k]); p.appendChild(e); return e; };
+  [0, T.decades.length - 1].forEach((di, k) => {
+    const svg = document.getElementById('m' + k);
+    svg.setAttribute('viewBox', T.viewBox.join(' '));
+    mk('path', { d: T.land, class: 'land' }, svg);
+    mk('path', { d: T.borders, class: 'borders' }, svg);
+    const gz = mk('g', {}, svg), gh = mk('g', {}, svg);
+    T.routes.forEach((r) => {
+      const v = r[4][di];
+      if (v == null) return;
+      if (v === 0) mk('circle', { cx: r[0], cy: r[1], r: 1.9, class: 'dot zero' }, gz);
+      else mk('circle', { cx: r[0], cy: r[1], r: 4, class: 'dot', fill: BINS.find((b) => v <= b[0])[1] }, gh);
+    });
+    document.getElementById('c' + k).textContent = label(T.decades[di]);
+  });
+</script>
+</body>
+</html>
