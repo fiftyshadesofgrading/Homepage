@@ -8,6 +8,7 @@
 ## Posts
 - Text posts are Markdown in `_posts/` with front matter (title, date, published, description, kicker, tags). `published: false` = draft.
 - Drafts may start with an HTML comment of TK notes. Pages CMS's rich-text editor may drop it, so don't rely on it surviving.
+- The build stops if a published post dated today or earlier contains TK (`tools/site/check-published.mjs`). Future-dated published posts with TK only warn, so posts can be scheduled early and finished before their date.
 - Post assets go in `assets/posts/<slug>/`; scripts that build them (and a custom share card) go in `tools/posts/<slug>/`. Site-wide build tools live in `tools/site/`. Raw source data stays out of the repo; keep only scripts and small built outputs.
 - Share images are built by GitHub Actions (`tools/site/share-cards/make-cards.py`) into `assets/og/<slug>.png`, never committed. Every published post gets a title card automatically; for a custom card, add `tools/posts/<slug>/share-card.html` (see the wild turkey one). `image:` in front matter overrides both. Problems show as warnings on the Actions run, and the post falls back to the site card. After changing a card, re-run the URL through LinkedIn Post Inspector.
 - Remove unused assets (especially images) when changing the site.
