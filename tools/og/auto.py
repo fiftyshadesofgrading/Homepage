@@ -2,7 +2,8 @@
 
 - A post with `image:` in its front matter keeps it (warns if that file is missing).
 - A post with its own card page, tools/og/<slug>.html, gets that rendered.
-- Every other published post gets a title card from tools/og/title-card.html.
+- Every other published post gets a title card from tools/og/title-card.html
+  (text over a contour plan from tools/og/contours.js, seeded by the slug so it is stable).
 - Output: assets/og/<slug>.png, built in CI and not committed; _layouts/default.html points there.
 - Drafts (`published: false`) and future-dated posts are skipped.
 - Problems are reported as a warning note, never a failed build. A post whose card can't be
@@ -75,7 +76,7 @@ if todo:
                             page.wait_for_load_state("networkidle")
                             title_page = True
                         page.evaluate("document.fonts.ready")
-                        fit = page.evaluate("([t, k]) => window.fill(t, k)", [title, kicker])
+                        fit = page.evaluate("([t, k, s]) => window.fill(t, k, s)", [title, kicker, slug])
                         if fit["lines"] > 4:
                             errors.append(f"{slug}: title is long; card text may be cramped")
                     page.evaluate("document.fonts.ready")
