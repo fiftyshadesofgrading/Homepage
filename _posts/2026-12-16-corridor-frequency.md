@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 date: 2026-12-16
 title: "Corridor frequency: your quantities depend on it"
 description: "A corridor is only as accurate as where it takes samples. How frequency, regions and targets change your earthwork numbers, with a test you can run."
