@@ -11,7 +11,7 @@ Two ideas caught my eye as I was scrolling through my LinkedIn feed. One was a t
 
 The first was someone proud of their AutoCAD skills, mostly 2D structural work, and making the case that the skills still count. The second was a reply saying those tools are done: they hadn't drawn anything in AutoCAD or Revit in years, and soon we're all just going to code. This user went on to tout their proficiency in developing model geometry through the use of AI prompts. 
 
-My first reaction was to pick a side. This is the internet, and LinkedIn, after all! My second reaction, after I'd stopped being mad at my phone, was that **they're both right**, and the argument only exists because each one is looking at a different part of the job.
+My first reaction was to pick a side. My second reaction, after I'd stopped being mad at my phone, was that **they're both right**, and the argument only exists because each one is looking at a different part of the job.
 
 ## Nobody wants you to one-shot a building
 
