@@ -7,7 +7,7 @@ kicker: "Opinion"
 tags: [data, gnss, machine-control, data-engineering]
 ---
 
-I wish I could tell you this post started with deep thoughts about IoT sensors and jobsite data streams. That would be a lie. It started at the Counter-Strike Major in Boston in 2018, the ELEAGUE Major, with the playoffs at Agganis Arena. That's where I met one of the sharpest software engineers I know, a Ruby fan with strong opinions about code quality, and we've been best buds ever since. When most of the crowd is teenage gamers, the adults find each other fast: the dads, the young professionals, and the folks ordering double bourbons at 11 a.m. This is still a nerdy blog, right?!
+I wish I could tell you this post started with deep thoughts about IoT sensors and jobsite data streams. That would be a lie. It started at the Counter-Strike Major in Boston in 2018, the ELEAGUE Major, with the playoffs at the Agganis Arena. That's where I met one of the sharpest software engineers I know, a Ruby fan with strong opinions about code quality, and we've been best buds ever since. When most of the crowd is teenage gamers, the adults find each other fast: the dads, the young professionals, and the folks ordering double bourbons at 11 a.m. This is still a nerdy blog, right?!
 
 Years later I pulled every match from that Major into a database, mostly for fun, right as I was planning a GPS machine-control demo. Thinking about both at once led to a comparison I can't stop thinking about: **one competitive match records about as many position samples as a week or two of tracking a worker on a jobsite, or a full shift of a dozer running machine control.**
 
@@ -26,7 +26,7 @@ I wrote a small loader (Go, using the open-source `demoinfocs-golang` parser) th
 
 Positions land as PostGIS points, so the same spatial SQL I use for site data works on a video game map.
 
-Two lessons came free with the build. First, the recordings drop a network packet now and then, losing the last kill of a round. The loader rebuilds those kills from the victim's health and the killer's scoreboard, flags them as `inferred`, and checks every player's totals against the in-game scoreboard. Second: real-world data is never complete, even when it comes from a computer.
+Two lessons came free with the build. First, the recordings drop a network packet now and then, losing the last kill of a round. The loader rebuilds those kills from the victim's health and the killer's scoreboard, flags them as `inferred`, and checks every player's totals against the in-game scoreboard. Second: (please sit down for this) real-world data is never complete, even when it comes from a computer.
 
 ## Where the bytes went
 
@@ -59,7 +59,7 @@ So a 64-tick match is about a week of worker tracking or half a day of machine c
 
 ### A note on CS2 and "sub-tick"
 
-This is a 2018 CS:GO data set, and the game has moved on. CS2 replaced the 64-vs-128 argument with what Valve calls **sub-tick**: the server still simulates at a fixed rate (64 a second), but every shot, jump and movement input carries its exact timestamp *between* ticks. So the old "128 is better" debate is mostly history, and a CS2 demo would give you positions at 64 a second plus precisely timed actions.
+This is a 2018 CS:GO data set, and the game has moved on. CS2 replaced the 64-vs-128 argument with what Valve calls **sub-tick**: the server still simulates at a fixed rate (64 a second), but every shot and movement input carries its exact timestamp *between* ticks. So the old "128 is better" debate is mostly history, and a CS2 demo would give you positions at 64 a second plus precisely timed actions.
 
 That doesn't make the comparison moot. If anything, it makes the point of this post for me: CS2 samples the **tracks** at a fixed, modest rate and records the **events** with precise timestamps. That's exactly the split I'd want on a jobsite.
 
@@ -106,7 +106,7 @@ WHERE match_id = 1 AND round_num = 12 AND (tick / 16) % 8 = 0   -- ~1 per second
 GROUP BY player_name;
 ```
 
-My guess is that 1 Hz keeps nearly all of the path in a game this twitchy. On a jobsite, where a dozer moves at walking pace, far less would do for anything except blade control. That's exactly the point: the right rate depends on the question.
+My guess is that 1 Hz keeps nearly all of the path in a game this twitchy. On a jobsite, where a dozer moves at walking pace, far less would do for anything except blade control. That's exactly the point: the right rate depends on the question. This is where data analysis and engineering are more of an art than a science. Right where we love to hang out. 
 
 ## Sample at the rate the decision needs
 
@@ -115,7 +115,7 @@ The right sampling rate isn't "as fast as the hardware allows". It's as fast as 
 - **Blade control** needs fast, precise positions (several per second, with RTK corrections), because the machine is cutting to grade in real time.
 - **Worker safety** (is someone in the swing radius?) needs positions every second or so, and needs them *now*, not tomorrow.
 - **Productivity and progress** (how much did we move today?) are fine with a position every few seconds, or a summary at the end of the shift.
-- **Fleet tracking** (where's the excavator?) is fine at once a minute.
+- **Fleet tracking** (where the heck is the excavator?) is fine at once a minute.
 
 Store everything at the fastest rate and you pay for it in storage, bandwidth and slower queries, forever, for decisions nobody's making.
 
