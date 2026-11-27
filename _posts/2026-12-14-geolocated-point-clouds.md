@@ -6,7 +6,7 @@ description: "Getting a LiDAR or scan point cloud into Civil 3D in the right pla
 kicker: "Reality capture"
 tags: [civil-3d, point-clouds, recap, coordinate-systems, gis]
 ---
-
+TK check against the write doc. 
 
 A point cloud dropped into a drawing at 0,0,0 is a very expensive picture of the wrong place. Getting it to land on your project coordinates is mostly about asking three questions *before* you import anything.
 
