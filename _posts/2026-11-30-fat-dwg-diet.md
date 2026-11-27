@@ -42,13 +42,13 @@ Drawings that have been anywhere near a MicroStation file (a DGN import, or a DW
 
 ## Excessive references
 
-External References and Data References should be used throughout a project with care. Your method for overlaying or attaching XREFs and ensuring that each model has access to the relevant information is imperative. Avoid attaching too much overhead to file through references, be selective and use Data References where possible. Entities such as Pressure Networks or Gravity Networks can bog down a file, especially when brought in through a reference. 
+External references and data references should be used throughout a project with care. How you overlay or attach XREFs, and make sure each model has access to the information it needs, matters a lot. Avoid loading a file down with references: be selective, and use data references where possible. Pipe networks and pressure networks in particular can bog down a file, especially when they come in through a reference.
 
 ## The usual suspects
 
 - **Unused blocks, anonymous blocks, layers, styles and linetypes:** `-PURGE` → `A` (All) → `*` → `N`. Run it two or three times, because purging one thing can free up something it was holding (a block that used a layer that used a linetype).
 - **Errors:** `AUDIT` → `Y` fixes what it finds. If a drawing won't open cleanly, `RECOVER` is the heavier version.
-- **The last resort:** `-WBLOCK` the whole drawing (`*`) out to a new file. Only what's actually used gets written. Open the new file and check it carefully before you throw away the old one. This technique can be used to re-write an entire Civil 3D project drawing database. 
+- **The last resort:** `-WBLOCK` the whole drawing (`*`) out to a new file. Only what's actually used gets written. Open the new file and check it carefully before you throw away the old one. This technique can be used to rewrite an entire Civil 3D project drawing database.
 
 ## One script for all of it
 

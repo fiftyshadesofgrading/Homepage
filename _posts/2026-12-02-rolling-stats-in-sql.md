@@ -34,6 +34,8 @@ Every rate stat works this way. Roll up the **counting stats** (innings, earned 
 ROUND(SUM(earned_runs) * 9.0 / NULLIF(SUM(innings_pitched), 0), 2) AS era
 {% endhighlight %}
 
+(That assumes `innings_pitched` holds real innings. More on that in a second.)
+
 `NULLIF(..., 0)` keeps a pitcher with zero innings from dividing by zero and taking the whole query down with him.
 
 One baseball-data gotcha while I'm at it: box scores write innings as `6.1` and `6.2`, meaning six and a third and six and two thirds. That's notation, not decimals. Convert to outs (6.1 → 19 outs) before you add anything up, and back to innings at the end.
@@ -61,6 +63,10 @@ For a dashboard, I didn't want window functions running on every page load. So t
 - A unique key on player, date and window keeps it honest.
 
 A player card is then four rows from one table, and a leaderboard is a `WHERE window_days = 30 ORDER BY era`.
+
+The nightly run is an [n8n](https://n8n.io/) workflow, the self-hosted scheduler that already loads the game logs. Once the logs land, it builds the queries for every window, runs them against Postgres and logs the run, and my phone gets a push alert if anything fails. The same workflow back-filled the whole season the first time, by generating one set of queries per date from opening day forward.
+
+I've since moved more of the logic out of n8n and into the database (views and functions instead of SQL strings built in workflow nodes). The scheduler is great at *when*; the database is better at *what*. n8n's job is to wake up, fetch and say "go".
 
 ## Formulas
 

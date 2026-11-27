@@ -7,7 +7,6 @@ kicker: "Templates and standards"
 tags: [civil-3d, styles, templates, layers]
 ---
 
-
 Open the Display tab of almost any Civil 3D style and every component has its own layer: alignment tangents on one, curves on another, arrows on a third. That's one way to build a template. Bespoke styles with hardcoded and static layering - as per the Autodesk best practices. Here's the other: **put the components on layer 0 with BYLAYER settings** and let the object's own layer decide how it looks.
 
 ## How it works
@@ -24,7 +23,7 @@ Civil 3D objects behave a lot like blocks. Each object sits on a layer, set by *
 
 - **One style, many looks.** The same alignment style draws existing centerlines on a `V-` layer and proposed ones on a `C-` layer, each in its own color and lineweight, with no style swap.
 - **Fewer layers.** A template with named component layers can easily carry hundreds of layers nobody touches. With layer-0 components, the layer list is mostly the object layers you actually draw on.
-- **Freeze an object, not a component.** Freezing the object's layer hides the whole thing, which is usually what people meant. Freezing layers in Civil 3D should always be used with caution. 
+- **Freeze an object, not a component.** Freezing the object's layer hides the whole thing, which is usually what people meant. Freezing layers in Civil 3D should always be done with caution.
 - **XREFs make sense.** Referenced objects keep their components on the referenced object layer (`SITE|C-ROAD-ALIN`), so layer overrides in the host drawing work per object instead of per component.
 - **Plot styles by layer still work.** The object layer carries the pen or the style.
 
@@ -47,4 +46,4 @@ Contours are the one people argue about. I keep majors and minors on named layer
 
 ## Check your template in a minute
 
-Scan every style for which components sit on 0 and which don't. I'm building a template report tool that does exactly that! I'll write it up once it's ready to share, stay tuned!
+Scan every style for which components sit on 0 and which don't. I'm building a template report tool that does exactly that! I'll write it up once it's ready to share, so stay tuned.
