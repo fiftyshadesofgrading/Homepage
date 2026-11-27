@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 date: 2026-12-03
 title: "AutoCAD without AutoCAD: accoreconsole"
 description: "Every AutoCAD install ships a headless command-line version that runs scripts against drawings without opening the program. Batch-fixing a folder of DWGs becomes one line."
@@ -7,13 +7,13 @@ kicker: "AutoCAD nuts and bolts"
 tags: [autocad, automation, scripts, batch]
 ---
 
-Every AutoCAD install, Civil 3D included, ships a second copy of AutoCAD that hardly anyone knows about. It has no ribbon, no graphics window and no dialogs, and it opens in a fraction of the time. It's called `accoreconsole.exe`, and it's the easiest batch tool you already own.
+Every AutoCAD install, Civil 3D included, ships a second copy of AutoCAD that flies under the radar. It has no ribbon, no graphics window and no dialogs, and it opens in a fraction of the time. It's called `accoreconsole.exe`, and it's the easiest batch tool you already own.
 
 ## What it is
 
 Look in the AutoCAD install folder (for example `C:\Program Files\Autodesk\AutoCAD 2027\`) and you'll find `accoreconsole.exe` next to `acad.exe`. It's the same core drawing engine without the user interface: it opens a drawing, runs a script against it, saves, and quits.
 
-It's also a close cousin of what Autodesk runs in the cloud for Design Automation. Tomorrow's post does this same trick on Autodesk's servers instead of my laptop.
+It's also a close cousin of what Autodesk runs in the cloud for Design Automation. Tomorrow's post does this same trick on Autodesk's servers instead of locally on my laptop.
 
 ## Run one drawing
 
