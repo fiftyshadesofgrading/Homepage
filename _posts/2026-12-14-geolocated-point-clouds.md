@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 date: 2026-12-14
 title: "LiDAR to Civil 3D: point clouds that land where they belong"
 description: "Download USGS 3DEP LiDAR in bulk, index it in ReCap Pro, and attach it to Civil 3D in the right place, at the right scale and elevation. Plus why a geolocated cloud goes in at 0,0,0."
@@ -7,13 +7,13 @@ kicker: "Reality capture"
 tags: [civil-3d, point-clouds, recap, coordinate-systems, gis]
 ---
 
-Public LiDAR is one of the best free things a civil designer can get. The USGS 3D Elevation Program (3DEP) has flown most of the country, and the classified point clouds are there for anyone to download. Getting them into Civil 3D in the right place, at the right scale and at the right elevation is where people lose an afternoon. This is my procedure, start to finish.
+Public LiDAR is one of the best free things a civil designer can get. The USGS 3D Elevation Program (3DEP) has flown most of the country, and the classified point clouds are there for anyone to download. Getting them into Civil 3D in the right place, at the right scale and at the right elevation is where people lose an afternoon and their sanity. This is my procedure, start to finish.
 
 ## The short version
 
 1. Find the 3DEP project that covers the site, and **write down its coordinate system, units and vertical datum**.
 2. Build a list of tile URLs and **batch download** the LAZ files.
-3. **Import and index** the tiles in ReCap Pro, telling it the units the data was *delivered* in.
+3. **Import and index** the tiles in ReCap Pro, telling it the units and coordinate system the data was *delivered* in.
 4. **Attach** the RCP in Civil 3D (at 0,0,0, which feels wrong; more on that below) and **prove it landed** against something independent.
 
 ## Point clouds, not DEMs
@@ -76,7 +76,7 @@ find /c /v "" URLS.txt
 dir /b LAZ\*.laz | find /c /v ""
 ```
 
-The two counts should match. Sort by size and look for anything suspiciously small; that's a failed transfer. Delete it and re-run the script (both versions overwrite, so a re-run fills the gaps). Open one tile before importing everything, to confirm the header carries the coordinate system you expect. And keep `URLS.txt` with the data: it's the record of exactly what you downloaded.
+The two counts should match. Sort by size and look for anything suspiciously small; that's a potential failed transfer. Delete it and re-run the script (both versions overwrite, so a re-run fills the gaps). Open one tile before importing everything, to confirm the header carries the coordinate system you expect. And keep `URLS.txt` with the data: it's the record of exactly what you downloaded.
 
 ## In ReCap Pro
 
@@ -106,7 +106,7 @@ ReCap Pro has **automatic ground classification**. For 3DEP data you generally s
 
 Where it earns its keep is data with no classification: drone photogrammetry, terrestrial scans for existing ground, and older LiDAR that came unclassified or badly classified. Set the level of detail (less detail gives a smoother ground that ignores low vegetation and curb noise), let it run, then check ditch bottoms, breaklines and heavy canopy, which is where it fails first. It's an estimate, not a survey.
 
-**The gotcha:** hiding non-ground classes and saving the project doesn't carry through. Civil 3D still sees the full cloud. To get a ground-only cloud, delete everything except ground, then **export to a new RCP** (don't just save) and attach that one.
+**The gotcha:** hiding non-ground classes and saving the project doesn't carry through. Civil 3D still sees the full cloud. To get a ground-only cloud, delete everything except the ground classification, then **export to a new RCP** (don't just save) and attach that one.
 
 ### Saving
 
@@ -129,7 +129,7 @@ Now the part that still confuses me a little. The attach dialog may offer to pla
 
 It feels wrong to put a geolocated cloud at the origin. As far as I can tell, ReCap stores the points in their real-world projected coordinates, and Civil 3D doesn't transform them at all. Inserting at 0,0,0 just means "don't move anything", so the points land at their own eastings and northings. That only works if the drawing is in the **same coordinate system** as the cloud, which is why step 2 matters.
 
-On the scale factor, **feet aren't all the same feet**. Meters to US survey feet is 3937/1200 (3.2808333…); meters to international feet is 3.2808399. Over state plane coordinates in the millions, picking the wrong one moves the cloud a few feet. Match whatever the drawing uses.
+On the scale factor, **feet aren't all the same feet**. Meters to US survey feet is 3937/1200 (3.2808333…); meters to international feet is 3.2808399. Over state plane coordinates in the millions, picking the wrong one moves the cloud a few feet. Match whatever the drawing uses or set the units to scale inserted content to match the point cloud. 
 
 Once it's placed, **lock it**.
 
