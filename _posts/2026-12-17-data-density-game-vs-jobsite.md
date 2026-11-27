@@ -7,7 +7,7 @@ kicker: "Opinion"
 tags: [data, gnss, machine-control, data-engineering]
 ---
 
-I wish I could tell you this post started with deep thoughts about IoT sensors and jobsite data streams. That would be a lie. It started at the Counter-Strike Major in Boston in 2018, the ELEAGUE Major, with the playoffs at the Agganis Arena. That's where I met one of the sharpest software engineers I know, a Ruby fan with strong opinions about code quality, and we've been best buds ever since. When most of the crowd is teenage gamers, the adults find each other fast: the dads, the young professionals, and the folks ordering double bourbons at 11 a.m. This is still a nerdy blog, right?!
+I wish I could tell you this post started with deep thoughts about IoT sensors and jobsite data streams. That would be a lie. It started at the Counter-Strike Major in Boston in 2018, the ELEAGUE Major, with the playoffs at the Agganis Arena (site of the first Beanpot championship I saw live). That's where I met one of the sharpest software engineers I know, a Ruby fan with strong opinions about code quality, and we've been best buds ever since. When most of the crowd is teenage gamers, the adults find each other fast: the dads, the young professionals, and the folks ordering double Woodford's bourbons at 11 a.m. This is still a nerdy blog, right?!
 
 Years later I pulled every match from that Major into a database, mostly for fun, right as I was planning a GPS machine-control demo. Thinking about both at once led to a comparison I can't stop thinking about: **one competitive match records about as many position samples as a week or two of tracking a worker on a jobsite, or a full shift of a dozer running machine control.**
 
@@ -26,7 +26,7 @@ I wrote a small loader (Go, using the open-source `demoinfocs-golang` parser) th
 
 Positions land as PostGIS points, so the same spatial SQL I use for site data works on a video game map.
 
-Two lessons came free with the build. First, the recordings drop a network packet now and then, losing the last kill of a round. The loader rebuilds those kills from the victim's health and the killer's scoreboard, flags them as `inferred`, and checks every player's totals against the in-game scoreboard. Second: (please sit down for this) real-world data is never complete, even when it comes from a computer.
+Two lessons came free with the build. First, the recordings drop a network packet now and again, sometimes losing the last kill of a round as the ticks count down to the round switch. The loader rebuilds those kills from the victim's health and the killer's scoreboard, flags them as `inferred`, and checks every player's totals against the in-game scoreboard. Second: (please sit down for this) real-world data is never complete, even when it comes from a computer.
 
 ## Where the bytes went
 
@@ -106,14 +106,14 @@ WHERE match_id = 1 AND round_num = 12 AND (tick / 16) % 8 = 0   -- ~1 per second
 GROUP BY player_name;
 ```
 
-My guess is that 1 Hz keeps nearly all of the path in a game this twitchy. On a jobsite, where a dozer moves at walking pace, far less would do for anything except blade control. That's exactly the point: the right rate depends on the question. This is where data analysis and engineering are more of an art than a science. Right where we love to hang out. 
+My guess is that 1 Hz keeps nearly all of the path in a game this twitchy. On a jobsite, where a dozer moves at walking pace, far less would do for anything except blade control. That's exactly the point: the right rate depends on the question. This is where data analysis and engineering are more of an art than a science. Right where we love to hang out. An understanding of the dataset presently and the representation / rebuilding in the software or data schema are two separate sets of parameters that require a deep understanding of the data to make the best decisions to optimize the data.
 
 ## Sample at the rate the decision needs
 
 The right sampling rate isn't "as fast as the hardware allows". It's as fast as the decision you're making needs:
 
-- **Blade control** needs fast, precise positions (several per second, with RTK corrections), because the machine is cutting to grade in real time.
-- **Worker safety** (is someone in the swing radius?) needs positions every second or so, and needs them *now*, not tomorrow.
+- **Blade control** needs fast, precise positions (several per second, with RTK corrections), because the machine is cutting to grade in real time and the GPS is tied to a high frequency clock.
+- **Worker safety** (is someone in the swing radius?) needs positions every second or so, and needs them *now*, not tomorrow. Skanska US implemented this on their jobsites back in 2016, it was at proof on concept stage - but if it influences how workers behave on a jobsite is it a proof? Keeping folks safe was the name of the game. At Skanska we stretched every morning in the VDC office to stay safe like all of our colleagues and friends out there on the site!
 - **Productivity and progress** (how much did we move today?) are fine with a position every few seconds, or a summary at the end of the shift.
 - **Fleet tracking** (where the heck is the excavator?) is fine at once a minute.
 
