@@ -64,7 +64,7 @@ Work on a copy of the folder the first time. A script runs exactly what you wrot
 
 ## Things I use it for
 
-- Purge, audit and fix regapps on a whole folder (see [the DWG diet plan](/blog/2026/11/30/fat-dwg-diet/)).
+- Purge, audit and fix regapps on a whole folder (more on that in a DWG diet post coming soon).
 - Bring every drawing in a set up to a layer standard.
 - Plot every layout to PDF with `-PLOT` and a saved page setup.
 - Report drawing units and coordinate systems across a project with one line of LISP: `(princ (getvar "INSUNITS"))`.

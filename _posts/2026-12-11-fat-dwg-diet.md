@@ -1,6 +1,6 @@
 ---
 published: true
-date: 2026-11-30
+date: 2026-12-11
 title: "Your DWG is fat: a diet plan"
 description: "Registered applications, scale lists, orphaned linetype data and other junk that makes a 200 KB drawing weigh 40 MB, and how to get rid of it."
 kicker: "AutoCAD nuts and bolts"
@@ -65,4 +65,4 @@ AUDIT Y
 QSAVE
 ```
 
-Run it with `SCRIPT` on one drawing. Prompts move around between versions, so walk through each line by hand once in your version before trusting the script. In a few days I'll show how to run the same script on a whole folder of drawings without opening any of them.
+Run it with `SCRIPT` on one drawing. Prompts move around between versions, so walk through each line by hand once in your version before trusting the script. To run the same script on a whole folder of drawings without opening any of them, see my [accoreconsole post](/blog/2026/12/03/accoreconsole/).

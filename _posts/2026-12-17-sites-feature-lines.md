@@ -1,6 +1,6 @@
 ---
 published: true
-date: 2026-12-11
+date: 2026-12-17
 title: "Sites: why your feature lines keep breaking each other"
 description: "In Civil 3D, objects in the same site talk to each other whether you want them to or not. A five-minute explanation that saves hours of mystery splits."
 kicker: "Civil 3D grading"

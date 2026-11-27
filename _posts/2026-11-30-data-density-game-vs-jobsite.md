@@ -1,6 +1,6 @@
 ---
 published: false
-date: 2026-12-17
+date: 2026-11-30
 title: "Data density: a video game match vs. a week on the jobsite"
 description: "One competitive match records about as many position samples as a week of worker tracking or half a day of dozer machine control. What to keep, and what to throw away."
 kicker: "Opinion"
