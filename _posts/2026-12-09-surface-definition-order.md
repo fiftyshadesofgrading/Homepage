@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 date: 2026-12-09
 title: "Surface definitions run in order, and order matters"
 description: "A Civil 3D surface is a recipe, not a result. The operation list rebuilds top to bottom every time, which explains a lot of 'my edit disappeared' moments."
@@ -19,6 +19,7 @@ The order that matters isn't that tree, though. It's the operation list in *Surf
 
 - **The edit that undid itself.** You delete a few bad triangles with a delete-line edit. Later, someone adds a breakline nearby. On rebuild, the breakline step comes after your delete, so it re-triangulates the area and your bad triangles are back.
 - **Boundaries vs breaklines.** A boundary applied before a breakline that crosses it doesn't behave like a boundary applied after it. If the edge of the surface looks wrong, check where the boundary sits in the list.
+- **Data Clip boundary not working.** A data clip boundary must be the first step in the recipe so the surface build can identify what data to use to build the surface and what data to ignore.
 - **Edits pointing at triangles that no longer exist.** Edits like *swap edge* or *delete line* are tied to triangles. Change the data underneath and those triangles may not exist any more, so the edit does nothing, or does it somewhere you didn't expect.
 
 ## Changing the recipe
@@ -32,14 +33,14 @@ To move a step, I don't fight the list. I remove the operation and add it again,
 On the same Definition tab, the build options can fix bad data without a single edit:
 
 - **Exclude elevations less than / greater than.** The classic fix for points at elevation 0 or a 9999 placeholder from the survey software. Don't delete them; just tell the surface to ignore them.
-- **Use maximum triangle length.** Stops the long, skinny triangles that bridge across the outside of the data or over gaps. Set it a bit longer than your normal point spacing.
+- **Use maximum triangle length.** Stops the long, skinny triangles that bridge across the outside of the data or over gaps. Set it a bit longer than your normal survey or design point spacing.
 
 Both are part of the recipe too, so they apply on every rebuild without you having to remember them.
 
 ## My recipe
 
-1. **Data first:** point groups, breaklines, then drawing objects or DEMs.
-2. **Boundaries next:** an outer boundary to trim the edges, then hide boundaries for buildings and ponds.
+1. **Data first:** point groups, breaklines, then drawing objects.
+2. **Boundaries next:** an outer boundary to trim the edges, then hide boundaries for building footprints and ponds.
 3. **Edits last, and as few as possible.**
 
 Edits are the least trustworthy step in the list, because they depend on whatever triangles exist at that moment. If I find myself making lots of them, the data is usually the real problem. A missing breakline fixes a dozen edge swaps, and it survives a rebuild.
