@@ -7,7 +7,7 @@ kicker: "Reality capture"
 tags: [point-clouds, lidar, potree, forma, recap, web]
 ---
 
-The [point cloud post](/blog/2026/12/14/geolocated-point-clouds/) ended with the LiDAR sitting nicely in Civil 3D. That's great for me. It's no help to the client, the reviewer or the project manager who doesn't have ReCap or Civil 3D and just wants to look at the thing. There are two good ways to put a point cloud in a browser: Autodesk's own viewer in Forma, or an open-source viewer called Potree that I host myself.
+The [point cloud post](/blog/2026/12/14/geolocated-point-clouds/) ended with the LiDAR sitting nicely in Civil 3D. That's great for me. It's no help to the client, the reviewer or the project manager who doesn't have ReCap, InfraWorks, or Civil 3D and just wants to look at the dang thing. There are two good ways to put a point cloud in a browser: Autodesk's own viewer in Forma, or an open-source viewer called Potree that I host myself.
 
 ## Option 1: Forma Data Management (the Autodesk way)
 
