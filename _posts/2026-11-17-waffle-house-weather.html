@@ -9,8 +9,8 @@ scripts:
   - /assets/posts/waffle-house-weather/map.js
 ---
 <div class="wrap">
-  <p>Most of us have a data set sitting in a folder somewhere: survey points, a list of sites, an export from a model. Or sometimes it is a publicly available dataset. It does its job in the project and then just sits there. The gap between “a file on my machine” and “a page anyone can open” is smaller than it looks, and the fastest way to see that is to do it with something silly.</p>
-  <p>So here is every Waffle House in the country, colored by the current temperature at its location. Hover or tap a dot.</p>
+  <p>I have a folder full of data sets that did their job on a project and then went to sleep: survey points, a list of sites, an export from a model, and the odd public dataset I downloaded “for later.” Sound familiar? The gap between “a file on my machine” and “a page anyone can open” is a lot smaller than it looks, and the fastest way to prove it is with something gloriously silly.</p>
+  <p>So here’s every Waffle House in the country, colored by how warm it is outside right now. FEMA famously watches whether Waffle Houses stay open after a storm (the unofficial “Waffle House Index”). This is the far less important Waffle House <em>Temperature</em> Index. Hover or tap a dot and pick your booth.</p>
 </div>
 
 <div class="wide">
@@ -57,7 +57,7 @@ scripts:
 
 <div class="wrap">
   <h2>What you’re looking at</h2>
-  <p>Blue is cold, red is warm, and the pale gray in the middle is 50°F (10°C), roughly the “grab a jacket” line. The deep south and the Carolinas hold most of the dots, which is exactly where the chain lives; check the state table if you want the exact counts.</p>
+  <p>Blue is cold, red is warm, and the pale gray in the middle is 50°F (10°C), roughly the “grab a jacket” line. The Deep South and the Carolinas hold most of the dots, which is exactly where the chain lives; check the state table if you want the exact counts. If the whole map goes blue, that’s your sign to order the hash browns smothered and covered.</p>
   <p>The temperatures come from <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>, which serves weather model data free and without an API key. Stores within about 25 km of each other share one reading, so roughly 780 lookups cover all 2,089 locations, refreshed every three hours. Treat it as a weather model’s idea of the air temperature nearby, not a thermometer on the roof.</p>
 
   <h2>Put your own data set online</h2>
@@ -77,7 +77,7 @@ scripts:
   <p>Every location becomes a <code>&lt;circle&gt;</code>. The look (land color, dot outline, the toggle, the cards) lives in a stylesheet, so restyling it is a CSS edit, not a code change. A scripted nearest-dot lookup powers the hover tooltip so small dots stay easy to hit on a phone.</p>
 
   <h3>4. Attach the live part, on a schedule</h3>
-  <p>The tempting move is to have each visitor’s browser ask the weather service directly. Remember, the free tier allows 600 lookups a minute, and this map needs about 780, so a single page view would blow the limit. As a workaround a GitHub Action wakes up every three hours, asks Open-Meteo for every grid cell in throttled batches of 100, saves the answers as one small <code>temps.json</code>, and republishes the site. The page just reads that file.</p>
+  <p>The tempting move is to have each visitor’s browser ask the weather service directly. Tempting, but the free tier allows 600 lookups a minute and this map needs about 780, so a single page view would blow the limit. Instead, a GitHub Action wakes up every three hours, asks Open-Meteo for every grid cell in throttled batches of 100, saves the answers as one small <code>temps.json</code>, and republishes the site. The page just reads that file.</p>
   <pre><code># .github/workflows/pages.yml (excerpt)
 on:
   schedule:
@@ -87,7 +87,7 @@ steps:
   - uses: actions/jekyll-build-pages@v1      # rebuilds the site</code></pre>
   <p>Same idea works for anything you’d rather not hit live: pull it on a schedule, publish a file, keep the page dumb.</p>
 
-  <p>That’s the whole pattern: table, projection, SVG, one scheduled job. Swap the Waffle Houses for your own points and swap temperature for whatever you can look up by coordinate.</p>
+  <p>That’s the whole pattern: table, projection, SVG, one scheduled job. Swap the Waffle Houses for your own points and swap temperature for whatever you can look up by coordinate. Now go map something silly. I’ll be over here, hungry.</p>
 
   <p class="note">Sources: store locations from the public dataset above (June 2026 snapshot; stores open and close, so a few dots may be out of date). Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo.com</a> (CC BY 4.0). State outlines from <a href="https://github.com/topojson/us-atlas" target="_blank" rel="noopener">us-atlas</a>. Not affiliated with Waffle House.</p>
 </div>

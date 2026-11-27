@@ -9,8 +9,9 @@ scripts:
   - /assets/posts/wild-turkey-comeback/turkey.js
 ---
 <div class="wrap">
+  <p>Thanksgiving had me thinking about turkeys. The wild kind, not the one in the oven. Turns out there’s a sixty-year federal data set that counts them, and I couldn’t help myself.</p>
   <p>Every June since 1966, volunteers have driven the same roadside routes across North America, stopping every half mile for three minutes to count every bird they see or hear. That's the <a href="https://www.usgs.gov/data/2026-release-north-american-breeding-bird-survey-dataset-1966-2025" target="_blank" rel="noopener">North American Breeding Bird Survey</a>, run by the USGS and the Canadian Wildlife Service, and it's one of the longest-running wildlife data sets anywhere.</p>
-  <p>It's also a pretty good record of one of the biggest wildlife recoveries in the country. In the late 1960s, a wild turkey turned up on about 2% of US survey routes in a given year. Now it's about 30%.</p>
+  <p>It's also a front-row seat to one of the biggest wildlife comebacks in the country. In the late 1960s, a wild turkey turned up on about 2% of US survey routes in a given year. Now it's about 30%.</p>
   <p>Here's every route in the lower 48, decade by decade. Press play to animate the progression.</p>
 </div>
 
@@ -63,16 +64,16 @@ scripts:
 <div class="wrap">
   <h2>What you're looking at</h2>
   <p>Gray dots are routes that were surveyed but didn't count a turkey; pink ones did, and the darker the pink, the more turkeys per survey. In the 1960s and '70s the pink is scattered across a few southern and Appalachian strongholds. By the 2000s it fills in the Northeast, the Midwest and the Plains.</p>
-  <p>That isn't natural drift. Turkeys had been hunted and logged out of most of their range by the early 1900s, and state wildlife agencies spent decades trapping birds where they survived and releasing them where they didn't. The survey caught that work as it paid off. Some of the biggest swings are in places that had essentially none: Massachusetts went from 1.5% of surveys in the 1970s to 66% in the last decade, Wisconsin from 0.2% to 63%, and Maine from zero to 36%.</p>
+  <p>That isn't natural drift. Turkeys had been hunted and logged out of most of their range by the early 1900s, and state wildlife agencies spent decades trapping birds where they survived and releasing them where they didn't. The survey caught that work as it paid off. Some of the biggest swings are in places that had essentially none: Massachusetts went from 1.5% of surveys in the 1970s to 66% in the last decade, Wisconsin from 0.2% to 63%, and Maine from zero to 36%. If you've ever been stared down by a turkey in a New England parking lot, now you know who to thank.</p>
   <p>The line also shows where the story is now. The climb flattened out around 2005, and it's been bouncing between about 24% and 31% since. State biologists have been reporting declines in some areas, and a flat line in a survey this coarse is consistent with that. Don't read too much into a single year: no survey ran in 2020, and the number of routes surveyed changes every year.</p>
 
   <h2>Explore it yourself (no install)</h2>
-  <p>The tables behind this post are in a 2 MB SQLite file. <a href="https://datasette.io/" target="_blank" rel="noopener">Datasette</a> is a tool for publishing and querying data like this, and <a href="https://lite.datasette.io/" target="_blank" rel="noopener">Datasette Lite</a> runs the whole thing inside your browser. This link loads our file and installs the new <a href="https://simonwillison.net/2026/Nov/23/datasette-charts/" target="_blank" rel="noopener">datasette-charts</a> plugin, so you can query and chart without installing anything:</p>
+  <p>The tables behind this post are in a 2 MB SQLite file. <a href="https://datasette.io/" target="_blank" rel="noopener">Datasette</a> is a tool for publishing and querying data like this, and <a href="https://lite.datasette.io/" target="_blank" rel="noopener">Datasette Lite</a> runs the whole thing inside your browser. This link loads my file and installs the new <a href="https://simonwillison.net/2026/Nov/23/datasette-charts/" target="_blank" rel="noopener">datasette-charts</a> plugin, so you can query and chart without installing anything:</p>
   <p><a class="cta" href="https://lite.datasette.io/?install=datasette-charts&amp;url=https://fiftyshadesofgrading.com/assets/posts/wild-turkey-comeback/turkey.db" target="_blank" rel="noopener">Open the turkey data in Datasette Lite →</a></p>
   <p>Try the <code>us_yearly</code> table and chart <code>pct_routes_with_turkeys</code> by <code>year</code>, or run your own SQL against <code>turkey_runs</code> (every route, every year, with Canada included). It takes a few seconds to start the first time while Python loads in your browser.</p>
 
   <h2>How it's built: CSV → PostGIS → map</h2>
-  <p>Same idea as the <a href="{{ '/blog/2026/11/17/waffle-house-weather/' | relative_url }}">Waffle House map</a>, with a real database in the middle this time. The raw data is about 7.5 million rows: every species counted on every route in every year. PostGIS does the heavy lifting, and the page gets only the summaries.</p>
+  <p>Same idea as the <a href="{{ '/blog/2026/11/17/waffle-house-weather/' | relative_url }}">Waffle House map</a>, with a real database in the middle this time. Bigger bird, bigger data. The raw data is about 7.5 million rows: every species counted on every route in every year. PostGIS does the heavy lifting, and the page gets only the summaries.</p>
 
   <h3>1. Load it</h3>
   <p>The USGS release ships a <code>Routes.csv</code> (one row per route, with the start point's latitude and longitude) and a zip of per-state count files. <code>psql</code>'s <code>\copy</code> loads them straight from disk, and each route's start point becomes a real geometry:</p>
@@ -108,5 +109,5 @@ LEFT JOIN bbs.counts c
 
   <p class="note">A caveat for the bird people: these are simple averages of raw counts, not the USGS's model-based trend estimates, which correct for things like observer changes and which routes got run. The shape matches the published trend, but treat the exact numbers as a rough guide.</p>
 
-  <p class="note">Sources: Breeding Bird Survey counts and route locations from the USGS <a href="https://doi.org/10.5066/P144YU3S" target="_blank" rel="noopener">2026 Release, North American Breeding Bird Survey Dataset (1966–2025)</a> (public domain), with thanks to the thousands of volunteers who drive the routes. State outlines from <a href="https://github.com/topojson/us-atlas" target="_blank" rel="noopener">us-atlas</a>. Happy Thanksgiving.</p>
+  <p class="note">Sources: Breeding Bird Survey counts and route locations from the USGS <a href="https://doi.org/10.5066/P144YU3S" target="_blank" rel="noopener">2026 Release, North American Breeding Bird Survey Dataset (1966–2025)</a> (public domain), with thanks to the thousands of volunteers who drive the routes. State outlines from <a href="https://github.com/topojson/us-atlas" target="_blank" rel="noopener">us-atlas</a>. Happy Thanksgiving! Enjoy the data, and the leftovers.</p>
 </div>
