@@ -9,7 +9,7 @@
 - Text posts are Markdown in `_posts/` with front matter (title, date, published, description, kicker, tags). `published: false` = draft.
 - Drafts may start with an HTML comment of TK notes. Pages CMS's rich-text editor may drop it, so don't rely on it surviving.
 - Post assets go in `assets/posts/<slug>/`. Raw source data stays out of the repo; keep only scripts and small built outputs.
-- Share image: every published post gets one. Posts without `image:` get an auto title card (built in CI by `tools/og/auto.py` into `assets/og/<slug>.png`, not committed); problems (a card that can't be made, a missing `image:` file) show as warnings on the Actions run and don't block the deploy. For a custom card (1200x630 PNG, usually `assets/posts/<slug>/og.png`), build it as HTML in `tools/og/` and render with `python3 tools/og/shoot.py tools/og/<slug>.html`, then set `image:`. After changing one, re-run the URL through LinkedIn Post Inspector.
+- Share images are built by GitHub Actions (`tools/og/auto.py`) into `assets/og/<slug>.png`, never committed. Every published post gets a title card automatically; for a custom card, add `tools/og/<slug>.html` (see `wild-turkey-comeback.html`). `image:` in front matter overrides both. Problems show as warnings on the Actions run, and the post falls back to the site card. After changing a card, re-run the URL through LinkedIn Post Inspector.
 - Remove unused assets (especially images) when changing the site.
 
 ## Commits

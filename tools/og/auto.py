@@ -1,13 +1,15 @@
 """Make sure every published post has a share image (og:image) before the site builds.
 
-- A post with `image:` in its front matter keeps it; the build fails if that file is missing.
-- Every other published post gets a title card rendered from tools/og/title-card.html
-  into assets/og/<slug>.png (built in CI, not committed; _layouts/default.html points there).
+- A post with `image:` in its front matter keeps it (warns if that file is missing).
+- A post with its own card page, tools/og/<slug>.html, gets that rendered.
+- Every other published post gets a title card from tools/og/title-card.html.
+- Output: assets/og/<slug>.png, built in CI and not committed; _layouts/default.html points there.
 - Drafts (`published: false`) and future-dated posts are skipped.
 - Problems are reported as a warning note, never a failed build. A post whose card can't be
   rendered gets a copy of the site card (/og-image.png), so it always has an image.
 
 Usage: python3 tools/og/auto.py   (needs: pip install playwright pyyaml; uses the installed Chrome)
+Runs in .github/workflows/pages.yml; run it locally only to preview cards.
 """
 import datetime as dt
 import pathlib
@@ -59,17 +61,28 @@ if todo:
             except Exception:
                 browser = p.chromium.launch()
             page = browser.new_page(viewport={"width": 1200, "height": 630})
-            page.goto(TEMPLATE.as_uri())
-            page.wait_for_load_state("networkidle")
+            title_page = None
             for slug, title, kicker in todo:
                 try:
+                    own = TEMPLATE.parent / f"{slug}.html"
+                    if own.is_file():  # hand-made card for this post
+                        page.goto(own.as_uri())
+                        page.wait_for_load_state("networkidle")
+                        title_page = None
+                    else:
+                        if title_page is None:
+                            page.goto(TEMPLATE.as_uri())
+                            page.wait_for_load_state("networkidle")
+                            title_page = True
+                        page.evaluate("document.fonts.ready")
+                        fit = page.evaluate("([t, k]) => window.fill(t, k)", [title, kicker])
+                        if fit["lines"] > 4:
+                            errors.append(f"{slug}: title is long; card text may be cramped")
                     page.evaluate("document.fonts.ready")
-                    fit = page.evaluate("([t, k]) => window.fill(t, k)", [title, kicker])
                     page.locator(".card").screenshot(path=str(OUT / f"{slug}.png"))
-                    if fit["lines"] > 4:
-                        errors.append(f"{slug}: title is long; card text may be cramped")
                 except Exception as e:  # noqa: BLE001
-                    errors.append(f"{slug}: title card failed ({e}); using the site card")
+                    errors.append(f"{slug}: card failed ({e}); using the site card")
+                    title_page = None
             browser.close()
     except Exception as e:  # noqa: BLE001
         errors.append(f"browser failed ({e}); using the site card for all title cards")
@@ -77,8 +90,9 @@ if todo:
         if not (OUT / f"{slug}.png").is_file():
             shutil.copyfile(ROOT / "og-image.png", OUT / f"{slug}.png")
 
-print(f"Share images: {len(custom)} custom, {len(todo)} title cards in assets/og/")
+print(f"Share images: {len(custom)} from front matter, {len(todo)} built into assets/og/")
 for slug, *_ in todo:
-    print(f"  title card: {slug}")
+    kind = "own card" if (TEMPLATE.parent / f"{slug}.html").is_file() else "title card"
+    print(f"  {kind}: {slug}")
 for e in errors:
     print(f"::warning title=Share image::{e}")

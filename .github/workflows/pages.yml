@@ -24,9 +24,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 20
 
@@ -36,7 +36,7 @@ jobs:
 
       # Every published post needs a share image: posts without `image:` get a title card
       # (assets/og/<slug>.png). Problems show up as warnings on the run; they don't block the deploy.
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
