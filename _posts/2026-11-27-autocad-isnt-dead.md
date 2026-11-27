@@ -8,7 +8,7 @@ tags: [autocad, civil-3d, automation, industry]
 ---
 
 
-Two ideas caught my eye as I was scrolling through my LinkedIn feed. One was a thoughtful post, with an equally opposite comment posted an hour later. It was a rare LinkedIn ratio situation.  
+Two ideas caught my eye as I was scrolling through my LinkedIn feed. One was a thoughtful post, with an equally opposite comment posted an hour later. It was a rare LinkedIn ratio'd situation.  
 
 The first was someone proud of their AutoCAD skills, mostly 2D structural work, and making the case that the skills still count. The second was a reply saying those tools are done: they hadn't drawn anything in AutoCAD or Revit in years, and soon we're all just going to code. This user went on to tout their proficiency in developing  model geometry through the use of AI prompts. 
 
