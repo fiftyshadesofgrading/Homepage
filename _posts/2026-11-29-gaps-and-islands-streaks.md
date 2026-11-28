@@ -9,7 +9,7 @@ tags: [sql, postgres, mlb, data]
 
 I keep a database of baseball game logs at home, as one does. The first "fun" question I wanted to ask it was the obvious one: _who's on a hitting streak_, and _what's the longest streak this season?_ AKA who's ripping the seams off the ball? Which unit is getting showered in seeds and Bazooka bubble gum nightly?
 
-It turns out that's a surprisingly awkward question for SQL. A streak is a run of *consecutive* rows that meet a condition, and SQL thinks in sets, not sequences or flows. You can see a streak instantly in a spreadsheet; writing it as a query takes a trick. That trick has a name: **gaps and islands**. The rows you care about are islands, the rows that break them are gaps, and once you see the pattern you'll see it everywhere in the data. 
+It turns out that's a surprisingly awkward question for SQL. A streak is a run of *consecutive* rows that meet a condition, and SQL thinks in sets, not sequences or flows. You can see a streak instantly in a spreadsheet; writing it as a query takes a trick. What we are looking for are patterns in the data: **gaps and islands**. The rows we care about are islands, the rows that break the streak are gaps, and once you see the pattern you'll see it everywhere in the data. 
 
 ## The trick
 
@@ -66,13 +66,13 @@ No loops, no cursors, no Python. One pass with window functions, and it works th
 
 ## The baseball rules hiding in the WHERE clause
 
-The first version I wrote was "wrong" in a way only a baseball fan would notice. Technically, a hitting streak isn't broken by a game where every plate appearance was a walk, a hit-by-pitch, catcher's interference or a sacrifice bunt. Those games simply don't count. A sacrifice fly, though, *does* end a streak. 
+The first version I wrote was "wrong" in a way only a baseball fan would notice. A hitting streak isn't broken by a game where every plate appearance was either a walk, a hit-by-pitch, catcher's interference or a sacrifice bunt. Those games simply don't count towards the streak. A sacrifice fly, though, *does* end a streak. 
 
 So before numbering anything, the `counted` step throws out games that don't count: no at-bats and no sacrifice fly. A walk-only game disappears, and the streak carries on across it. A hitless game with a sac fly stays in and breaks the streak, as it should.
 
 Two more decisions worth making on purpose:
 
-- **Doubleheaders.** Order by date *and* game number, or the two games on the same day land in a random order.
+- **Doubleheaders.** Order by date *and* game number, or the two games on the same day land in a random order. This befuddled me longer than I wish to admit. This also will help with any makeup games. 
 - **Season boundaries.** Add `season` to the `PARTITION BY` if a streak should reset each spring. Leave it out to let streaks span the off-season. Record books track both, so pick one and say which.
 
 ## Active streaks
@@ -89,3 +89,6 @@ Once you see it, it's everywhere outside baseball too:
 - **Sensor data:** stretches of readings above a threshold.
 
 Same three steps every time: number everything, number the rows that match, subtract, and group.
+
+Enjoy the lockout!
+
