@@ -30,7 +30,7 @@ Two lessons came free with the build. First, the recordings drop a network packe
 
 ## Where the bytes went
 
-Here's the whole point of this post in one number: in my first test loads, roughly **90% of the database was `player_frames`**. The positions. Everything that actually *happened* (every kill, every bomb plant, every round won) fits in the other 10%.
+TK: with numbies, Here's the whole point of this post in one number: in my first test loads, roughly **90% of the database was `player_frames`**. The positions. Everything that actually *happened* (every kill, every bomb plant, every round won) fits in the other 10%.
 
 TK: chart of storage by table for the full Major, from this query:
 
