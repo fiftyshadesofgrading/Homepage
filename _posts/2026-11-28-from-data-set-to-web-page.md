@@ -35,15 +35,15 @@ My rule:
 - **Raw downloads** live on my own network storage, in a folder per post. God bless these storage prices. 
 - **The repo** gets the scripts that process them, plus the small files the page actually loads (here, about 430 KB of map data and a 2 MB SQLite file).
 
-If the page ever needs rebuilding, the scripts plus the raw folder get me back to the same result.
+If the page ever needs rebuilding, the scripts with the raw data folder get me back to the same result.
 
 ## 3. Shape it with SQL
 
-For the turkey post I loaded everything into PostgreSQL with PostGIS, the spatial extension. Three things bit me, and they'll bite you too:
+For the turkey post I loaded everything into PostgreSQL with PostGIS, the spatial extension. I had to try and tie this in to my career right?  Three things bit me, and they'll bite you too:
 
-1. **File encoding.** The routes file wasn't UTF-8, and the first load died on an accented character in a route name. Adding `ENCODING 'LATIN1'` to the `\copy` fixed it. When a CSV load fails on a "weird byte", check the encoding before anything else.
-2. **Missing rows mean zero.** The count files only list species that *were* seen. A survey with no turkeys has no turkey row at all. Average only the rows you have and every route looks like it had turkeys. The fix is to build the list of every survey run first, then left-join the turkey counts onto it and fill the gaps with `COALESCE(..., 0)`.
-3. **Let geometry answer lookup questions.** The survey uses its own state codes. Instead of hunting for a lookup table, I loaded state outlines and asked which polygon each route's start point falls inside (`ST_Intersects`). A dozen coastal routes started just outside the simplified shoreline, so they get the nearest state with PostGIS's `<->` distance operator.
+1. **File encoding.** The routes file wasn't UTF-8, and the first load died on an accented character in a route name. Adding `ENCODING 'LATIN1'` to the `\copy` fixed it. When a CSV load fails on a "weird byte", check the encoding before anything else. One of the crippling checks during a Civil 3D add-on's development was the French accents and language. The entire system choked on an accent. 
+2. **Missing rows mean zero.** The count files only list species that *were* seen. A survey with no turkeys has no turkey row at all. (Author's Note: Jeez, this is what I'm F***ing doing now?) Average only the rows you have and every route looks like it had turkeys. (Note: ****) The fix is to build the list of every survey run first, then left-join the turkey counts onto it and fill the gaps with `COALESCE(..., 0)`.
+3. **Let geometry answer lookup questions.** The survey uses its own state codes. Instead of hunting for a lookup table, I loaded state outlines and asked which polygon each route's start point falls inside (`ST_Intersects`). A dozen coastal routes started just outside the simplified shoreline, so they get the nearest state with PostGIS's `<->` distance operator. Now these are some cool situations that can make you rethink the data. 
 
 The last step in SQL is the important one: summarize down to exactly what the page shows. Yearly percentages, a value per route per decade, and a then-vs-now table per state. The browser never sees 7.5 million rows.
 
