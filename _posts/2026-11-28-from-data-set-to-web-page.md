@@ -11,7 +11,7 @@ The first two data posts on this blog were a [live temperature map of every Waff
 
 ## The short version
 
-- **Find data with coordinates, a story, and a license you can live with.** Check the date and the license before you fall in love with it.
+- **Find data with coordinates, a story, and a license you can live with.** Check the date, the license, and the size before you commit to it. 
 - **Keep the raw files out of the repo.** The website gets scripts and small, built data outputs. The 66 MB download stays on my own storage.
 - **Shape it with SQL** until it's only what the page needs. Millions of rows in, a few thousand out.
 - **Draw it with plain SVG, CSS and a little JavaScript.** Project the coordinates once, ahead of time, and skip the map library.
@@ -23,7 +23,7 @@ A good map dataset has three things: coordinates (or something you can geocode),
 
 The Waffle House locations came from a public CSV on GitHub, a snapshot from a specific month. That date matters. Stores open and close, so the post says how old the data is.
 
-The turkeys taught me a better lesson. I went looking for wild turkey numbers from the agency I assumed would have them, and it doesn't publish them. Turkeys are managed by the states. The long-running federal record turned out to be the USGS **North American Breeding Bird Survey**, on USGS's ScienceBase data catalog with a DOI and a public-domain license. Five minutes of "who actually collects this?" saved me from building a map on the wrong source.
+The Thanksgiving post taught me a better lesson. I went looking for wild turkey numbers from the agency I assumed would have them, and it doesn't publish them. Turkeys are managed by the states - who knew!? The long-running federal record turned out to be the USGS **North American Breeding Bird Survey**, on USGS's ScienceBase data catalog with a DOI and a public-domain license. Five minutes of "who actually collects this?" saved me from building a map on the wrong source. I always take a moment and appreciate how dynamic GIS information can be. It's refreshing in a world of proprietary formats and software. 
 
 Places I look first: ScienceBase, data.gov, state GIS portals, and GitHub (searching for the thing plus "csv" or "dataset"). Knowing a bit of Google-fu can go a long way in tracking down various data sources.
 
@@ -39,9 +39,9 @@ If the page ever needs rebuilding, the scripts with the raw data folder get me b
 
 ## 3. Shape it with SQL
 
-For the turkey post I loaded everything into PostgreSQL with PostGIS, the spatial extension. I had to tie this into my career somehow, right? Three things bit me, and they'll bite you too:
+For the Thanksgiving post I loaded everything into PostgreSQL with PostGIS, the spatial extension. I had to tie this into my career somehow, right? Three things bit me, and they'll bite you too:
 
-1. **File encoding.** The routes file wasn't UTF-8, and the first load died on an accented character in a route name. Adding `ENCODING 'LATIN1'` to the `\copy` fixed it. When a CSV load fails on a "weird byte", check the encoding before anything else. This one gave me flashbacks: on a Civil 3D add-on I helped build, French accents were a constant test, and a single é could choke the whole system.
+1. **File encoding.** The routes file wasn't UTF-8, and the first load died on an accented character in a route name. Adding `ENCODING 'LATIN1'` to the `\copy` fixed it. When a CSV load fails on a "weird byte", check the encoding before anything else. This one gave me flashbacks: on a Civil 3D add-on I helped build, French accents were a constant test, and an unexpected é could choke the whole system.
 2. **Missing rows mean zero.** The count files only list species that *were* seen. A survey with no turkeys has no turkey row at all. (Yes, this is how I spend my weekends now.) Average only the rows you have and every route looks like it had turkeys. The fix is to build the list of every survey run first, then left-join the turkey counts onto it and fill the gaps with `COALESCE(..., 0)`.
 3. **Let geometry answer lookup questions.** The survey uses its own state codes. Instead of hunting for a lookup table, I loaded state outlines and asked which polygon each route's start point falls inside (`ST_Intersects`). A dozen coastal routes started just outside the simplified shoreline, so they get the nearest state with PostGIS's `<->` distance operator. These are the moments that make you rethink the data.
 
@@ -57,7 +57,7 @@ I don't use a map library for these. The setup:
 - **Color does one job.** Temperature uses a diverging blue-to-red scale centered on 50°F. Turkey counts use one hue, light to dark, with gray for "surveyed, none seen".
 - **A table view under every map**, for anyone who'd rather read numbers than squint at dots.
 
-Then I look at it on a phone. The turkey map's row of decade buttons ran off the side of the screen the first time. A horizontal scroll fixed it, and I'd never have caught it on a desktop.
+Then I test it on a phone. The map row of decade buttons ran off the side of the screen. A horizontal scroll fixed it, and I'd never have caught it on a desktop.
 
 ## 5. Publish it
 
