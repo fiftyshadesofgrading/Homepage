@@ -59,7 +59,7 @@ So a 64-tick match is about a week of worker tracking or half a day of machine c
 
 ### A note on CS2 and "sub-tick"
 
-This is a 2018 CS:GO data set, and the game has moved on. CS2 replaced the 64-vs-128 argument with what Valve calls **sub-tick**: the server still simulates at a fixed rate (64 a second on official servers - GABEN please fix!), but every shot and movement input carries its exact timestamp *between* ticks. So the old "128 is better" debate is mostly history, and a CS2 demo would give you positions at 64 a second plus precisely timed actions.
+This is a 2018 CS:GO data set, and the game has moved on. Valve and the CS2 team replaced the 64-vs-128 argument with what Valve calls **sub-tick**: the server still simulates at a fixed rate (64 a second on official servers - GABEN please fix!), but every shot and movement input carries its exact timestamp *between* ticks. So the old "128 is better" debate is mostly history, and a CS2 demo would give you positions at 64 a second plus precisely timed actions.
 
 That doesn't make the comparison moot. If anything, it makes the point of this post for me: CS2 samples the **tracks** at a fixed, modest rate and records the **events** with precise timestamps. That's exactly the split I'd want on a jobsite.
 
