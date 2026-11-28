@@ -106,7 +106,7 @@ WHERE match_id = 1 AND round_num = 12 AND (tick / 16) % 8 = 0   -- ~1 per second
 GROUP BY player_name;
 ```
 
-My guess is that 1 Hz keeps nearly all of the path in a game this twitchy. On a jobsite, where a dozer moves at walking pace, far less would do for anything except blade control. That's exactly the point: the right rate depends on the question. This is where data analysis and engineering are more of an art than a science. Right where we love to hang out. An understanding of the dataset presently and the representation / rebuilding in the software or data schema are two separate sets of parameters that require a deep understanding of the data to make the best decisions to optimize the data.
+My guess is that 1 Hz keeps nearly all of the paths in a game like this twitchy. On a jobsite, where a dozer moves at walking pace, far less would do for anything except blade control. That's exactly the point: the right rate depends on the question. This is where data analysis and engineering are more of an art than a science. Right where we love to hang out. An understanding of the dataset presently and the representation / rebuilding in the software or data schema are two separate sets of parameters that require a deep understanding of the data to make the best decisions to optimize the data.
 
 ## Sample at the rate the decision needs
 
