@@ -57,8 +57,6 @@ I don't use a map library for these. The setup:
 - **Color does one job.** Temperature uses a diverging blue-to-red scale centered on 50°F. Turkey counts use one hue, light to dark, with gray for "surveyed, none seen".
 - **A table view under every map**, for anyone who'd rather read numbers than squint at dots.
 
-Then I test it on a phone. The turkey map's row of decade buttons ran off the side of the screen. A horizontal scroll fixed it, and I'd never have caught it on a desktop.
-
 ## 5. Publish it
 
 The site is Jekyll on GitHub Pages, built by a GitHub Action every time something is saved to the main branch.
