@@ -23,9 +23,9 @@ A good map dataset has three things: coordinates (or something you can geocode),
 
 The Waffle House locations came from a public CSV on GitHub, a snapshot from a specific month. That date is important to tuck away; stores open and close, so the post says how old the data is.
 
-The Thanksgiving post taught me a better lesson. I went looking for wild turkey numbers from the agency I assumed would have them, and it doesn't publish them. Turkeys are managed by the states. Who knew!? The long-running federal record turned out to be the USGS **North American Breeding Bird Survey**, on USGS's ScienceBase data catalog with a DOI and a public-domain license. Five minutes of "who actually collects this?" saved me from building a map on the wrong source. I always take a moment to appreciate how open and tangible public GIS data can be. It's refreshing in a world of proprietary formats and software. _Coughs in a general direction._
+The Thanksgiving post taught me a better lesson. I went looking for wild turkey numbers from the agency I assumed would have them, and it doesn't publish them. Turkeys are managed by the states. Who knew!? The long-running federal record turned out to be the USGS **North American Breeding Bird Survey**, on USGS's ScienceBase data catalog with a DOI and a public-domain license. Five minutes of "who actually collects this?" saved me from building a map on the wrong source.
 
-Places I look first: ScienceBase, data.gov, state GIS portals, and GitHub (searching for the thing plus "csv" or "dataset"). Knowing a bit of Google-fu can go a long way in tracking down various data sources.
+Places I look first: ScienceBase, data.gov, state GIS portals, and GitHub (searching for the thing plus "csv" or "dataset"). Knowing a bit of Google-fu can go a long way in tracking down various data sources. I always take a moment to appreciate how open and tangible GIS data can be. It's refreshing in a world of proprietary formats and software. _Coughs in a general direction._
 
 ## 2. Keep the raw data out of the repo
 
