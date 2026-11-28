@@ -66,7 +66,7 @@ Design Automation has its own vocabulary, and it clicks once you map it to thing
 
 It walks the layer table with `tblnext`, reads each layer's properties, and writes them out as JSON for the WorkItem to return. Here's the core of it:
 
-{% highlight lisp %}
+```lisp
 ;; layers.lsp: write the current drawing's layer table to JSON.
 ;; Runs headless (no ActiveX, no prompts), so it's plain AutoLISP only.
 (defun fsg:esc (s / out i c)
@@ -102,13 +102,13 @@ It walks the layer table with `tblnext`, reads each layer's properties, and writ
   (write-line "]}" f)
   (close f)
   (princ))
-{% endhighlight %}
+```
 
 ### The Activity
 
 The Activity tells the engine to open the input drawing in `accoreconsole` and run a two-line script: load the LISP, call it. Every file lands in the same working folder, which is why the script finds them with `DWGPREFIX`.
 
-{% highlight json %}
+```json
 {
   "id": "LayerDump",
   "engine": "Autodesk.AutoCAD+<newest>",
@@ -122,7 +122,7 @@ The Activity tells the engine to open the input drawing in `accoreconsole` and r
     "script": { "value": "(load (strcat (getvar \"DWGPREFIX\") \"layers.lsp\"))\n(fsg:dump-layers (strcat (getvar \"DWGPREFIX\") \"layers.json\"))\n" }
   }
 }
-{% endhighlight %}
+```
 
 ## 5. The five keyboard-pounding moments
 
@@ -138,7 +138,7 @@ When the job fails, the WorkItem's `reportUrl` is your friend: it's the AutoCAD 
 
 Once layers are rows, comparing two CAD templates is one SQL query:
 
-{% highlight sql %}
+```sql
 WITH a AS (SELECT l->>'name' n, l FROM aps.layer_fingerprint f, jsonb_array_elements(f.payload->'layers') l WHERE f.id = 1),
      b AS (SELECT l->>'name' n, l FROM aps.layer_fingerprint f, jsonb_array_elements(f.payload->'layers') l WHERE f.id = 2)
 SELECT coalesce(a.n, b.n) AS layer,
@@ -147,7 +147,7 @@ SELECT coalesce(a.n, b.n) AS layer,
 FROM a FULL JOIN b ON a.n = b.n
 WHERE a.l IS DISTINCT FROM b.l
 ORDER BY status, layer;
-{% endhighlight %}
+```
 
 I tested it on a publicly available government CAD standards template, and the same pattern ran two more jobs: plotting a drawing to PDF with Autodesk's stock plot activity, and a custom LISP that plots every paper-space layout to its own named PDF.
 

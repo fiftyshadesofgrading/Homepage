@@ -15,12 +15,12 @@ Season totals hide slumps and hot streaks. A 14-day window shows them. Plot a 7-
 
 That's also where it got fun. Once every player had a row per day per window, the charts were nearly free. A trend panel in Grafana is one query:
 
-{% highlight sql %}
+```sql
 SELECT stat_date, era, whip, fip
 FROM pitcher_stats_daily
 WHERE pitcher_id = 12345 AND window_days = 7
 ORDER BY stat_date;
-{% endhighlight %}
+```
 
 No aggregation at chart time, so the dashboard stays quick even across a full season of every pitcher in the league.
 
@@ -30,9 +30,9 @@ You can't average ERAs. A pitcher who threw 1 inning with an ERA of 27.00 and 8 
 
 Every rate stat works this way. Roll up the **counting stats** (innings, earned runs, hits, walks, strikeouts) over the window, then divide once at the end:
 
-{% highlight sql %}
+```sql
 ROUND(SUM(earned_runs) * 9.0 / NULLIF(SUM(innings_pitched), 0), 2) AS era
-{% endhighlight %}
+```
 
 (That assumes `innings_pitched` holds real innings. More on that in a second.)
 
@@ -44,12 +44,12 @@ One baseball-data gotcha while I'm at it: box scores write innings as `6.1` and 
 
 SQL window functions can do this on the fly, and the frame you pick matters:
 
-{% highlight sql %}
+```sql
 SUM(earned_runs) OVER (
   PARTITION BY pitcher_id ORDER BY game_date
   RANGE BETWEEN INTERVAL '13 days' PRECEDING AND CURRENT ROW
 )
-{% endhighlight %}
+```
 
 `RANGE` with an interval means "the last 14 calendar days". `ROWS BETWEEN 13 PRECEDING AND CURRENT ROW` means "the last 14 *appearances*", and for a starting pitcher who goes every fifth day, that's more than two months. Off days, rest days and the All-Star break all vanish with `ROWS`. If the question is about time, frame by time.
 

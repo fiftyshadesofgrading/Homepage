@@ -48,7 +48,7 @@ Why not just diff the edited sheet against the drawing and work out what changed
 
 The core is an AutoCAD .NET transaction over the layer table. Trimmed to the interesting bits:
 
-{% highlight csharp %}
+```csharp
 using (var tr = db.TransactionManager.StartTransaction())
 {
     var layers = (LayerTable)tr.GetObject(db.LayerTableId, OpenMode.ForWrite);
@@ -98,7 +98,7 @@ static void ApplyProperties(LayerTableRecord layer, LayerRow row, LinetypeTable 
     layer.IsLocked = row.Locked;
     layer.Description = row.Description;
 }
-{% endhighlight %}
+```
 
 `Database.Purge` is the safety net for deletes. Hand it a set of IDs and it removes anything still in use, so whatever's left is safe to erase. Layer 0, Defpoints and the current layer can never be deleted, so reject them in validation before you get this far.
 

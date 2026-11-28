@@ -33,7 +33,7 @@ Group by the difference, count, and you have streaks: three games, then two.
 
 ## The query
 
-{% highlight sql %}
+```sql
 WITH counted AS (          -- games that count toward a streak (see the rules below)
   SELECT *
   FROM batter_games
@@ -60,7 +60,7 @@ SELECT player_id,
 FROM islands
 GROUP BY player_id, island
 ORDER BY games DESC;
-{% endhighlight %}
+```
 
 No loops, no cursors, no Python. One pass with window functions, and it works the same on a dozen rows or a few hundred thousand.
 
