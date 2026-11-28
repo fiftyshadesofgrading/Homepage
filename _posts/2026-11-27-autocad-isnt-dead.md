@@ -25,7 +25,7 @@ In my own land development days, the thing that got a project through was never 
 
 A lot of the industry doesn't live in tidy parametric families. Retrofit details for a 1920s building. A one-off connection on a pedestrian bridge. A grading plan where the existing ground is whatever the survey crew collected. The details that make these work are drawn by someone who knows what matters and what to leave out. That's a drafting skill, and it's an engineering skill wearing a drafting hat.
 
-So yes, the person proud of their 2D chops has something real. Knowing how to communicate a design clearly on a sheet doesn't go out of date when the tools change, any more than knowing how to write did when we stopped using typewriters.
+So yes, the person proud of their 2D chops has something real. Knowing how to communicate a design clearly on a sheet doesn't go out of date when the tools change, any more than knowing how to walk when cars came about.
 
 ## And the AI crowd isn't wrong either
 
