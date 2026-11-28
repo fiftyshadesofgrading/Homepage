@@ -7,7 +7,7 @@ kicker: "Behind the scenes"
 tags: [data, maps, jekyll, sql, workflow]
 ---
 
-The first two data posts on this blog were a [live temperature map of every Waffle House]({{ '/blog/2026/11/17/waffle-house-weather/' | relative_url }}) and [sixty years of wild turkey counts]({{ '/blog/2026/11/26/wild-turkey-comeback/' | relative_url }}). One is silly, one is a real federal dataset, and both went from "huh, I wonder" to a published page in about a day. This is the recipe, written down so you can give it a spin (and I can do it again without relearning the hard parts).
+The first two data posts on this blog were a [live temperature map of every Waffle House]({{ '/blog/2026/11/17/waffle-house-weather/' | relative_url }}) and [sixty years of wild turkey counts]({{ '/blog/2026/11/26/wild-turkey-comeback/' | relative_url }}). One is silly, one is a real federal dataset, and both went from "huh, I wonder" to a published page in about a day. Here’s the recipe, so you can try it yourself and I never have to relearn the hard parts.
 
 ## The short version
 
