@@ -7,9 +7,9 @@ kicker: "SQL patterns"
 tags: [sql, postgres, mlb, data]
 ---
 
-I keep a database of baseball game logs at home, and the first "fun" question I wanted to ask it was the obvious one: who's on a hitting streak, and what's the longest one this season?
+I keep a database of baseball game logs at home, as one does. The first "fun" question I wanted to ask it was the obvious one: who's on a hitting streak, and what's the longest one this season? AKA "who's melting the ball off the plate".
 
-It turns out that's a surprisingly awkward question for SQL. A streak is a run of *consecutive* rows that meet a condition, and SQL thinks in sets, not sequences. You can see a streak instantly in a spreadsheet; writing it as a query takes a trick. That trick has a name: **gaps and islands**. The rows you care about are islands, the rows that break them are gaps, and once you learn the pattern you'll use it everywhere.
+It turns out that's a surprisingly awkward question for SQL. A streak is a run of *consecutive* rows that meet a condition, and SQL thinks in sets, not sequences or flows. You can see a streak instantly in a spreadsheet; writing it as a query takes a trick. That trick has a name: **gaps and islands**. The rows you care about are islands, the rows that break them are gaps, and once you learn the pattern you'll use it everywhere. 
 
 ## The trick
 
@@ -66,7 +66,7 @@ No loops, no cursors, no Python. One pass with window functions, and it works th
 
 ## The baseball rules hiding in the WHERE clause
 
-The first version I wrote was "wrong" in a way only a baseball fan would notice. Officially, a hitting streak isn't broken by a game where every plate appearance was a walk, a hit-by-pitch, catcher's interference or a sacrifice bunt. Those games simply don't count. A sacrifice fly, though, *does* end a streak.
+The first version I wrote was "wrong" in a way only a baseball fan would notice. Technically, a hitting streak isn't broken by a game where every plate appearance was a walk, a hit-by-pitch, catcher's interference or a sacrifice bunt. Those games simply don't count. A sacrifice fly, though, *does* end a streak. 
 
 So before numbering anything, the `counted` step throws out games that don't count: no at-bats and no sacrifice fly. A walk-only game disappears, and the streak carries on across it. A hitless game with a sac fly stays in and breaks the streak, as it should.
 
