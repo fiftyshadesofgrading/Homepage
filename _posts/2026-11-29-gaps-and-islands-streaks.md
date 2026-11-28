@@ -7,7 +7,7 @@ kicker: "SQL patterns"
 tags: [sql, postgres, mlb, data]
 ---
 
-I keep a database of baseball game logs at home, as one does. The first "fun" question I wanted to ask it was the obvious one: who's on a hitting streak, and what's the longest one this season? AKA "who's melting the ball off the plate".
+I keep a database of baseball game logs at home, as one does. The first "fun" question I wanted to ask it was the obvious one: _who's on a hitting streak_, and _what's the longest streak this season?_ AKA who's ripping the seams off the ball, who's getting showered in seeds and Bazooka bubble gum?
 
 It turns out that's a surprisingly awkward question for SQL. A streak is a run of *consecutive* rows that meet a condition, and SQL thinks in sets, not sequences or flows. You can see a streak instantly in a spreadsheet; writing it as a query takes a trick. That trick has a name: **gaps and islands**. The rows you care about are islands, the rows that break them are gaps, and once you see the pattern you'll see it everywhere in the data. 
 
