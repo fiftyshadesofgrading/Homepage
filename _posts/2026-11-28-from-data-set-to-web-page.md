@@ -32,7 +32,7 @@ Places I look first: ScienceBase, data.gov, state GIS portals, and GitHub (searc
 The bird survey download is a 66 MB zip that unpacks to about 7.5 million rows. None of that belongs in a website repository: it makes every clone slow, and it's re-downloadable anyway.
 
 My rule:
-- **Raw downloads** live on my own network storage, in a folder per post.
+- **Raw downloads** live on my own network storage, in a folder per post. God bless these storage prices. 
 - **The repo** gets the scripts that process them, plus the small files the page actually loads (here, about 430 KB of map data and a 2 MB SQLite file).
 
 If the page ever needs rebuilding, the scripts plus the raw folder get me back to the same result.
